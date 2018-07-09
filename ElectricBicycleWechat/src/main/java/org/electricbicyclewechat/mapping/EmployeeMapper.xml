@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.electricbicyclewechat.dao.EmployeeDao">
+	<resultMap type="org.electricbicyclewechat.pojo.Employee" id="BaseResultMap">
+		<result property="employeeCode" column="employeeCode" />
+		<result property="employeeName" column="employeeName" />
+		<result property="deptCode" column="deptCode" />
+	</resultMap>
+	
+	<!-- 登录时获取名称 -->
+	<select id="searchEPNameByAccount" parameterType="String" resultMap="BaseResultMap">
+		SELECT * FROM employee
+				 WHERE employeeCode=#{employeeCode}
+	</select>
+	
+	<select id="findAllEmployee" resultMap="BaseResultMap">
+		select * from employee
+	</select>
+
+
+	
+</mapper>

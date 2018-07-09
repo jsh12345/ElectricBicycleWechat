@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.electricbicyclewechat.dao.AreaDao">
+	<resultMap type="org.electricbicyclewechat.pojo.Area" id="BaseResultMap">
+		<result property="areaCode" column="areaCode" />
+		<result property="areaName" column="areaName" />
+		<result property="parentAreaCode" column="parentAreaCode" />
+	</resultMap>
+
+	<!-- 检查是否存在该区域信息 -->
+	<select id="checkArea" parameterType="org.electricbicyclewechat.pojo.Area" resultType="int">
+		SELECT COUNT(areaCode)  
+		FROM area
+		WHERE areaCode=#{areaCode}
+	</select>
+	
+	<!-- 插入区域信息-->	
+	<insert id="insertArea" parameterType="org.electricbicyclewechat.pojo.Area">
+		INSERT INTO area(areaCode,
+								  areaName,
+								  parentAreaCode) 
+		VALUES (#{areaCode},
+		        #{areaName},
+		        #{parentAreaCode})
+	</insert>
+	
+	<!-- 获取区域信息-->
+	<select id="getAreaInfo" parameterType="String" resultMap="BaseResultMap">
+		SELECT *
+		FROM area
+		WHERE areaCode=#{areaCode}
+		OR parentAreaCode=#{areaCode}
+		ORDER BY parentAreaCode 
+	</select>
+	
+	<!-- 判断是否为父区域代码--><!-- 0代表的是父区域  比如：华东地区 -->
+	<select id="checkIfParentArea" parameterType="String" resultMap="BaseResultMap">
+		SELECT *
+		FROM area
+		WHERE areaCode=#{areaCode}
+		AND parentAreaCode='0'
+	</select>
+	
+	<!-- 获取父区域代码-->
+	<select id="getParentArea" parameterType="String" resultMap="BaseResultMap">
+		SELECT *
+		FROM area
+		WHERE areaCode=#{areaCode}
+	</select>
+	
+	<!-- 获取子集区域代码-->
+	<select id="getArea" parameterType="String" resultMap="BaseResultMap">
+		SELECT *
+		FROM area
+		WHERE parentAreaCode=#{parentAreaCode}
+	</select>
+
+	<select id="findAllArea" resultMap="BaseResultMap">
+		select * from area
+	</select>
+</mapper>

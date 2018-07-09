@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.electricbicyclewechat.dao.SellerPurchaseDao">
+	<resultMap type="org.electricbicyclewechat.pojo.SellerPurchase" id="BaseResultMap">
+		<result property="sellerCode" column="sellerCode" />
+		<result property="barCode" column="barCode" />
+		<result property="frameCode" column="frameCode" />
+		<result property="motorCode" column="motorCode" />
+		<result property="materialCode" column="materialCode" />
+		<result property="materialName" column="materialName" />
+		<result property="maiterialSpec" column="maiterialSpec" />
+		<result property="materialType" column="materialType" />
+		<result property="colorDesc" column="colorDesc" />
+		<result property="colorCode" column="colorCode" />
+		<result property="makeDate" column="makeDate" />
+		<result property="purchaseDate" column="purchaseDate" />
+	</resultMap>
+	
+	<!-- 根据条形码查找电瓶车信息-->
+	<select id="findBicycleFromPurchase" parameterType="Map" resultType="org.electricbicyclewechat.pojo.SellerPurchase">
+		SELECT *
+		FROM sellerPurchase
+		WHERE sellerCode=#{sellerCode} 
+		AND barCode=#{barCode}
+	</select>
+
+	<select id="findAllSellerPurchase" resultMap="BaseResultMap">
+		select * from sellerPurchase
+	</select>
+</mapper>

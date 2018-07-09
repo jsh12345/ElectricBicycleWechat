@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>库存信息查询</title>
+    <link rel="stylesheet" href="../../Common/stylesheets/weui.css"/>
+    <script src='../../Common/content/jquery-1.7.2.min.js' type="text/javascript"></script>
+    <script src='../../Common/content/jquery.cookie.js' type="text/javascript"></script>
+    <script src='../../Common/js/Setting.js' type="text/javascript"></script>
+    <script src='../../Common/js/AjaxJson.js' type="text/javascript"></script>
+    <script src='../../Common/js/jweixin.js' type="text/javascript"></script>
+	
+</head>
+<body>
+	<div >
+	<p style="margin-top:10px;margin-left:10px;">近期库存信息：</p>
+	 <div class="weui-cells" style="font-size:15px;margin-top:10px;" id="showDiv">
+            <!-- <a class="weui-cell weui-cell_access" href="javascript:;">
+                <div class="weui-cell__bd">
+                    <p>
+                    	<table>
+                    		<tr><td>经销商代码：</td><td>d0002</td></tr>
+                    		<tr><td>车辆条形码：</td><td>6956741711115</td></tr>
+                    		<tr><td>车架号：</td><td>123</td></tr>
+                    		<tr><td>车辆型号：</td><td>型号1</td></tr>
+                    	</table>
+                    </p>
+                </div>
+                <div class="weui-cell__ft">查看详情</div>
+            </a> -->
+
+        </div>
+        <div class="more">
+        	<a class="weui-cell weui-cell_access" href="javascript:balanceQueryMore();">
+                <div class="weui-cell__bd">
+                    <p>
+                    	查看更多
+                    </p>
+                </div>
+                <div class="weui-cell__ft"></div>
+            </a>
+        </div>
+          
+	</div>
+
+	<!-- 提示信息 -->
+    <div class="js_dialog" id="iosDialog2" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd" id="msgContent">查询库存信息成功！</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary" onclick="return closeDialog2();">知道了</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+    <script src="../../js/reportQuery/balanceQuery.js" type="text/javascript"> </script>
+</html>

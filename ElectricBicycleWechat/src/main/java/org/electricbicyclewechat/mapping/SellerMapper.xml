@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.electricbicyclewechat.dao.SellerDao">
+	<resultMap type="org.electricbicyclewechat.pojo.Seller" id="BaseResultMap">
+		<result property="sellerCode" column="sellerCode" />
+		<result property="sellerName" column="sellerName" />
+		<result property="sellerShortName" column="sellerShortName" />
+		<result property="sellerDeliveryAddress" column="sellerDeliveryAddress" />
+		<result property="contactor" column="contactor" />
+		<result property="contactorTele" column="contactorTele" />
+		<result property="areaCode" column="areaCode" />
+		<result property="employeeCode" column="employeeCode" />
+		<result property="areaManagerCode" column="areaManagerCode" />
+		<result property="safeBalance" column="safeBalance" />
+	</resultMap>
+
+	<select id="findAllSeller" resultMap="BaseResultMap">
+		select * from seller
+	</select>
+	
+	<!-- 检测该经销商是否已经存在-->
+	<select id="checkSeller" resultType="int" parameterType="org.electricbicyclewechat.pojo.Seller">
+		SELECT COUNT(sellerCode) 
+		FROM seller
+		WHERE sellerCode=#{sellerCode} 
+	</select>
+	
+	<!-- 创建经销商基本信息-->
+	<insert id="insertSeller" parameterType="org.electricbicyclewechat.pojo.Seller" >
+		INSERT INTO seller(sellerCode,
+								  sellerName,
+								  sellerShortName,
+								  sellerDeliveryAddress,
+								  contactor,
+								  contactorTele,
+								  areaCode,
+								  employeeCode,
+								  areaManagerCode,
+								  safeBalance) 
+		VALUES (#{sellerCode},
+		        #{sellerName},
+		        #{sellerShortName},
+		        #{sellerDeliveryAddress},
+		        #{contactor},
+		        #{contactorTele},
+		        #{areaCode},
+		        #{employeeCode},
+		        #{areaManagerCode},
+		        #{safeBalance})
+	</insert>
+	
+	<!-- 登录时获取名称 -->
+	<select id="searchSellerNameByAccount" parameterType="String" resultMap="BaseResultMap">
+		SELECT * FROM seller
+				 WHERE sellerCode=#{sellerCode}
+	</select>
+	
+	<!-- 获取经销商账号 -->
+	<select id="getSellerInfo" parameterType="Map" resultMap="BaseResultMap">
+		SELECT * FROM seller
+				 <where>
+				 	<if test="areaManagerCode !='' and areaManagerCode !=null ">
+				 		areaManagerCode =#{areaManagerCode}
+				 	</if>
+				 </where>
+	</select>
+	
+	<!-- 查询区域经理区域信息 -->
+	<!-- 该条语句搜索出来的是1条数据 -->
+	<select id="searchAreaCode" resultMap="BaseResultMap" parameterType="String">
+		 SELECT * FROM (
+      					 SELECT a.*,ROW_NUMBER() OVER (ORDER BY sellerCode desc) as rank FROM seller a 
+      					 WHERE a.areaManagerCode =#{areaManagerCode}
+						)  AS t WHERE t.rank BETWEEN 0 AND 1;
+		
+	</select>
+	
+	<!-- 根据代码、名称等查询经销商详细信息-->
+	<select id="findSellerDetail" parameterType="Map" resultMap="BaseResultMap">
+		SELECT *
+		FROM seller
+		<where>
+			<if test="sellerCode !=''and sellerCode !=null">
+			sellerCode=#{sellerCode} 
+			</if>
+			<if test="sellerName !='' and sellerName !=null ">
+			AND sellerName=#{sellerName}
+			</if>
+		</where>
+	</select>
+	
+</mapper>

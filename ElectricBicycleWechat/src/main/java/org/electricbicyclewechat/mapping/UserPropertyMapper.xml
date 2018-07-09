@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.electricbicyclewechat.dao.UserPropertyDao">
+	<resultMap type="org.electricbicyclewechat.pojo.UserProperty" id="BaseResultMap">
+		<result property="loginId" column="login_id" />
+		<result property="newpwd" column="newpwd" />
+		<result property="oldpwed" column="oldpwed" />
+		<result property="empId" column="emp_id" />
+		<result property="empName" column="emp_name" />
+		<result property="attr" column="attr" />
+		<result property="stopLogin" column="stop_login" />
+		<result property="appendCompid" column="append_compid" />
+		<result property="queryCompid" column="query_compid" />
+	</resultMap>
+	
+	<!-- 登录时检查账户 -->
+	<select id="checkifAccount" parameterType="org.electricbicyclewechat.pojo.UserProperty" resultMap="BaseResultMap">
+		SELECT * FROM user_property
+				 WHERE login_id=#{loginId}
+	</select>
+	
+	<!-- 登录 -->
+	<select id="accountLogin" parameterType="org.electricbicyclewechat.pojo.UserProperty" resultMap="BaseResultMap">
+		SELECT * FROM user_property
+				 WHERE login_id=#{loginId}
+				 AND newpwd=#{newpwd}
+	</select>
+	
+
+</mapper>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>创建区域经理信息</title>
+	
+    <meta name="keywords" content="keyword1,keyword2,keyword3">
+    <meta name="description" content="this is my page">
+    <meta charset="utf-8">
+    
+     <link rel="stylesheet" href="../../Common/stylesheets/weui.css"/>
+    <script src='../../Common/content/jquery-1.7.2.min.js' type="text/javascript"></script>
+    <script src='../../Common/js/Setting.js' type="text/javascript"></script>
+    <script src='../../Common/js/AjaxJson.js' type="text/javascript"></script>
+    <script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script src="https://res.wx.qq.com/open/libs/weuijs/1.0.0/weui.min.js"></script>
+    
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+  </head>
+  
+    <body>
+     	  <div class="weui-cells weui-cells_form" >
+	  	<form  id="insertAreaManagerForm"onsubmit="return submitForm();">
+	  	
+	  	 <div class="weui-cell">
+              <div class="weui-cell__hd"><label class="weui-label">经理代码</label></div>
+              <div class="weui-cell__bd">
+                  <input class="weui-input" name="managerCode" type="text" placeholder="请输入区域经理代码"/>
+              </div>
+        </div>	
+          	
+	  	 <div class="weui-cell">
+              <div class="weui-cell__hd"><label class="weui-label">经理姓名</label></div>
+              <div class="weui-cell__bd">
+                  <input class="weui-input" name="managerName" type="text" placeholder="请输入区域经理姓名"/>
+              </div>
+        </div> 
+        
+	  	 <div class="weui-cell">
+              <div class="weui-cell__hd"><label class="weui-label">经理手机号码</label></div>
+              <div class="weui-cell__bd">
+                  <input class="weui-input" name="managerMobile" type="text" placeholder="请输入区域经理手机号码"/>
+              </div>
+        </div>   
+        
+	  	 <div class="weui-cell">
+              <div class="weui-cell__hd"><label class="weui-label">经理微信号</label></div>
+              <div class="weui-cell__bd">
+                  <input class="weui-input" name="mangaerWX" type="text" placeholder="请输入区域经理微信号"/>
+              </div>
+        </div>  
+        
+	  	 <div class="weui-cell">
+              <div class="weui-cell__hd"><label class="weui-label">经理登陆账号</label></div>
+              <div class="weui-cell__bd">
+                  <input class="weui-input" name="managerAccount" type="text" placeholder="请输入区域经理登陆账号"/>
+              </div>
+        </div>  
+        
+	  	 <div class="weui-cell">
+              <div class="weui-cell__hd"><label class="weui-label">经理登陆密码</label></div>
+              <div class="weui-cell__bd">
+                  <input class="weui-input" name="managerPassword" type="text" placeholder="请输入区域经理登陆密码"/>
+              </div>
+        </div> 
+        
+	  	<div class="weui-cell">
+              <div class="weui-cell__hd"><label class="weui-label">负责的区域代码</label></div>
+              <div class="weui-cell__bd">
+                  <input class="weui-input" name="areaCode" type="text" placeholder="请输入区域经理负责的区域代码"/>
+              </div>
+        </div>  
+        
+<!--         <div style="margin-top:20px;">
+          	 <a href="javascript:;" class="weui-btn weui-btn_primary" style="font-size:30px;" onclick="return submit();">添加区域经理信息</a>
+        </div> -->
+        
+        <div class="weui-btn-area">
+        <input type="submit"  class="weui-btn weui-btn_primary" style="font-size:30px;" value="提交区域经理信息"></input> 
+        </div>  
+              
+      </form>
+      
+             <!-- 提示信息 -->
+     <div class="js_dialog" id="iosDialog2" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd" id="msgContent">添加区域经理信息成功！</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary" onclick="return closeDialog2();">我知道了</a>
+            </div>
+        </div>
+    </div>    
+                                            
+  </body>
+   <script src="../../js/areaManager/insertAreaManager.js" type="text/javascript"> </script>
+
+</html>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.electricbicyclewechat.dao.AreaManagerDao">
+	<resultMap type="org.electricbicyclewechat.pojo.AreaManager" id="BaseResultMap">
+		<result property="managerCode" column="managerCode" />
+		<result property="managerName" column="managerName" />
+		<result property="managerMobile" column="managerMobile" />
+		<result property="mangaerWX" column="mangaerWX" />
+		<result property="managerAccount" column="managerAccount" />
+		<result property="managerPassword" column="managerPassword" />
+		<result property="areaCode" column="areaCode" />
+	</resultMap>
+	
+		<!-- 检查表中是否已存在该区域经理信息 -->
+	<select id="checkAreaManager" parameterType="org.electricbicyclewechat.pojo.AreaManager" resultType="int">
+		SELECT COUNT(managerCode)  
+		FROM areaManager
+		WHERE managerCode=#{managerCode}
+	</select>
+	
+	<!-- 检查是否存在该区域经理账号 -->
+	<select id="checkAreaManagerAcount" parameterType="org.electricbicyclewechat.pojo.AreaManager" resultType="org.electricbicyclewechat.pojo.AreaManager">
+		SELECT areaCode,managerCode
+				FROM areaManager
+				WHERE managerAccount=#{managerAccount}
+	</select>
+	
+	<!-- 区域经理账号登录 -->
+	<select id="areaManagerLogin" parameterType="org.electricbicyclewechat.pojo.AreaManager" resultType="int">
+		SELECT COUNT(1) 
+				FROM areaManager
+				WHERE managerAccount=#{managerAccount}
+				AND areaCode=#{areaCode}
+				AND managerPassword=#{managerPassword}
+	</select>
+
+	<!-- 创建区域经理信息 -->
+	<insert id="insertAreaManager" parameterType="org.electricbicyclewechat.pojo.AreaManager">
+		INSERT INTO areaManager(managerCode,
+								  managerName,
+								  managerMobile,
+								  mangaerWX,
+								  managerAccount,
+								  managerPassword,
+								  areaCode) 
+		VALUES (#{managerCode},
+		        #{managerName},
+		        #{managerMobile},
+		        #{mangaerWX},
+		        #{managerAccount},
+		        #{managerPassword},
+		        #{areaCode})
+	</insert>
+
+	<select id="findAllAreaManager" resultMap="BaseResultMap">
+		select * from areaManager
+	</select>
+</mapper>

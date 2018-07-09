@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>库存信息查询详情</title>
+    <link rel="stylesheet" href="../../Common/stylesheets/weui.css"/>
+    <script src='../../Common/content/jquery-1.7.2.min.js' type="text/javascript"></script>
+    <script src='../../Common/content/jquery.cookie.js' type="text/javascript"></script>
+    <script src='../../Common/js/Setting.js' type="text/javascript"></script>
+    <script src='../../Common/js/AjaxJson.js' type="text/javascript"></script>
+    <script src='../../Common/js/jweixin.js' type="text/javascript"></script>
+	
+</head>
+<body>
+	<div >
+	 <div class="weui-cells" style="font-size:15px;margin-top:10px;" id="showDiv">
+             <a class="weui-cell weui-cell_access" >
+                <div class="weui-cell__bd">
+                    <p>
+                    	<table id="showTable" width="100%">
+                    		<tr><td>经销商名称</td><td name="sellerName" style="text-align:right;"></td></tr>
+                    		<tr><td>车辆条形码</td><td  name="barCode" style="text-align:right;"></td></tr>
+                    		<tr><td>车架号</td><td name="frameCode" style="text-align:right;"></td></tr>
+                    		<tr><td>电机号</td><td name="motorCode" style="text-align:right;"></td></tr>
+                    		<tr><td>车型物料编码</td><td name="materialCode" style="text-align:right;"></td></tr>
+                    		<tr><td>车型名称</td><td name="materialName" style="text-align:right;"></td></tr>
+                    		<tr><td>车型规格</td><td name="maiterialSpec" style="text-align:right;"></td></tr>
+                    		<tr><td>车辆型号</td><td name="materialType" style="text-align:right;"></td></tr>
+                    		<tr><td>颜色描述</td><td name="colorDesc" style="text-align:right;"></td></tr>
+                    		<tr><td>生产日期</td><td name="makeDate" style="text-align:right;"></td></tr>
+                    		<tr><td>入库日期</td><td name="purchaseDate" style="text-align:right;"></td></tr>
+                    	</table>
+                    </p>
+                </div>
+            </a> 
+
+        </div>
+          
+	</div>
+
+</body>
+    <script src="../../js/reportQuery/balanceQueryDetail.js" type="text/javascript"> </script>
+</html>

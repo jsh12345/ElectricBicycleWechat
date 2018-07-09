@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.electricbicyclewechat.dao.SellerSaleDao">
+	<resultMap type="org.electricbicyclewechat.pojo.SellerSale" id="BaseResultMap">
+		<result property="sellerCode" column="sellerCode" />
+		<result property="barCode" column="barCode" />
+		<result property="frameCode" column="frameCode" />
+		<result property="motorCode" column="motorCode" />
+		<result property="materialCode" column="materialCode" />
+		<result property="materialName" column="materialName" />
+		<result property="maiterialSpec" column="maiterialSpec" />
+		<result property="materialType" column="materialType" />
+		<result property="colorDesc" column="colorDesc" />
+		<result property="colorCode" column="colorCode" />
+		<result property="makeDate" column="makeDate" />
+		<result property="purchaseDate" column="purchaseDate" />
+		<result property="buyerName" column="buyerName" />
+		<result property="buyerID" column="buyerID" />
+		<result property="buyerSex" column="buyerSex" />
+		<result property="buyerAge" column="buyerAge" />
+		<result property="buyerMobile " column="buyerMobile " />
+		<result property="sellDate" column="sellDate" />
+	</resultMap>
+	
+	<!-- 系统保存销售信息 -->
+	<insert id="saveSellInfo" parameterType="org.electricbicyclewechat.pojo.SellerSale">
+		INSERT INTO sellerSale(
+					sellerCode,    
+					barCode,
+					frameCode,
+					motorCode,
+					materialCode,
+					materialName,
+					maiterialSpec,
+					materialType,
+					colorDesc,
+					colorCode,
+					makeDate,
+					purchaseDate,
+					buyerName,
+					buyerID,
+					buyerSex,
+					buyerAge,
+					buyerMobile,
+					sellDate
+		)
+			VALUES(#{sellerCode},
+		        #{barCode},
+		        #{frameCode},
+		        #{motorCode},
+		        #{materialCode},
+		        #{materialName},
+		        #{maiterialSpec},
+		        #{materialType},
+		        #{colorDesc},
+		        #{colorCode},
+		        #{makeDate},
+		        #{purchaseDate},
+		        #{buyerName},
+		        #{buyerID},
+		        #{buyerSex},
+		        #{buyerAge},
+		        #{buyerMobile},
+		        #{sellDate}
+		)
+	
+	</insert>
+	
+	<!-- 页面加载查询近期销售信息 -->
+	<select id="searchPCInfoOnload" resultMap="BaseResultMap" parameterType="Map">
+		 SELECT * FROM (
+      					 SELECT a.*,ROW_NUMBER() OVER (ORDER BY sellDate desc) as rank FROM sellerSale a
+      					 <!-- 区域经理登录 -->
+      					 <if test="accountType == 'areaManager' ">
+      					 	left outer join seller b on a.sellerCode = b.sellerCode
+      					 	left outer join areaManager c on b.areaCode = c.areaCode
+      					 	where c.managerCode = #{managerCode}
+      					 </if>
+      					 <where>
+      					 	<!-- 经销商登录 -->
+      					 	<if test="accountType == 'sellerAccount' ">
+      					 	a.sellerCode = #{sellerCode} 
+      					 	</if>
+      					 </where>
+						)  AS t WHERE t.rank BETWEEN 0 AND 4;
+		
+	</select>
+	
+	<!-- 查看销售详情 -->
+	<select id="saleQueryDetail" resultType="org.electricbicyclewechat.pojo.request.saleQueryParam.SaleQueryParam" parameterType="org.electricbicyclewechat.pojo.SellerSale">
+		SELECT a.*,b.sellerName FROM sellerSale a
+				 left outer join seller b on a.sellerCode = b.sellerCode
+				 WHERE a.sellerCode=#{sellerCode}
+				 AND  a.barCode=#{barCode}
+	</select>
+	
+	<!-- 查看销售信息 -->
+	<select id="searchPCInfo" resultMap="BaseResultMap" parameterType="org.electricbicyclewechat.pojo.request.saleQueryParam.SaleQueryParam">
+		SELECT a.* FROM sellerSale a
+				 <!-- 区域经理登录 -->
+				<if test='accountType == "2" '>
+				 	left outer join seller b on a.sellerCode = b.sellerCode
+				</if>
+				<!-- 管理员 -->
+			 	<if test='accountType == "4" '>
+					<if test="areaManagerCode  != null and areaManagerCode !='' ">
+					 left outer join seller b on a.sellerCode = b.sellerCode
+					</if>
+			 	</if>
+				<where>
+					<if test='accountType == "4" '>
+					 	<if test="areaManagerCode != null and areaManagerCode !='' ">
+					 	  b.areaManagerCode = #{areaManagerCode}
+						</if>
+				 	</if>
+				 	<if test='accountType == "2" '>
+					 	  b.areaManagerCode = #{areaManagerCode}
+				 	</if>
+			 	 	<if test="sellerCode != null and sellerCode !='' ">
+						AND a.sellerCode=#{sellerCode} 
+					</if>
+					<if test='ifParentArea == "1" '>
+						AND b.areaCode=#{areaCode} 
+					</if>
+					<if test="materialName != null and materialName !='' ">
+						AND a.materialName like '%'+#{materialName}+'%' 
+					</if>
+					<if test="startDate != null and startDate != '' ">
+						AND DATEDIFF(day,CAST(#{startDate} AS DATE),a.sellDate) >=0
+					</if>
+					<if test="endDate != null and endDate != '' ">
+						AND DATEDIFF(day,CAST(#{endDate} AS DATE),a.sellDate) &lt;=0
+					</if>
+				</where>
+				ORDER BY a.sellDate desc
+	</select>
+	
+	<!-- 查看车型排行榜信息 -->
+	<select id="salesRankings" resultType="org.electricbicyclewechat.pojo.request.saleQueryParam.SaleQueryParam" parameterType="org.electricbicyclewechat.pojo.request.saleQueryParam.SaleQueryParam">
+		SELECT DISTINCT a.materialName,COUNT(a.materialName) AS num FROM sellerSale a
+				 <!-- 区域经理登录 -->
+				<if test='accountType == "2" '>
+				 	left outer join seller b on a.sellerCode = b.sellerCode
+				</if>
+				<!-- 管理员 -->
+			 	<if test='accountType == "4" '>
+					<if test="areaManagerCode  != null and areaManagerCode !='' ">
+					 left outer join seller b on a.sellerCode = b.sellerCode
+					</if>
+			 	</if>
+				<where>
+					<if test='accountType == "4" '>
+					 	<if test="areaManagerCode != null and areaManagerCode !='' ">
+					 	  b.areaManagerCode = #{areaManagerCode}
+						</if>
+				 	</if>
+				 	<if test='accountType == "2" '>
+					 	  b.areaManagerCode = #{areaManagerCode}
+				 	</if>
+			 	 	<if test="sellerCode != null and sellerCode !='' ">
+						AND a.sellerCode=#{sellerCode} 
+					</if>
+					<if test='ifParentArea == "1" '>
+						AND b.areaCode=#{areaCode} 
+					</if>
+					<if test="startDate != null and startDate != '' ">
+						AND DATEDIFF(day,CAST(#{startDate} AS DATE),a.sellDate) >=0
+					</if>
+					<if test="endDate != null and endDate != '' ">
+						AND DATEDIFF(day,CAST(#{endDate} AS DATE),a.sellDate) &lt;=0
+					</if>
+				</where>
+				GROUP BY a.materialName
+				ORDER BY num desc
+	</select>
+	
+	<!-- 用于判断该电瓶车是否已经入库 -->
+	<select id="checkIfSale" resultType="String" parameterType="Map">
+		SELECT barCode FROM sellerSale
+				 WHERE sellerCode=#{sellerCode}
+				 AND  barCode=#{barCode}
+	</select>
+
+	<select id="findAllSellerSale" resultMap="BaseResultMap">
+		select * from sellerSale
+	</select>
+</mapper>

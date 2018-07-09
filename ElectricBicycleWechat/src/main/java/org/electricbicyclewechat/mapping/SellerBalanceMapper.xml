@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.electricbicyclewechat.dao.SellerBalanceDao">
+	<resultMap type="org.electricbicyclewechat.pojo.SellerBalance" id="BaseResultMap">
+		<result property="sellerCode" column="sellerCode" />
+		<result property="barCode" column="barCode" />
+		<result property="frameCode" column="frameCode" />
+		<result property="motorCode" column="motorCode" />
+		<result property="materialCode" column="materialCode" />
+		<result property="materialName" column="materialName" />
+		<result property="maiterialSpec" column="maiterialSpec" />
+		<result property="materialType" column="materialType" />
+		<result property="colorDesc" column="colorDesc" />
+		<result property="colorCode" column="colorCode" />
+		<result property="makeDate" column="makeDate" />
+		<result property="purchaseDate" column="purchaseDate" />
+	</resultMap>
+	
+	<!-- 进销存报表查询-->
+	<select id="searchForInvoicing" statementType="CALLABLE" resultType="org.electricbicyclewechat.pojo.request.invoicingReportParam.InvoicingReportParam" parameterType="org.electricbicyclewechat.pojo.request.invoicingReportParam.InvoicingReportParam">
+		 EXEC stock_record #{sellerCode},#{startDate},#{endDate}
+	</select>
+
+	<!-- 检测库存中是否已经存在该 车辆条码-->
+	<select id="checkSellerBalance" resultType="int" parameterType="org.electricbicyclewechat.pojo.SellerBalance">
+		SELECT COUNT(sellerCode) 
+		FROM sellerBalance
+		WHERE sellerCode=#{sellerCode} 
+		AND barCode=#{barCode}
+	</select>
+	
+	<!-- 入库操作-->
+	<insert id="insertSellerBalance" parameterType="org.electricbicyclewechat.pojo.SellerBalance" >
+		INSERT INTO sellerBalance(sellerCode,
+								  barCode,
+								  frameCode,
+								  motorCode,
+								  materialCode,
+								  materialName,
+								  maiterialSpec,
+								  materialType,
+								  colorDesc,
+								  colorCode,
+								  makeDate,
+								  purchaseDate) 
+		VALUES (#{sellerCode},
+		        #{barCode},
+		        #{frameCode},
+		        #{motorCode},
+		        #{materialCode},
+		        #{materialName},
+		        #{maiterialSpec},
+		        #{materialType},
+		        #{colorDesc},
+		        #{colorCode},
+		        #{makeDate},
+		        #{purchaseDate})
+	</insert>
+	
+	<!-- 根据车架号查找电瓶车信息-->
+	<select id="findBicycleByFrameCode" parameterType="Map" resultMap="BaseResultMap">
+		SELECT *
+		FROM sellerBalance
+		<where>
+			sellerCode=#{sellerCode} 
+			<if test="frameCode !='' and frameCode !=null ">
+			AND frameCode=#{frameCode}
+			</if>
+			<if test="barCode !='' and barCode !=null ">
+			AND barCode=#{barCode}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 根据条形码查找电瓶车信息-->
+	<select id="findBicycleByBarCode" parameterType="Map" resultMap="BaseResultMap">
+		SELECT *
+		FROM sellerBalance
+		WHERE sellerCode=#{sellerCode} 
+		AND barCode=#{barCode}
+	</select>
+	
+	<!-- 删除库存信息 -->
+	<delete id="deleteBybarCode" parameterType="Map">
+		DELETE FROM sellerBalance
+			   WHERE sellerCode=#{sellerCode} 
+			   AND barCode=#{barCode}
+	</delete>
+	
+	<!-- 页面加载查询近期库存信息 -->
+	<select id="searchBalanceInfoOnload" resultMap="BaseResultMap" parameterType="Map">
+		 SELECT * FROM (
+      					 SELECT a.*,ROW_NUMBER() OVER (ORDER BY purchaseDate desc) as rank FROM sellerBalance a 
+      					 <!-- 区域经理登录 -->
+      					 <if test="accountType == 'areaManager' ">
+      					 	left outer join seller b on a.sellerCode = b.sellerCode
+      					 	left outer join areaManager c on b.areaCode = c.areaCode
+      					 	where c.managerCode = #{managerCode}
+      					 </if>
+      					 <where>
+      					 	<!-- 经销商登录 -->
+      					 	<if test="accountType == 'sellerAccount' ">
+      					 	a.sellerCode = #{sellerCode} 
+      					 	</if>
+      					 </where>
+						)  AS t WHERE t.rank BETWEEN 0 AND 4;
+		
+	</select>
+	
+	<!-- 查看库存详情 -->
+	<select id="balanceQueryDetail" resultType="org.electricbicyclewechat.pojo.request.balanceQueryParam.BalanceQueryParam" parameterType="org.electricbicyclewechat.pojo.SellerBalance">
+		SELECT a.*,b.sellerName FROM sellerBalance a
+		         left outer join seller b on a.sellerCode = b.sellerCode
+				 WHERE a.sellerCode=#{sellerCode}
+				 AND  a.barCode=#{barCode}
+	</select>
+	
+	<!-- 查看库存信息 -->
+	<select id="searchBalanceInfo" resultMap="BaseResultMap" parameterType="org.electricbicyclewechat.pojo.request.balanceQueryParam.BalanceQueryParam">
+		SELECT a.* FROM sellerBalance a
+				<!-- 区域经理登录 -->
+				<if test="accountType == 'areaManager' ">
+				 	left outer join seller b on a.sellerCode = b.sellerCode
+				 	left outer join areaManager c on b.areaCode = c.areaCode
+				</if>
+				<!-- 管理员 -->
+			 	<if test="accountType == 'administrator' ">
+					<if test="managerCode != null and managerCode !='' ">
+					 left outer join seller b on a.sellerCode = b.sellerCode
+				 	 left outer join areaManager c on b.areaCode = c.areaCode
+					</if>
+			 	</if>
+				<where>
+					<if test="accountType == 'administrator' ">
+					 	<if test="managerCode != null and managerCode !='' ">
+					 	  c.managerCode = #{managerCode}
+						</if>
+				 	</if>
+				 	<if test="accountType == 'areaManager' ">
+					 	  c.managerCode = #{managerCode}
+				 	</if>
+					<if test="sellerCode != null and sellerCode !='' ">
+						AND a.sellerCode=#{sellerCode} 
+					</if>
+					<if test="materialName != null and materialName !='' ">
+						AND a.materialName like '%'+#{materialName}+'%' 
+					</if>
+					<if test="startDate != null and startDate != '' ">
+						AND DATEDIFF(day,CAST(#{startDate} AS DATE),a.purchaseDate) >=0
+					</if>
+					<if test="endDate != null and endDate != '' ">
+						AND DATEDIFF(day,CAST(#{endDate} AS DATE),a.purchaseDate) &lt;=0
+					</if>
+				</where>
+				ORDER BY a.purchaseDate desc
+	</select>
+	
+	<!-- 查看库存明细信息 -->
+	<select id="searchBalanceInfoForDetail" resultMap="BaseResultMap" parameterType="org.electricbicyclewechat.pojo.request.balanceQueryParam.BalanceQueryParam">
+		SELECT a.* FROM sellerBalance a
+				<!-- 区域经理登录 -->
+				<if test='accountType == "2" '>
+				 	left outer join seller b on a.sellerCode = b.sellerCode
+				</if>
+				<!-- 管理员 -->
+			 	<if test='accountType == "4" '>
+					<if test="areaManagerCode  != null and areaManagerCode !='' ">
+					 left outer join seller b on a.sellerCode = b.sellerCode
+					</if>
+			 	</if>
+				<where>
+					<if test='accountType == "4" '>
+					 	<if test="areaManagerCode != null and areaManagerCode !='' ">
+					 	  b.areaManagerCode = #{areaManagerCode}
+						</if>
+				 	</if>
+				 	<if test='accountType == "2" '>
+					 	  b.areaManagerCode = #{areaManagerCode}
+				 	</if>
+				 	<if test="sellerCode != null and sellerCode !='' ">
+						AND a.sellerCode=#{sellerCode} 
+					</if>
+					<if test='ifParentArea == "1" '>
+						AND b.areaCode=#{areaCode} 
+					</if>
+					<if test="materialName != null and materialName !='' ">
+						AND a.materialName like '%'+#{materialName}+'%' 
+					</if>
+					<if test="startDate != null and startDate != '' ">
+						AND DATEDIFF(day,CAST(#{startDate} AS DATE),a.purchaseDate) >=0
+					</if>
+					<if test="endDate != null and endDate != '' ">
+						AND DATEDIFF(day,CAST(#{endDate} AS DATE),a.purchaseDate) &lt;=0
+					</if>
+				</where>
+				ORDER BY a.materialName,a.sellerCode,a.purchaseDate desc
+	</select>
+	
+	<!-- 查看库存汇总信息 -->
+	<select id="searchBalanceInfoForSum" resultType="org.electricbicyclewechat.pojo.request.balanceQueryParam.BalanceQueryParam" parameterType="org.electricbicyclewechat.pojo.request.balanceQueryParam.BalanceQueryParam">
+		SELECT DISTINCT a.materialName,a.colorDesc,a.maiterialSpec,COUNT(a.materialName) as num FROM sellerBalance a
+				<!-- 区域经理登录 -->
+				<if test='accountType == "2" '>
+				 	left outer join seller b on a.sellerCode = b.sellerCode
+				</if>
+				<!-- 管理员 -->
+			 	<if test='accountType == "4" '>
+					<if test="areaManagerCode  != null and areaManagerCode !='' ">
+					 left outer join seller b on a.sellerCode = b.sellerCode
+					</if>
+			 	</if>
+				<where>
+					<if test='accountType == "4" '>
+					 	<if test="areaManagerCode != null and areaManagerCode !='' ">
+					 	  b.areaManagerCode = #{areaManagerCode}
+						</if>
+				 	</if>
+				 	<if test='accountType == "2" '>
+					 	  b.areaManagerCode = #{areaManagerCode}
+				 	</if>
+				 	<if test="sellerCode != null and sellerCode !='' ">
+						AND a.sellerCode=#{sellerCode} 
+					</if>
+					<if test='ifParentArea == "1" '>
+						AND b.areaCode=#{areaCode} 
+					</if>
+					<if test="materialName != null and materialName !='' ">
+						AND a.materialName like '%'+#{materialName}+'%' 
+					</if>
+					<if test="startDate != null and startDate != '' ">
+						AND DATEDIFF(day,CAST(#{startDate} AS DATE),a.purchaseDate) >=0
+					</if>
+					<if test="endDate != null and endDate != '' ">
+						AND DATEDIFF(day,CAST(#{endDate} AS DATE),a.purchaseDate) &lt;=0
+					</if>
+				</where>
+				GROUP BY a.materialName,a.colorDesc,a.maiterialSpec
+				ORDER BY a.materialName,a.colorDesc desc
+	</select>
+	
+	<!-- 查看库存汇总每种车型小计信息 -->
+	<select id="balanceSumSubtotal" resultType="org.electricbicyclewechat.pojo.request.balanceQueryParam.BalanceQueryParam" parameterType="org.electricbicyclewechat.pojo.request.balanceQueryParam.BalanceQueryParam">
+		SELECT DISTINCT a.materialName,COUNT(a.materialName) as num FROM sellerBalance a
+				<!-- 区域经理登录 -->
+				<if test='accountType == "2" '>
+				 	left outer join seller b on a.sellerCode = b.sellerCode
+				</if>
+				<!-- 管理员 -->
+			 	<if test='accountType == "4" '>
+					<if test="areaManagerCode  != null and areaManagerCode !='' ">
+					 left outer join seller b on a.sellerCode = b.sellerCode
+					</if>
+			 	</if>
+				<where>
+					<if test='accountType == "4" '>
+					 	<if test="areaManagerCode != null and areaManagerCode !='' ">
+					 	  b.areaManagerCode = #{areaManagerCode}
+						</if>
+				 	</if>
+				 	<if test='accountType == "2" '>
+					 	  b.areaManagerCode = #{areaManagerCode}
+				 	</if>
+				 	<if test="sellerCode != null and sellerCode !='' ">
+						AND a.sellerCode=#{sellerCode} 
+					</if>
+					<if test='ifParentArea == "1" '>
+						AND b.areaCode=#{areaCode} 
+					</if>
+					<if test="materialName != null and materialName !='' ">
+						AND a.materialName like '%'+#{materialName}+'%' 
+					</if>
+					<if test="startDate != null and startDate != '' ">
+						AND DATEDIFF(day,CAST(#{startDate} AS DATE),a.purchaseDate) >=0
+					</if>
+					<if test="endDate != null and endDate != '' ">
+						AND DATEDIFF(day,CAST(#{endDate} AS DATE),a.purchaseDate) &lt;=0
+					</if>
+				</where>
+				GROUP BY a.materialName
+				ORDER BY a.materialName desc
+	</select>
+	
+	<!-- 查看库存汇总每种车型总合计信息 -->
+	<select id="balanceSumTotal" resultType="int" parameterType="org.electricbicyclewechat.pojo.request.balanceQueryParam.BalanceQueryParam">
+		SELECT COUNT(a.materialName) as num FROM sellerBalance a
+				<!-- 区域经理登录 -->
+				<if test='accountType == "2" '>
+				 	left outer join seller b on a.sellerCode = b.sellerCode
+				</if>
+				<!-- 管理员 -->
+			 	<if test='accountType == "4" '>
+					<if test="areaManagerCode  != null and areaManagerCode !='' ">
+					 left outer join seller b on a.sellerCode = b.sellerCode
+					</if>
+			 	</if>
+				<where>
+					<if test='accountType == "4" '>
+					 	<if test="areaManagerCode != null and areaManagerCode !='' ">
+					 	  b.areaManagerCode = #{areaManagerCode}
+						</if>
+				 	</if>
+				 	<if test='accountType == "2" '>
+					 	  b.areaManagerCode = #{areaManagerCode}
+				 	</if>
+				 	<if test="sellerCode != null and sellerCode !='' ">
+						AND a.sellerCode=#{sellerCode} 
+					</if>
+					<if test='ifParentArea == "1" '>
+						AND b.areaCode=#{areaCode} 
+					</if>
+					<if test="materialName != null and materialName !='' ">
+						AND a.materialName like '%'+#{materialName}+'%' 
+					</if>
+					<if test="startDate != null and startDate != '' ">
+						AND DATEDIFF(day,CAST(#{startDate} AS DATE),a.purchaseDate) >=0
+					</if>
+					<if test="endDate != null and endDate != '' ">
+						AND DATEDIFF(day,CAST(#{endDate} AS DATE),a.purchaseDate) &lt;=0
+					</if>
+				</where>
+				
+	</select>
+	
+</mapper>
