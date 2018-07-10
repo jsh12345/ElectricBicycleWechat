@@ -5,8 +5,12 @@ import org.electricbicyclewechat.configuration.pojo.Ticket;
 
 public class TokenThread implements Runnable{
 	
-	 public static String appId = "wxf1172d4291aafa24";
-	 public static String appSecret= "e945f6f799c771f2133054bf677f97e2";
+//	 public static String appId = "wx6c5e2b145ca4653b";
+//	 public static String appSecret= "5bb27830661395610d14614d658b0faf";
+	
+	 public static String appId = "wxa3c839c1ca76bcc0";
+	 public static String appSecret= "418a0710c843e346eee9201950373051";
+	 
 	 public static AccessToken accessToken = null;
 	 public static Ticket ticket = null;
 	  

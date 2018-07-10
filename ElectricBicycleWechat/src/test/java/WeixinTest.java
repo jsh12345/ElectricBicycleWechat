@@ -1,7 +1,8 @@
+import org.apache.log4j.Logger;
 import org.electricbicyclewechat.configuration.util.BaseUtil;
+import org.electricbicyclewechat.configuration.util.TokenThread;
+
 import net.sf.json.JSONObject;
-
-
 
 
 public class WeixinTest {
@@ -9,7 +10,8 @@ public class WeixinTest {
 		try {
 			
 			String menu = JSONObject.fromObject(BaseUtil.initMenu()).toString();
-			String accessToken = BaseUtil.getAccessToken("wxf1172d4291aafa24", "e945f6f799c771f2133054bf677f97e2").getAccessToken();
+//			String accessToken = BaseUtil.getAccessToken("wx6c5e2b145ca4653b", "5bb27830661395610d14614d658b0faf").getAccessToken();
+			String accessToken = BaseUtil.getAccessToken("wxa3c839c1ca76bcc0", "418a0710c843e346eee9201950373051").getAccessToken();
 			System.out.println(accessToken);
 			int result = BaseUtil.createMenu(accessToken, menu);
 			System.out.println(result);

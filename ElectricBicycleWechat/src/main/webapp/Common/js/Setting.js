@@ -3,7 +3,8 @@
  */
 //var baseurl= "http://localhost:8080/ElectricBicycleWechat";
 //var baseurl="http://supplierwechat.free.ngrok.cc/ElectricBicycleWechat";
-var baseurl="http://supplywechat.tunnel.qydev.com/ElectricBicycleWechat";
+//var baseurl="http://supplierwechat.tunnel.qydev.com/ElectricBicycleWechat";
+var baseurl="http://zjyw.tunnel.qydev.com/ElectricBicycleWechat";
 
 var PageSize=10;//分页--每页的记录数
 

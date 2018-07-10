@@ -373,7 +373,7 @@ z-index:
   margin-top: 1.17647059em;
   background-color: #FFFFFF;
   line-height: 1.47058824;
-  font-size: 40px;
+  font-size: 17px;
   overflow: hidden;
   position: relative;
 }
@@ -399,7 +399,7 @@ z-index:
   bottom: 0;
   right: 0;
   height: 1px;
-  /* border-bottom: 1px solid #e5e5e5; */
+  border-bottom: 1px solid #e5e5e5;
   color: #e5e5e5;
   -webkit-transform-origin: 0 100%;
           transform-origin: 0 100%;
@@ -568,7 +568,7 @@ z-index:
 }
 .weui-label {
   display: block;
-  width: 280px;
+  width: 105px;
   word-wrap: break-word;
   word-break: break-all;
 }
@@ -820,13 +820,13 @@ button.weui-form-preview__btn {
   line-height: 45px;
   position: relative;
   z-index: 1;
-  /* padding-left: 15px; */
+  padding-left: 15px;
 }
 .weui-cell_select-before {
   padding-right: 15px;
 }
 .weui-cell_select-before .weui-select {
-  width: 250px;
+  width: 105px;
   box-sizing: border-box;
 }
 .weui-cell_select-before .weui-cell__hd {
@@ -1658,6 +1658,7 @@ a.weui-media-box:active {
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
+  text-align:center;//水平居中
 }
 .weui-flex__item {
   -webkit-box-flex: 1;
@@ -1667,8 +1668,8 @@ a.weui-media-box:active {
 .weui-dialog {
   position: fixed;
   z-index: 5000;
-  width: 100%;
-  max-width: 600px;
+  width: 80%;
+  max-width: 300px;
   top: 50%;
   left: 50%;
   -webkit-transform: translate(-50%, -50%);

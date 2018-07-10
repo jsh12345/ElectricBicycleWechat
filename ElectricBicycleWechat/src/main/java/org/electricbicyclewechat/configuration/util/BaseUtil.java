@@ -25,11 +25,14 @@ import org.electricbicyclewechat.configuration.pojo.ViewButton;
 
 public class BaseUtil {
 	
-	public static String baseUrl = "http://supplywechat.tunnel.qydev.com/ElectricBicycleWechat/";
+//	public static String baseUrl = "http://supplywechat.tunnel.qydev.com/ElectricBicycleWechat/";
 	//public static String baseUrl = "http://supplierwechat.free.ngrok.cc/ElectricBicycleWechat/";
+	public static String baseUrl = "http://zjyw.tunnel.qydev.com/ElectricBicycleWechat/";
+//	private static final String APPID = "wxf1172d4291aafa24";
+//	private static final String APPSECRET = "e945f6f799c771f2133054bf677f97e2";
 	
-	private static final String APPID = "wxf1172d4291aafa24";
-	private static final String APPSECRET = "e945f6f799c771f2133054bf677f97e2";
+	private static final String APPID = "wxa3c839c1ca76bcc0";
+	private static final String APPSECRET = "418a0710c843e346eee9201950373051";
 	
 	private static final String ACCESS_TOKEN_URL= "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET";
 	
@@ -138,57 +141,57 @@ public class BaseUtil {
 	public static Menu initMenu(){
 		Menu menu = new Menu();
 		
-		/**
-		 *进销存
-		 */
-		ViewButton initialAccount = new ViewButton();
-		initialAccount.setName("期初入库");
-		initialAccount.setType("view");
-		//initialAccount.setUrl(baseUrl+"views/initialAccount/initialAccount.html");
-		initialAccount.setUrl(baseUrl+"login/checkIfInitial");
-		
-		ViewButton purchaseManager = new ViewButton();
-		purchaseManager.setName("车辆销售");
-		purchaseManager.setType("view");
-		purchaseManager.setUrl(baseUrl+"login/checkIfPurchase");
-		
-		ViewButton sellerBalanceInfo = new ViewButton();
-		sellerBalanceInfo.setName("库存查询");
-		sellerBalanceInfo.setType("view");
-		sellerBalanceInfo.setUrl(baseUrl+"views/balanceManagement/balanceQueryMore.html");
-		
-		//订单管理（产品订单、售后订单、订单进度）
-		/*ViewButton orderManager = new ViewButton();
-		orderManager.setName("订单管理");
-		orderManager.setType("view");
-		orderManager.setUrl("www.google.com");*/
-		
-		Button managerButton = new Button();
-		managerButton.setName("进销存");
-		managerButton.setSub_button(new Button[]{initialAccount,purchaseManager,sellerBalanceInfo});
-		
-		/**
-		 * 统计报表
-		 */
-		ViewButton invoicingReport = new ViewButton();
-		invoicingReport.setName("进销存统计表");
-		invoicingReport.setType("view");
-		invoicingReport.setUrl(baseUrl+"views/reportQuery/invoicingReport.html");
-		
-		ViewButton sellSaleInfo = new ViewButton();
-		sellSaleInfo.setName("销售明细表");
-		sellSaleInfo.setType("view");
-		//sellSaleInfo.setUrl("http://supplierwechat.free.ngrok.cc/ElectricBicycleWechat/views/reportQuery/saleQuery.html");
-		sellSaleInfo.setUrl(baseUrl+"views/reportQuery/saleQueryMore.html");
-		
-		ViewButton saleSpecInfo = new ViewButton();
-		saleSpecInfo.setName("销售车型排行榜");
-		saleSpecInfo.setType("view");
-		saleSpecInfo.setUrl(baseUrl+"views/reportQuery/salesRankings.html");
-		
-		Button reportQuery = new Button();
-		reportQuery.setName("统计报表");
-		reportQuery.setSub_button(new Button[]{invoicingReport,sellSaleInfo,saleSpecInfo});
+//		/**
+//		 *进销存
+//		 */
+//		ViewButton initialAccount = new ViewButton();
+//		initialAccount.setName("期初入库");
+//		initialAccount.setType("view");
+//		//initialAccount.setUrl(baseUrl+"views/initialAccount/initialAccount.html");
+//		initialAccount.setUrl(baseUrl+"login/checkIfInitial");
+//		
+//		ViewButton purchaseManager = new ViewButton();
+//		purchaseManager.setName("车辆销售");
+//		purchaseManager.setType("view");
+//		purchaseManager.setUrl(baseUrl+"login/checkIfPurchase");
+//		
+//		ViewButton sellerBalanceInfo = new ViewButton();
+//		sellerBalanceInfo.setName("库存查询");
+//		sellerBalanceInfo.setType("view");
+//		sellerBalanceInfo.setUrl(baseUrl+"views/balanceManagement/balanceQueryMore.html");
+//		
+//		//订单管理（产品订单、售后订单、订单进度）
+//		/*ViewButton orderManager = new ViewButton();
+//		orderManager.setName("订单管理");
+//		orderManager.setType("view");
+//		orderManager.setUrl("www.google.com");*/
+//		
+//		Button managerButton = new Button();
+//		managerButton.setName("进销存");
+//		managerButton.setSub_button(new Button[]{initialAccount,purchaseManager,sellerBalanceInfo});
+//		
+//		/**
+//		 * 统计报表
+//		 */
+//		ViewButton invoicingReport = new ViewButton();
+//		invoicingReport.setName("进销存统计表");
+//		invoicingReport.setType("view");
+//		invoicingReport.setUrl(baseUrl+"views/reportQuery/invoicingReport.html");
+//		
+//		ViewButton sellSaleInfo = new ViewButton();
+//		sellSaleInfo.setName("销售明细表");
+//		sellSaleInfo.setType("view");
+//		//sellSaleInfo.setUrl("http://supplierwechat.free.ngrok.cc/ElectricBicycleWechat/views/reportQuery/saleQuery.html");
+//		sellSaleInfo.setUrl(baseUrl+"views/reportQuery/saleQueryMore.html");
+//		
+//		ViewButton saleSpecInfo = new ViewButton();
+//		saleSpecInfo.setName("销售车型排行榜");
+//		saleSpecInfo.setType("view");
+//		saleSpecInfo.setUrl(baseUrl+"views/reportQuery/salesRankings.html");
+//		
+//		Button reportQuery = new Button();
+//		reportQuery.setName("统计报表");
+//		reportQuery.setSub_button(new Button[]{invoicingReport,sellSaleInfo,saleSpecInfo});
 
 		/**
 		 * 用户中心
@@ -209,10 +212,30 @@ public class BaseUtil {
 		searchSellerInfo.setUrl(baseUrl+"views/seller/sellerQuery.html");
 		
 		Button userButton = new Button();
-		userButton.setName("用户中心");
+		userButton.setName("账户管理");
 		userButton.setSub_button(new Button[]{login,changePassword,searchSellerInfo});
 		
-		menu.setButton(new Button[]{managerButton,reportQuery,userButton});
+		ViewButton order = new ViewButton();
+		order.setName("下单");
+		order.setType("view");
+		order.setUrl(baseUrl+"views/order/searchOrder.html");
+		
+		ViewButton findOrder = new ViewButton();
+		findOrder.setName("查询订单");
+		findOrder.setType("view");
+		findOrder.setUrl(baseUrl+"views/login/changePassword.html");
+		
+		Button orderManageButton = new Button();		
+		orderManageButton.setName("订单管理");
+		orderManageButton.setSub_button(new Button[]{order,findOrder});
+			
+		Button otherButton = new Button();		
+		otherButton.setName("其他");		
+		otherButton.setSub_button(new Button[]{findOrder});
+		
+		menu.setButton(new Button[]{userButton,orderManageButton,otherButton});
+		
+//		menu.setButton(new Button[]{managerButton,reportQuery,userButton});
 		return menu;
 	}
 	

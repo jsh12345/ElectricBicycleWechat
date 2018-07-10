@@ -73,10 +73,12 @@ public class OAuthServlet extends HttpServlet {
 	 	        	Object currentAccount = session.getAttribute("CurrentAccount");
 	 	           if(currentAccount!=null){
 	 	        	  //response.sendRedirect("http://supplierwechat.free.ngrok.cc/ElectricBicycleWechat/views/purchaseManagement/purchaseInformation.html");
-	 	        	  response.sendRedirect("http://supplywechat.tunnel.qydev.com/ElectricBicycleWechat/views/purchaseManagement/purchaseInformation.html");
+//	 	        	  response.sendRedirect("http://supplywechat.tunnel.qydev.com/ElectricBicycleWechat/views/purchaseManagement/purchaseInformation.html");
+	 	        	  response.sendRedirect("http://zjyw.tunnel.qydev.com/ElectricBicycleWechat/views/purchaseManagement/purchaseInformation.html");
 	 	           }else{
 	 	        	  //response.sendRedirect("http://supplierwechat.free.ngrok.cc/ElectricBicycleWechat/views/login/login.html?" + openid);
-	 	        	 response.sendRedirect("http://supplywechat.tunnel.qydev.com/ElectricBicycleWechat/views/login/login.html?" + openid);
+//	 	        	 response.sendRedirect("http://supplywechat.tunnel.qydev.com/ElectricBicycleWechat/views/login/login.html?" + openid);
+	 	        	 response.sendRedirect("http://zjyw.tunnel.qydev.com/ElectricBicycleWechat/views/login/login.html?" + openid);
 	 	           }
 			 	   
 	 	        }

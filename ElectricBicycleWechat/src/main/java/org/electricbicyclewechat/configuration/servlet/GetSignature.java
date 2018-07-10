@@ -105,7 +105,8 @@ public class GetSignature extends HttpServlet {
         Map<String, Object> map = new HashMap<String, Object>();  
         map.put("jsapi_ticket", jsapi_ticket);  
         //map.put("appId", "wx6c5e2b145ca4653b");  
-        map.put("appId", "wxf1172d4291aafa24");
+//        map.put("appId", "wxf1172d4291aafa24");
+        map.put("appId", "wxa3c839c1ca76bcc0");
         map.put("signature", signature.toLowerCase());  
         map.put("timestamp", timestamp.toString());  
         map.put("noncestr", String.valueOf(noncestr));  
