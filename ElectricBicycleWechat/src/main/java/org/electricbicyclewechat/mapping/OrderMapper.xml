@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.electricbicyclewechat.dao.ProductDao">
+  
+   <select id="searchSort" resultType="String">
+	  select product_desc from product_sort
+   </select>
+   
+   <select id="searchMaterialName" parameterType="String" resultType="String">
+      select DISTINCT m.material_name from material_view m, stock_actual s where s.material_code=m.material_code and s.stock_qty>0 and m.provide_type='成品' and product_desc1=#{sort} or product_desc2=#{sort} or product_desc3=#{sort} or product_desc4=#{sort}
+   </select>
+   
+   <select id="searchMaterialSpec" parameterType="String" resultType="String">
+      select DISTINCT m.material_spec from material_view m where m.material_name=#{name}
+   </select>
+   
+   <select id="searchColor" parameterType="String" resultType="String">
+      select DISTINCT c.color_desc from color_code c,material_view m,stock_actual s where s.material_code=m.material_code and s.color_code=c.color_code and m.material_name=#{0} and material_spec=#{1}
+   </select>
+   <select id="searchPhoto" parameterType="String" resultType="String">
+      select pcm.photo_name from product_color_master pcm,material_view m where m.material_code=pcm.material_code and m.material_name=#{0} and m.material_spec=#{1} and pcm.color_desc=#{2}
+   </select>
+   
+</mapper>
