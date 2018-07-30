@@ -225,14 +225,16 @@ public class OrderController {
 			detailMap.put("unit_code", jsonArray.getJSONObject(i).get("unit_code"));
 			detailMap.put("shipment_qty", 0);
 			detailMap.put("retu_qty", 0);
-			detailMap.put("stand_price", jsonArray.getJSONObject(i).get("price"));
+			detailMap.put("stand_price", jsonArray.getJSONObject(i).get("price"));//标准售价
 			detailMap.put("discount_rate", 0);
 			detailMap.put("discount_amt", 0);			
-			detailMap.put("unit_price", jsonArray.getJSONObject(i).get("price"));
-			detailMap.put("tax_rate", 0);
-			detailMap.put("notax_price", 0);
-			detailMap.put("notax_amt", 0);
-			detailMap.put("tax_amt", 0);
+			detailMap.put("unit_price", jsonArray.getJSONObject(i).get("price"));//单价
+			
+			detailMap.put("tax_rate", 0);//税率
+			
+			detailMap.put("notax_price", 0);//不含税单价=单价/(税率+1)待定
+			detailMap.put("notax_amt", 0);//不含税金额
+			detailMap.put("tax_amt", 0);//税额
 			detailMap.put("total_amt",Double.parseDouble((String) jsonArray.getJSONObject(i).get("price"))*Double.parseDouble((String) jsonArray.getJSONObject(i).get("qty")) );//总金额
 			detailMap.put("sales_type", "正价车");			
 		    

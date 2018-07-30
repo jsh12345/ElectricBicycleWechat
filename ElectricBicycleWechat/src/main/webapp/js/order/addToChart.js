@@ -30,7 +30,7 @@ function getColorResult(result){
 		//解析json
 		result = eval("("+ result +")");
 
-//		document.getElementById("price").innerHTML = result.price; //此行重要，数据为0
+		document.getElementById("price").innerHTML = result.price; //此行重要，数据为0
 		var dataLength = result.colorList.length;		
 		var sel = document.getElementById("color");		
 		sel.options.add(new Option("请选择",""));
