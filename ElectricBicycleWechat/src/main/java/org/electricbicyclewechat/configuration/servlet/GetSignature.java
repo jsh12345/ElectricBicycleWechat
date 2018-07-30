@@ -64,6 +64,7 @@ public class GetSignature extends HttpServlet {
 
         AccessToken accessToken = TokenThread.accessToken; 
         String accessTokenStr = accessToken.getAccessToken();
+        System.out.println("accessToken:" + accessTokenStr);
         //jsapi_ticket  
         Ticket ticket = TicketThread.ticket; 
         String jsapi_ticket = ticket.getTicket();

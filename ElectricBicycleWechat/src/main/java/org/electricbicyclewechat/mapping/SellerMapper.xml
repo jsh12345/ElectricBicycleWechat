@@ -26,7 +26,7 @@
 	</select>
 	
 	<!-- 创建经销商基本信息-->
-	<insert id="insertSeller" parameterType="org.electricbicyclewechat.pojo.Seller" >
+	<insert id="insertSeller" parameterType="org.electricbicyclewechat.pojo.Seller">
 		INSERT INTO seller(sellerCode,
 								  sellerName,
 								  sellerShortName,

@@ -41,7 +41,7 @@ public class AdvacedUtil {
                 wat = null;
                 int errorCode = jsonObject.getInt("errcode");
                 String errorMsg = jsonObject.getString("errmsg");
-                log.error("error");
+                log.error("errcode:{"+  errorCode  + "} errmsg:{"+ errorMsg + "}");
             }
         }
         return wat;
@@ -79,7 +79,7 @@ public class AdvacedUtil {
                 snsUserInfo = null;
                 int errorCode = jsonObject.getInt("errcode");
                 String errorMsg = jsonObject.getString("errmsg");
-                log.error("error");
+                log.error(" errcode:{"+  errorCode  + "} errmsg:{"+ errorMsg + "}");
             }
         }
         System.out.println("snsUserInfo=" + snsUserInfo.getNickname() + " "  + snsUserInfo.getOpenId());

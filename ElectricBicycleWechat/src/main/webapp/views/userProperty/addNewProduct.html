@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>增加产品</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+<link rel="stylesheet" href="https://cdn.bootcss.com/weui/1.1.2/style/weui.min.css">
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="../../Common/stylesheets/weui.css" />
+<link rel="stylesheet" href="../../Common/stylesheets/we.css" />
+<link rel="stylesheet" href="../../Common/stylesheets/font-awesome.min.css" />
+<link rel="stylesheet" href="../../Common/stylesheets/swiper.min.css" />
+<link rel="stylesheet" href="../../Common/stylesheets/main.css" />
+<link rel="stylesheet" href="../../Common/stylesheets/item.css" />
+<link rel="stylesheet" href="../../Common/stylesheets/theme-color.css" />
+<script src='../../Common/content/jquery-1.7.2.min.js' type="text/javascript"></script>
+<script src='../../Common/content/jquery.cookie.js' type="text/javascript"></script>
+<script src='../../Common/js/Setting.js' type="text/javascript"></script>
+<script src='../../Common/js/AjaxJson.js' type="text/javascript"></script>
+<script src='../../Common/js/jweixin.js' type="text/javascript"></script>
+<script src='../../js/order/searchProduct.js' type="text/javascript"></script>
+<script src='../../js/userProperty/addNewProduct.js' type="text/javascript"></script>
+</head>
+
+<body>
+   <header class="zyw-header">
+		<div class="zyw-container white-color">
+			<div class="head-l">
+				<a href="javascript:window.history.back(-1)" target="_self"><img src="../../Common/image/svg/head-return.svg" alt=""></a>
+			</div>
+			 <h1>增加产品</h1>
+		</div>
+	</header>
+	
+  <section class="zyw-container" id="panel">	
+		<div class="weui-tab">
+			<div class="weui-tab__panel">
+				<div class="weui-cell weui-cell_select weui-cell_select-after">
+					<div class="weui-cell__hd">
+						<label class="weui-label">大类</label>
+					</div>
+					<div class="weui-cell__bd">
+						<select class="weui-select" id="sort" onchange="return getName();"></select>
+					</div>
+				    
+				</div>
+				<div class="weui-cell weui-cell_select weui-cell_select-after" >
+					<div class="weui-cell__hd">
+						<label class="weui-label">名称</label>
+					</div>
+					<div class="weui-cell__bd">
+						<select class="weui-select" id="materialName"
+							onchange="return getSpec();"></select>
+					</div>
+				</div>
+				<div class="weui-cell weui-cell_select weui-cell_select-after">
+					<div class="weui-cell__hd">
+						<label class="weui-label">规格</label>
+					</div>
+					<div class="weui-cell__bd">
+						<select class="weui-select" id="spec" onchange="return getColor();"></select>
+					</div>
+				</div>
+				<div class="weui-cell weui-cell_select weui-cell_select-after">
+					<div class="weui-cell__hd">
+						<label class="weui-label">颜色</label>
+					</div>
+					<div class="weui-cell__bd">
+						<select class="weui-select" id="color" onchange="return getQty()"></select>
+					</div>
+				</div>
+			   <div class="weui-cell">
+                   <div class="weui-cell__hd"><label class="weui-label" style="width:100px;">库存数量</label></div>
+                   <div class="weui-cell__bd">
+                      <input class="weui-input" type="text" id="stock_qty" disabled="disabled"/>
+                   </div>
+               </div>
+               <div class="weui-cell">
+                   <div class="weui-cell__hd"><label class="weui-label" style="width:100px;">采购数量</label></div>
+                   <div class="weui-cell__bd">
+                      <input class="weui-input" type="text" id="so_qty"/>
+                   </div>
+               </div>
+			</div>
+		</div>
+	     <div class="weui-form-preview__ft">
+		    <a class="weui-form-preview__btn weui-form-preview__btn_primary" id="add" onClick="addProduct()">增加电动车</a>
+		 </div>
+ </section>
+	<script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
+	<script src="https://cdn.bootcss.com/jquery-weui/1.2.0/js/jquery-weui.min.js"></script>
+	<script src="../../Common/js/bootstrap.min.js"></script>
+</body>
+</html>
+

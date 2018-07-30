@@ -26,7 +26,7 @@ function submitForm(){
 		$('#iosDialog2').fadeIn(200);
 		return false;
 	}
-	var data = $("#insertAreaForm").serialize();
+	var data = $("#insertAreaForm").serialize();//表单内容转换为字符串
 	var url = baseurl + "/insertArea/insertArea";
 	sendRequest("post", url, data, getResult);
 	return false;

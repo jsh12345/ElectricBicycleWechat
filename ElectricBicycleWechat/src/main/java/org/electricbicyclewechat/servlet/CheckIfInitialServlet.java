@@ -40,13 +40,13 @@ public class CheckIfInitialServlet extends HttpServlet{
 		String name = (String) session.getAttribute("name");
 		LoginAccount loginAccount = (LoginAccount) session.getAttribute("CurrentAccount");
 		if(loginAccount==null || name==null){
-			response.sendRedirect("http://supplywechat.tunnel.qydev.com/ElectricBicycleWechat/views/login/login.html");
+			response.sendRedirect("http://zjyw.tunnel.qydev.com/ElectricBicycleWechat/views/login/login.html");
 		}else{
 			if(!"1".equals(loginAccount.getType())){//非经销商登录
 				String info = "1";
-				response.sendRedirect("http://supplywechat.tunnel.qydev.com/ElectricBicycleWechat/views/login/login.html?info="+info);
+				response.sendRedirect("http://zjyw.tunnel.qydev.com/ElectricBicycleWechat/views/login/login.html?info="+info);
 			}else{
-				response.sendRedirect("http://supplywechat.tunnel.qydev.com/ElectricBicycleWechat/views/initialAccount/initialAccount.html");
+				response.sendRedirect("http://zjyw.tunnel.qydev.com/ElectricBicycleWechat/views/initialAccount/initialAccount.html");
 			}
 		}
 	 }

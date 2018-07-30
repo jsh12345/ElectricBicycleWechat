@@ -1,13 +1,17 @@
 package org.electricbicyclewechat.service.impl;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.electricbicyclewechat.dao.UserPropertyDao;
+import org.electricbicyclewechat.pojo.SoDetail;
+import org.electricbicyclewechat.pojo.SoMaster;
 import org.electricbicyclewechat.pojo.UserProperty;
 import org.electricbicyclewechat.service.UserPropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service("UserPropertyService")
 public class UserPropertyServiceImpl implements UserPropertyService{
@@ -52,4 +56,54 @@ public class UserPropertyServiceImpl implements UserPropertyService{
 		return null;
 	}
 
+	@Override
+	public List<SoMaster> findUnConfirmOrder(Map<String, Object> map)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return userPropertyDao.findUnConfirmOrder(map);
+	}
+
+	@Override
+	public int confirmOrder(String comp_id, String bill_no) throws Exception {
+		// TODO Auto-generated method stub
+		return userPropertyDao.confirmOrder(comp_id, bill_no);
+	}
+	@Transactional
+	@Override
+	public boolean deleteProduct(Map<String, Object> map1 , Map<String, Object> map2) throws Exception {
+		// TODO Auto-generated method stub		
+		int flag1 = userPropertyDao.updateTotal(map1);
+		int flag2 = userPropertyDao.deleteProduct(map2);
+		if(flag1 > 0 && flag2 > 0){
+			return true;
+		}else{
+			return false;
+		}		
+	}
+	@Transactional
+	@Override
+	public boolean addNewProduct(Map<String, Object> map, SoDetail sodetail)
+			throws Exception {
+		// TODO Auto-generated method stub
+		int flag1 = userPropertyDao.updateTotal(map);
+		int flag2 = userPropertyDao.insertOneDetail(sodetail);
+		if(flag1 > 0 && flag2 > 0){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	@Override
+	public Map<String, Object> getTotal(String comp_id, String bill_no)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return userPropertyDao.getTotal(comp_id, bill_no);
+	}
+
+	@Override
+	public int getSn(String comp_id, String bill_no) throws Exception {
+		// TODO Auto-generated method stub
+		return userPropertyDao.getSn(comp_id, bill_no);
+	}
 }

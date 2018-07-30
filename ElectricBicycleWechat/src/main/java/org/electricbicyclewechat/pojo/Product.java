@@ -6,8 +6,10 @@ public class Product {
 	private String spec;
 	private String color;
 	private String qty;//库存数量
+	private String price;
 	private String photo;
 	private String sort;//所属类别
+	
 	public String getCode() {
 		return code;
 	}
@@ -50,7 +52,11 @@ public class Product {
 	public void setSort(String sort) {
 		this.sort = sort;
 	}
-	
-    
+	public String getPrice() {
+		return price;
+	}
+	public void setPrice(String price) {
+		this.price = price;
+	}
     
 }

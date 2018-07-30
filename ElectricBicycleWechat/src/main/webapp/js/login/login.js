@@ -117,7 +117,8 @@ function submit(){
  */
 function getResult(result){
 	if(result == "true"){
-		window.location.href = "../balanceManagement/balanceQueryMore.html";
+//		window.location.href = "../balanceManagement/balanceQueryMore.html";
+		window.location.href = "../order/index.html"
 	} else if (result == "true1"){//内勤登陆跳转
 		window.location.href = "../userProperty/confirmOrder.html";
 	}else{

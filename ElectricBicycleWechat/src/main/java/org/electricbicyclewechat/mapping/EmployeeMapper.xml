@@ -16,7 +16,5 @@
 	<select id="findAllEmployee" resultMap="BaseResultMap">
 		select * from employee
 	</select>
-
-
 	
 </mapper>

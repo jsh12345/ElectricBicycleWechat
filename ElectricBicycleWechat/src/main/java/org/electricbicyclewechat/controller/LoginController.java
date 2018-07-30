@@ -20,6 +20,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+
 /**
  * 账号登录
  * 
@@ -105,6 +106,7 @@ public class LoginController {
 				session.setAttribute("loginId", userProperty.getLoginId());
 				// 保存用户登录的密码password
 				session.setAttribute("password", userProperty.getNewpwd());
+				session.setAttribute("type", "销售内勤");
 				logger.info("登录成功！");
 				return "true1";
 			} else {
@@ -115,6 +117,7 @@ public class LoginController {
 				session.setAttribute("loginId", loginAccount.getLoginId());
 				// 保存用户登录的密码password
 				session.setAttribute("password", loginAccount.getPassword());
+				session.setAttribute("type", loginAccount.getType());
 				logger.info("登录成功！");
 				return "true";
 			}
@@ -140,13 +143,26 @@ public class LoginController {
 		String name = (String) session.getAttribute("name");
 		String loginId = (String) session.getAttribute("loginId");
 		String password = (String) session.getAttribute("password");
-		LoginAccount loginAccount = (LoginAccount) session
-				.getAttribute("CurrentAccount");
+		String type = (String) session.getAttribute("type");
+		System.out.println("类型为 "+type);
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("name", name);
-		map.put("loginId", loginId);
-		map.put("password", password);
-		map.put("currentAccount", loginAccount);
+		if(type == "销售内勤"){
+			UserProperty userProperty = (UserProperty) session.getAttribute("CurrentAccount");
+			
+			map.put("name", name);
+			map.put("loginId", loginId);
+			map.put("password", password);
+			map.put("currentAccount", userProperty);	
+			map.put("type","销售内勤");
+		}else{
+			LoginAccount loginAccount = (LoginAccount) session.getAttribute("CurrentAccount");
+			map.put("name", name);
+			map.put("loginId", loginId);
+			map.put("password", password);
+			map.put("currentAccount", loginAccount);
+			map.put("type", "经销商");
+		}
+	
 		logger.info("获取当前登录用户信息成功！");
 		return map;
 	}
@@ -171,7 +187,7 @@ public class LoginController {
 		logger.error("修改失败！");
 		return "false";
 	}
-
+	
 	/**
 	 * 验证用户是否具有车辆销售的权限
 	 * 
@@ -201,5 +217,13 @@ public class LoginController {
 	 * "http://supplierwechat01.free.ngrok.cc/ElectricBicycleWechat/views/purchaseManagement/purchaseInformation.html"
 	 * ); } } }
 	 */
-
+	
+	@ResponseBody
+	@RequestMapping("/unBundle")
+    public Object unBundle(HttpServletRequest request , Model model) throws Exception{
+		HttpSession session = request.getSession();
+		session.invalidate();
+		return true;
+    }
+	
 }

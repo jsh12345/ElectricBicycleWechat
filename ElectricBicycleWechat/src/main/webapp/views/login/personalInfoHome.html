@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<title>账号信息</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet" type="text/css" href="../../Common/stylesheets/weui.css">
+<script src="../../Common/content/jquery-1.7.2.min.js" type="text/javascript"></script> 
+<script src="../../Common/js/AjaxJson.js"  type="text/javascript"></script>
+<script src="../../Common/js/Setting.js"  type="text/javascript"></script>
+<script src="../../js/login/personalInfoHome.js" charset="utf-8"></script>	
+  <body>
+    <div class="weui-form-preview" id="panel">
+            <div class="weui-form-preview__hd">
+                <div class="weui-form-preview__item">
+                    <label class="weui-form-preview__label">账号名称</label>
+                    <em class="weui-form-preview__value" id="loginName"></em>
+                </div>
+            </div>
+            <div class="weui-form-preview__bd">
+                <div class="weui-form-preview__item">
+                    <label class="weui-form-preview__label">账号</label>
+                    <span class="weui-form-preview__value" id="accountKeyid"></span>
+                </div>
+                <div class="weui-form-preview__item">
+                    <label class="weui-form-preview__label">账号密码</label>
+                    <span class="weui-form-preview__value" id="loginPassword"></span>
+                </div>
+               
+                <div class="weui-form-preview__item">
+                    <label class="weui-form-preview__label">账号类别</label>
+                    <span class="weui-form-preview__value" id="accountType"></span>
+                </div>   
+            </div>
+            <div class="weui-form-preview__ft">
+                <a class="weui-form-preview__btn weui-form-preview__btn_primary" id="updatePassword" href="changePassword.html">修改密码</a>
+                <a class="weui-form-preview__btn weui-form-preview__btn_primary" id="unbundle" href="unBundle.html">解绑</a>
+            </div>
+           </div>
+	
+	<div class="page" id="operateResult" style="display:none">
+    <div class="weui-msg">
+        <div class="weui-msg__icon-area"><i class="weui-icon-success weui-icon_msg"></i></div>
+        <div class="weui-msg__text-area">
+            <h2 class="weui-msg__title" id="resultText"></h2>
+            <p class="weui-msg__desc">内容详情，可根据实际需要安排，如果换行则不超过规定长度，居中展现<a href="javascript:void(0);">文字链接</a></p>
+        </div>
+        <div class="weui-msg__opr-area">
+            <p class="weui-btn-area">
+                <a href="" class="weui-btn weui-btn_primary" id="recommandOperation"></a>
+                <a href="" class="weui-btn weui-btn_default" id="otherOperation"></a>
+            </p>
+        </div>
+        <div class="weui-msg__extra-area">
+            <div class="weui-footer">
+                <p class="weui-footer__links">
+                    <a href="javascript:void(0);" class="weui-footer__link">底部链接文本</a>
+                </p>
+                <p class="weui-footer__text">Copyright &copy; 2008-2016 weui.io</p>
+            </div>
+        </div>
+    </div>
+</div>
+  </body>
+</html>

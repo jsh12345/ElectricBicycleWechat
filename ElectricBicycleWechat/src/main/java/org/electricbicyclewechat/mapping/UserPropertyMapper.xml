@@ -12,7 +12,26 @@
 		<result property="appendCompid" column="append_compid" />
 		<result property="queryCompid" column="query_compid" />
 	</resultMap>
-	
+	<resultMap type="org.electricbicyclewechat.pojo.SoMaster" id="BaseResultMap1">
+	    <result property="comp_id" column="comp_id"/>
+        <result property="bill_no" column="bill_no"/>
+        <result property="cust_code" column="cust_code"/>
+        <result property="cust_name" column="cust_name"/>
+        <result property="bill_date" column="bill_date"/>
+        <result property="receive_date" column="forecast_shipmentdate"/>
+        <result property="total_qty" column="total_qty"/>
+        <result property="total_amt" column="total_amt"/>
+        <result property="check_sign" column="check_sign"/>
+        <result property="audit_sign" column="audit_sign"/>
+        <result property="indepot_sign" column="indepot_sign"/>
+        <result property="shipment_sign" column="shipment_sign"/>
+        <result property="outdepot_sign" column="outdepot_sign"/>
+        <result property="end_sign" column="end_sign"/>
+	</resultMap>
+	<resultMap type="HashMap" id="BaseResultMap2">
+	    <result property="total_qty" column="total_qty"/>
+        <result property="total_amt" column="total_amt"/>
+	</resultMap>
 	<!-- 登录时检查账户 -->
 	<select id="checkifAccount" parameterType="org.electricbicyclewechat.pojo.UserProperty" resultMap="BaseResultMap">
 		SELECT * FROM user_property
@@ -26,5 +45,53 @@
 				 AND newpwd=#{newpwd}
 	</select>
 	
-
+	<!-- 查询所有未确认的订单 (无论 经销商)-->
+    <select id="findUnConfirmOrder" parameterType="Map" resultMap="BaseResultMap1">
+       select * from cust_somaster 
+        <where>
+			<if test="check_sign !='' and check_sign !=null ">
+			AND check_sign=#{check_sign}
+			</if>
+			<if test="cust_code !='' and cust_code !=null ">
+			AND cust_code=#{cust_code}
+			</if>
+		</where>
+		order by bill_date DESC
+    </select>
+    
+    <!-- 删除该订单中的某一类电动车 -->
+    <delete id="deleteProduct" parameterType="Map">
+       delete from cust_sodetail where comp_id=#{comp_id} and bill_no=#{bill_no} and s_n=#{s_n}
+    </delete>
+    
+    <select id="getTotal" parameterType="String" resultMap="BaseResultMap2">
+       select total_qty,total_amt from cust_somaster where comp_id=#{0} and bill_no=#{1}
+    </select>
+    
+    <select id="getSn" parameterType="String" resultType="int">
+       select count(*) from cust_sodetail where comp_id=#{0} and bill_no=#{1}
+    </select>
+    
+    <!-- 内勤根据订单号更改订单主表里的总数量和总金额 -->
+    <update id="updateTotal" parameterType="Map">
+       update cust_somaster set total_amt=#{total_amt},total_qty=#{total_qty} where comp_id=#{comp_id} and bill_no=#{bill_no}
+    </update>
+    
+    <!-- 内勤根据订单号在订单明细表里增加一条记录 -->
+    <insert id="insertOneDetail" parameterType="org.electricbicyclewechat.pojo.SoDetail" >
+        INSERT INTO cust_sodetail(comp_id,bill_no,s_n,material_code,material_name,material_type,material_spec,
+       color_code,color_desc,so_qty,unit_code,shipment_qty,retu_qty,stand_price,discount_rate,discount_amt,
+       unit_price,tax_rate,notax_price,notax_amt,tax_amt,total_amt,sales_type) 
+       VALUES(
+         #{comp_id},#{bill_no},#{s_n},#{material_code},#{material_name},
+         #{material_type},#{material_spec},#{color_code},#{color_desc},#{so_qty},
+         #{unit_code},#{shipment_qty},#{retu_qty},#{stand_price},#{discount_rate},
+         #{discount_amt},#{unit_price},#{tax_rate},#{notax_price},#{notax_amt},
+         #{tax_amt},#{total_amt},#{sales_type})
+    
+    </insert>
+    <!-- 内勤确认订单 -->
+    <update id="confirmOrder" parameterType="String">
+       update cust_somaster set check_sign=1 where comp_id=#{0} and bill_no=#{1}
+    </update>
 </mapper>

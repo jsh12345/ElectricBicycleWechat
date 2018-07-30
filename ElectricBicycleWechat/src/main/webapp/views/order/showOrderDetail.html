@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>订单详细信息</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ 
+    <link rel="stylesheet" href="https://cdn.bootcss.com/weui/1.1.2/style/weui.min.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/jquery-weui/1.2.0/css/jquery-weui.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../Common/stylesheets/font-awesome.min.css">
+    <link rel="stylesheet" href="../../Common/stylesheets/swiper.min.css">
+    <link rel="stylesheet" href="../../Common/stylesheets/main.css">
+    <link rel="stylesheet" href="../../Common/stylesheets/index.css">
+    <link rel="stylesheet" href="../../Common/stylesheets/find.css">
+    <link rel="stylesheet" href="../../Common/stylesheets/theme-color.css">
+    <script src='../../Common/content/jquery-1.7.2.min.js' type="text/javascript"></script>
+    <script src='../../Common/content/jquery.cookie.js' type="text/javascript"></script>
+    <script src="../../Common/js/swiper.min.js" type="text/javascript"></script>
+    <script src='../../Common/js/Setting.js' type="text/javascript"></script>
+    <script src='../../Common/js/AjaxJson.js' type="text/javascript"></script>
+    <script src='../../Common/js/jweixin.js' type="text/javascript"></script>
+    <script src="../../js/order/showOrderDetail.js" type="text/javascript"></script>
+</head>
+<body>
+<header class="zyw-header">
+    <div class="zyw-container white-color">
+        <div class="head-l"><a href="javascript:window.history.back(-1)" target="_self"><img src="../../Common/image/svg/head-return.svg" alt=""></a></div>
+        <h1>订单详细信息</h1>       
+    </div>
+</header>
+<footer class="zyw-footer">
+    <div class="zyw-container white-bgcolor" >
+        <div class="weui-tabbar">
+			<a href="" class="weui-tabbar__item weui-bar__item--on">
+				<div class="weui-tabbar__icon">
+					<img src="../../common/image/svg/index.svg" alt="">
+				</div>
+				<p class="weui-tabbar__label">首页</p>
+			</a> 
+			<a href="searchProduct.html" class="weui-tabbar__item">
+                <div class="weui-tabbar__icon">
+                    <img src="../../common/image/svg/category.svg" alt="">
+                </div>
+                <p class="weui-tabbar__label">分类</p>
+            </a>			
+			<a href="submitOrder.html" class="weui-tabbar__item">
+				<div class="weui-tabbar__icon">
+					<img src="../../common/image/svg/cart.svg" alt="">
+				</div>
+				<p class="weui-tabbar__label">购物车</p>
+			</a>
+		    <a href="showOrder.html" class="weui-tabbar__item">
+				<div class="weui-tabbar__icon">
+					<img src="../../common/image/svg/order-onclick.svg" alt="">
+				</div>
+				<p class="weui-tabbar__label">订单</p>
+			</a>
+	   </div>      
+    </div> 
+</footer>
+<section class="zyw-container">
+    <div class="index-wares" id="detailList">
+         <!-- <div class="find-group1">
+        	 <div class="group1-bd clearfix">
+                <div class="pull-left bd-l">
+                    <div class="bd-img"><img src="" alt=""></div>
+                </div>
+                <div class="pull-right bd-r">
+                    <h4 class="bd-title">时尚女神节 抢5折优惠券转身变女神 你想要的这里都有</h4>
+                    <span class="bd-intro">1.1万人浏览 2390件宝贝</span>
+                    <p class="bd-price" style="margin-top: 10px;">￥4800.00</p>
+                </div>
+            </div>
+        </div>      -->
+    </div>
+</section>
+
+<script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery-weui/1.2.0/js/jquery-weui.min.js"></script>
+<script src="../../Common/js/bootstrap.min.js"></script>
+</body>
+</html>

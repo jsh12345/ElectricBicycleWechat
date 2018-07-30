@@ -706,6 +706,7 @@ z-index:
   line-height: 2;
 }
 .weui-form-preview__ft {
+  
   position: relative;
   line-height: 50px;
   display: -webkit-box;
@@ -2165,14 +2166,16 @@ a.weui-media-box:active {
   margin-right: 5px;
 }
 .weui-search-bar__cancel-btn {
-  display: none;
-  margin-left: 10px;
+   margin-left: 10px;
   line-height: 28px;
   color: #09BB07;
   white-space: nowrap;
 }
-.weui-search-bar__input:not(:valid) ~ .weui-icon-clear {
-  display: none;
+.search_button{
+	margin-left: 10px;
+  line-height: 28px;
+  color: #09BB07;
+  
 }
 input[type="search"]::-webkit-search-decoration,
 input[type="search"]::-webkit-search-cancel-button,

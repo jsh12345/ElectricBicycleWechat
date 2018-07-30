@@ -12,11 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.electricbicyclewechat.configuration.pojo.SNSUserInfo;
 import org.electricbicyclewechat.configuration.pojo.WeixinOauth2Token;
 import org.electricbicyclewechat.configuration.util.AdvacedUtil;
-import org.json.JSONArray;
-import org.json.JSONException;
 
 
 /**
@@ -49,7 +46,7 @@ public class OAuthServlet extends HttpServlet {
 	        // 获取code和state
 	        String code = request.getParameter("code");
 	        String state = request.getParameter("state");
-	        
+	        System.out.println("code="+code+"   state="+state);
 	        HttpSession session = request.getSession();
 	 	        // 
 	 	        if (!"authdeny".equals(code)) {
@@ -58,8 +55,9 @@ public class OAuthServlet extends HttpServlet {
 	 	        	if(openid == null || openid.length() <= 0)
 	 	        	{
 	 	        		 // 获取access_token
-		 	            WeixinOauth2Token weixinOauth2Token = AdvacedUtil.getOauth2AccessToken("wxf1172d4291aafa24", "e945f6f799c771f2133054bf677f97e2", code);
-		 	            accessToken = weixinOauth2Token.getAccessToken();
+//		 	            WeixinOauth2Token weixinOauth2Token = AdvacedUtil.getOauth2AccessToken("wxf1172d4291aafa24", "e945f6f799c771f2133054bf677f97e2", code);
+	 	        		 WeixinOauth2Token weixinOauth2Token = AdvacedUtil.getOauth2AccessToken("wxa3c839c1ca76bcc0", "418a0710c843e346eee9201950373051", code);
+	 	        		accessToken = weixinOauth2Token.getAccessToken();
 		 	            openid = weixinOauth2Token.getOpenId();
 		 	            session.setAttribute("openid", openid);
 		 	            session.setAttribute("accessToken", accessToken);
@@ -68,13 +66,16 @@ public class OAuthServlet extends HttpServlet {
 	 	        	}
 	 	           
 	 	            // 使用access_token获取用户信息
-	 	            //SNSUserInfo snsUserInfo = AdvacedUtil.getSNSUserInfo(accessToken, openid);
+//	 	            SNSUserInfo snsUserInfo = AdvacedUtil.getSNSUserInfo(accessToken, openid);
+	 	            
 	 	            //String nickname = snsUserInfo.getNickname();
 	 	        	Object currentAccount = session.getAttribute("CurrentAccount");
 	 	           if(currentAccount!=null){
+	 	        	  if(state.equals("123")){
+		 	 	        	 response.sendRedirect("http://zjyw.tunnel.qydev.com/ElectricBicycleWechat/views/order/showOrder.html");}
 	 	        	  //response.sendRedirect("http://supplierwechat.free.ngrok.cc/ElectricBicycleWechat/views/purchaseManagement/purchaseInformation.html");
 //	 	        	  response.sendRedirect("http://supplywechat.tunnel.qydev.com/ElectricBicycleWechat/views/purchaseManagement/purchaseInformation.html");
-	 	        	  response.sendRedirect("http://zjyw.tunnel.qydev.com/ElectricBicycleWechat/views/purchaseManagement/purchaseInformation.html");
+//	 	        	  response.sendRedirect("http://zjyw.tunnel.qydev.com/ElectricBicycleWechat/views/purchaseManagement/purchaseInformation.html");
 	 	           }else{
 	 	        	  //response.sendRedirect("http://supplierwechat.free.ngrok.cc/ElectricBicycleWechat/views/login/login.html?" + openid);
 //	 	        	 response.sendRedirect("http://supplywechat.tunnel.qydev.com/ElectricBicycleWechat/views/login/login.html?" + openid);

@@ -30,7 +30,7 @@
 	</select>
 	
 	<!-- 入库操作-->
-	<insert id="insertSellerBalance" parameterType="org.electricbicyclewechat.pojo.SellerBalance" >
+	<insert id="insertSellerBalance" parameterType="org.electricbicyclewechat.pojo.SellerBalance">
 		INSERT INTO sellerBalance(sellerCode,
 								  barCode,
 								  frameCode,

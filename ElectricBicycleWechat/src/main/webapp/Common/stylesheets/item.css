@@ -1,0 +1,198 @@
+.zyw-header h1 a{
+    font-size: 1.3rem;
+    padding: 0 18px;
+    color: #f5f5f5;
+}
+.zyw-header h1 a.active{
+    font-weight: bold;
+    color: #fff;
+}
+.zyw-footer .col-sm-2, .zyw-footer .col-sm-3, .zyw-footer .col-xs-2, .zyw-footer .col-xs-3{
+    padding: 0;
+    border-top: 1px solid #f6f6f6;
+}
+.zyw-footer .footer-btn{
+    line-height: 56px;
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    color: #fff;
+    font-size: 1.25rem;
+}
+.zyw-footer .footer-warning{
+    background: orange;
+  
+}
+.zyw-footer .footer-danger{
+    background: red;
+    
+}
+.item-img{
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+.item-img .swiper-slide>img{
+    width: 100%;
+}
+.item-img .swiper-pagination-fraction{
+    width: 60px;
+    right: 10px;
+    left: auto;
+    background: #a6a6a6;
+    background: rgba(0, 0, 0, 0.35);
+    border-radius: 50px;
+    color: #fff;
+    font-size: 1.2rem;
+    text-align: center;
+}
+.item-details{
+    padding: 1rem 0.625rem;
+}
+.item-details .details-title{
+    font-size: 1.28rem;
+    font-weight: bold;
+    line-height: 2rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+.item-details .details-prince{
+    font-size: 1.5rem;
+}
+.item-details .details-volume{
+    font-size: 1.22rem;
+    color: #999;
+}
+.item-serve {
+    line-height: 3rem;
+    padding: 0 0.625rem;
+}
+.item-serve span{
+    margin-right: 2rem;
+    font-size: 1rem;
+    color: #777;
+}
+.item-assess .choose-text{color: #444;}
+.item-assess .choose-text em{font-style: normal;}
+
+/*商品规格弹窗*/
+.item-spec-layer{
+    position: relative;
+    width: 100%;
+}
+.item-spec-layer .spec-head{
+    position: relative;
+    padding: 0.625rem;
+    border-bottom: 1px solid #f6f6f6;
+}
+.item-spec-layer .spec-head .spec-head-img{
+    float: left;
+    width: 76px;
+    height: 76px;
+    overflow: hidden;
+    margin-left: 0.625rem;
+}
+.item-spec-layer .spec-head .spec-head-img img{
+    width: 100%;
+}
+.item-spec-layer .spec-head .spec-head-prince{
+    margin-left: 100px;
+    display: block;
+    margin-top: 1rem;
+}
+.item-spec-layer .spec-head .spec-head-intro{
+    margin-left: 100px;
+    color: #999;
+    font-size: 1.2rem;
+    line-height: 2rem;
+    margin-bottom: 0;
+}
+.item-spec-layer .spec-info{
+    border-bottom: 1px solid #f6f6f6;
+    padding: 1rem 0.625rem;
+}
+.item-spec-layer .spec-info .spec-info-hd{
+    color: #999;
+    font-size: 1.2rem;
+}
+.item-spec-layer .spec-info .spec-info-bd{}
+.item-spec-layer .spec-info .spec-info-bd ul{}
+.item-spec-layer .spec-info .spec-info-bd ul li{
+    float: left;
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+    color: #777;
+    list-style-type: none;
+    font-size: 1rem;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    padding: 4px 8px;
+}
+.item-spec-layer .spec-length{
+    border-bottom: 1px solid #f6f6f6;
+    padding-left: 0.625rem;
+}
+.item-spec-layer .spec-length .length-hd{
+    margin: 0;
+    color: #999;
+    font-size: 1.2rem;
+}
+.item-layer-button{
+    border: none;
+    display: block;
+    width: 100%;
+    line-height: 56px;
+    position: fixed;
+    bottom: 0;
+}
+.item-spec-layer .spec-close{
+    position: absolute;
+    top: 2px;
+    right: 5px;
+    font-size: 1.5rem;
+    color: #777;
+}
+.item-parameter-layer{
+    height: 400px;
+    overflow-y: auto;
+}
+.item-parameter-layer .parameter-title{
+    margin: 0;
+    font-size: 1.2rem;
+    line-height: 3rem;
+    text-align: center;
+}
+.item-parameter-layer .parameter-table{
+    margin-bottom: 56px;
+}
+.item-parameter-layer .table>tbody>tr>td, .item-parameter-layer .table>tbody>tr>th{
+    border-top: 1px solid #f6f6f6;
+}
+.item-parameter-layer .table>tbody>tr:first-child>td, .item-parameter-layer .table>tbody>tr:first-child>th{
+    border-top: none;
+}
+.item-parameter-layer .parameter-table th{
+    width: 20%;
+    font-size: 1rem;
+    font-weight: 100;
+    line-height: 2rem;
+    color: #777;
+}
+.item-parameter-layer .parameter-table td{
+    font-size: 1rem;
+    line-height: 2rem;
+    padding-left: 10px;
+}
+.item-precent{
+    padding: 5px 0;
+}
+.item-precent h4{
+    text-align: center;
+    font-size: 1.2rem;
+}
+.item-precent img{
+    width: 100%;
+}

@@ -1,7 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="org.electricbicyclewechat.dao.ProductDao">
-  
+   <resultMap type="org.electricbicyclewechat.pojo.Product" id="BaseResultMap">
+		<result property="qty" column="stock_qty" />
+		<result property="photo" column="photo_name" />		
+	</resultMap>
+
+    <resultMap type="org.electricbicyclewechat.pojo.ShoppingCart" id="BaseResultMap1">
+        <result property="comp_id" column="comp_id"/>
+        <result property="cust_code" column="cust_code"/>
+        <result property="cust_name" column="cust_name"/>
+        <result property="material_code" column="material_code"/>
+        <result property="material_name" column="material_name"/>
+        <result property="material_type" column="material_type"/>
+        <result property="material_spec" column="material_spec"/>
+        <result property="color_code" column="color_code"/>
+        <result property="color_desc" column="color_desc"/>
+        <result property="so_qty" column="so_qty"/>
+        <result property="unit_code" column="unit_code"/>
+        <result property="stand_price" column="stand_price"/>
+        <result property="total_amt" column="total_amt"/> 
+        <result property="photo_name" column="photo_name"/>
+    </resultMap>
+    
+    <resultMap type="org.electricbicyclewechat.pojo.SoMaster" id="BaseResultMap2">
+        <result property="comp_id" column="comp_id"/>
+        <result property="bill_no" column="bill_no"/>
+        <result property="bill_date" column="bill_date"/>
+        <result property="total_qty" column="total_qty"/>
+        <result property="total_amt" column="total_amt"/>
+        <result property="check_sign" column="check_sign"/>
+        <result property="audit_sign" column="audit_sign"/>
+        <result property="indepot_sign" column="indepot_sign"/>
+        <result property="shipment_sign" column="shipment_sign"/>
+        <result property="outdepot_sign" column="outdepot_sign"/>
+        <result property="end_sign" column="end_sign"/>
+    </resultMap>
+    
+    <resultMap type="org.electricbicyclewechat.pojo.SoDetail" id="BaseResultMap3">
+        <result property="comp_id" column="comp_id"/>
+        <result property="bill_no" column="bill_no"/>
+        <result property="s_n" column="s_n"/>
+        <result property="material_name" column="material_name"/>
+        <result property="material_spec" column="material_spec"/>
+        <result property="color_desc" column="color_desc"/>
+        <result property="so_qty" column="so_qty"/>
+        <result property="stand_price" column="stand_price"/>
+        <result property="photo_name" column="photo_name"/>
+    </resultMap>
+    
+    <resultMap type="org.electricbicyclewechat.pojo.Product" id="BaseResultMap4">
+        <result property="code" column="material_code"/>
+        <result property="name" column="material_name"/>
+        <result property="spec" column="material_spec"/>
+        <result property="price" column="sso_price"/>
+        <result property="photo" column="photo_name"/>
+    </resultMap>
+    
+   <!-- 产品检索 -->
    <select id="searchSort" resultType="String">
 	  select product_desc from product_sort
    </select>
@@ -14,11 +70,104 @@
       select DISTINCT m.material_spec from material_view m where m.material_name=#{name}
    </select>
    
-   <select id="searchColor" parameterType="String" resultType="String">
-      select DISTINCT c.color_desc from color_code c,material_view m,stock_actual s where s.material_code=m.material_code and s.color_code=c.color_code and m.material_name=#{0} and material_spec=#{1}
+   <!-- 查询出选定的车型名称下不同规格的电动车信息 --> 
+   <select id="searchByName" parameterType="String" resultMap="BaseResultMap4">
+      select distinct m.material_code,material_name ,m.material_spec ,m.sso_price,pcm.photo_name 
+      from stock_actual s,material_view m,product_color_master pcm 
+      where pcm.material_code=m.material_code and s.material_code=m.material_code 
+            and s.stock_qty>0 and m.provide_type='成品' and m.material_name=#{material_name} and pcm.s_n=1
    </select>
-   <select id="searchPhoto" parameterType="String" resultType="String">
-      select pcm.photo_name from product_color_master pcm,material_view m where m.material_code=pcm.material_code and m.material_name=#{0} and m.material_spec=#{1} and pcm.color_desc=#{2}
+  
+   <!-- 加入购物车 -->
+   <select id="searchColor" parameterType="String" resultType="String">
+      select DISTINCT c.color_desc,m.sso_price from color_code c,material_view m,stock_actual s where s.material_code=m.material_code and s.color_code=c.color_code and m.material_name=#{0} and material_spec=#{1}
+   </select>
+   <select id="getPrice" parameterType="String" resultType="String">
+       select DISTINCT m.sso_price from material_view m where m.material_name=#{0} and material_spec=#{1}
    </select>
    
+   <select id="searchPhoto" parameterType="String" resultMap="BaseResultMap">
+      select distinct pcm.photo_name,s.stock_qty from product_color_master pcm,material_view m,stock_actual s,color_code c where s.material_code=m.material_code and m.material_code=pcm.material_code and s.color_code=c.color_code and pcm.color_code=c.color_code and s.stock_qty>0 and m.provide_type='成品' and m.material_name=#{0} and m.material_spec=#{1} and c.color_desc=#{2}
+   </select>
+   <select id="getColorCode" parameterType="String" resultType="String">
+      select color_code from color_code where color_desc=#{color_desc}
+   </select>
+   <select id="getMaterialCode" parameterType="String" resultType="String">
+      select material_code from material_view where material_name=#{0} and material_spec=#{1}
+   </select>
+   <select id="getMaterialType" parameterType="String" resultType="String">
+      select material_Type from material_view where material_code=#{material_code}
+   </select>
+   <insert id="insertToCart" parameterType="org.electricbicyclewechat.pojo.ShoppingCart" >
+      INSERT INTO shoppingCart(comp_id,cust_code,cust_name,material_code,material_name,material_type,
+							   material_spec,color_code,color_desc,so_qty,unit_code,stand_price,total_amt) 
+		VALUES 
+		(#{comp_id},#{cust_code},#{cust_name},#{material_code},#{material_name},#{material_type},
+		 #{material_spec},#{color_code},#{color_desc},#{so_qty},#{unit_code},#{stand_price},#{total_amt})
+   </insert>
+   <!-- 获得购物车列表 -->
+   <select id="getShoppingList" parameterType="String" resultMap="BaseResultMap1">
+       select distinct sc.material_code,sc.material_name,sc.material_type,sc.material_spec,sc.color_code,sc.color_desc,sc.so_qty,sc.unit_code,sc.stand_price,pcm.photo_name from shoppingCart sc,product_color_master pcm where sc.color_code=pcm.color_code and sc.material_code=pcm.material_code and sc.cust_code=#{cust_code}
+   </select> 
+      <!--删除购物车中的商品  -->
+   <delete id="deleteOrder" parameterType="String">
+        delete from shoppingCart where cust_code=#{0} and material_code=#{1} and color_code=#{2}
+   </delete>
+      <!-- 根据经销商代号清空购物车中记录 -->
+   <delete id="dropOrder" parameterType="String">
+       delete from shoppingCart where cust_code=#{cust_code}
+   </delete> 
+     
+   <!-- 根据经销商代码获取送货地址 -->
+   <select id="getCustAddress" parameterType="String" resultType="String">
+      select cust_delivery_address from customer where cust_code=#{cust_code}
+   </select>
+ 
+   <!-- 执行存储过程获取订单号 -->
+    <select id="getBillNo" statementType="CALLABLE" parameterType="Map" resultType="String">
+         EXEC get_billno(#{compid,mode=IN},#{billsort,mode=IN},#{billhead,mode=IN},#{loginid,mode=IN},#{saveno,mode=IN},#{outbillno,jdbcType=VARCHAR,mode=OUT})		 
+	</select>
+   
+    <!-- 在订单主表中增加记录-->
+    <insert id="insertToMaster" parameterType="Map" >
+       INSERT INTO cust_somaster(comp_id,bill_no,I_E_F,bill_date,bill_type,cust_code,cust_name,
+       exchange_rate,forecast_shipmentdate,cust_delivery_address,other_amt,total_qty,total_amt,
+       login_empid,login_name,login_date,check_sign,audit_sign,indepot_sign,shipment_sign,outdepot_sign,end_sign) 
+       VALUES(#{comp_id},#{bill_no},#{I_E_F},#{bill_date},#{bill_type},#{cust_code},#{cust_name},
+       #{exchange_rate},#{forecast_shipmentdate},#{cust_delivery_address},#{other_amt},
+       #{total_qty},#{total_amt},#{login_empid},#{login_name},#{login_date},
+       #{check_sign},#{audit_sign},#{indepot_sign},#{shipment_sign},#{outdepot_sign},#{end_sign})
+   </insert>  
+   
+    <!-- 在订单明细表中增加记录 -->
+    <insert id="insertToDetail" parameterType="java.util.List" >   
+       INSERT INTO cust_sodetail(comp_id,bill_no,s_n,material_code,material_name,material_type,material_spec,
+       color_code,color_desc,so_qty,unit_code,shipment_qty,retu_qty,stand_price,discount_rate,discount_amt,
+       unit_price,tax_rate,notax_price,notax_amt,tax_amt,total_amt,sales_type) 
+       VALUES
+       <foreach collection="list" item="item" index="index" separator=",">
+         (
+         #{item.comp_id},#{item.bill_no},#{item.s_n},#{item.material_code},#{item.material_name},
+         #{item.material_type},#{item.material_spec},#{item.color_code},#{item.color_desc},#{item.so_qty},
+         #{item.unit_code},#{item.shipment_qty},#{item.retu_qty},#{item.stand_price},#{item.discount_rate},
+         #{item.discount_amt},#{item.unit_price},#{item.tax_rate},#{item.notax_price},#{item.notax_amt},
+         #{item.tax_amt},#{item.total_amt},#{item.sales_type}
+         )
+       </foreach>
+   </insert>    
+    
+   <!-- 订单列表 -->
+    <select id="getOrderList" parameterType="String" resultMap="BaseResultMap2">
+       select * from cust_somaster where cust_code=#{cust_code} order by bill_date DESC
+   </select> 
+   
+   <!-- 对应订单的详细信息 -->
+   <select id="getOrderDetail" parameterType="org.electricbicyclewechat.pojo.SoDetail" resultMap="BaseResultMap3">
+       select cs.*,pcm.photo_name from cust_sodetail cs,product_color_master pcm where pcm.material_code=cs.material_code and pcm.color_code=cs.color_code and cs.comp_id=#{0} and cs.bill_no=#{1}
+   </select> 
+   
+    <!-- 签收订单 -->
+    <update id="signOrder" parameterType="String">
+        UPDATE cust_somaster set end_sign=1 where comp_id=#{0} and bill_no=#{1}
+    </update>
 </mapper>

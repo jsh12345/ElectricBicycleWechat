@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>电动车首页</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="https://cdn.bootcss.com/weui/1.1.2/style/weui.min.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/jquery-weui/1.2.0/css/jquery-weui.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../Common/stylesheets/font-awesome.min.css">
+    <link rel="stylesheet" href="../../Common/stylesheets/swiper.min.css">
+    <link rel="stylesheet" href="../../Common/stylesheets/main.css">
+    <link rel="stylesheet" href="../../Common/stylesheets/index.css">
+    <link rel="stylesheet" href="../../Common/stylesheets/find.css">
+    <link rel="stylesheet" href="../../Common/stylesheets/theme-color.css">
+    
+</head>
+<body>
+<header class="zyw-header">
+    <div class="zyw-container white-color">
+        <div class="head-l"><a href="searchProduct.html"><i class="head-l-svg" aria-hidden="true"></i></a></div>
+        <div class="head-search">
+            <i class="fa fa-search" aria-hidden="true"></i>
+            <input type="text" placeholder="输入您当前要搜索的电动车" class="white-color">
+        </div>
+        <div class="head-r"><a href="submitOrder.html"><i class="head-r-svg" aria-hidden="true"></i></a></div>
+    </div>
+</header>
+<footer class="zyw-footer">
+    <div class="zyw-container white-bgcolor" >
+        <div class="weui-tabbar">
+			<a href="index.html" class="weui-tabbar__item weui-bar__item--on">
+				<div class="weui-tabbar__icon">
+					<img src="../../Common/image/svg/index-onclick.svg" alt="">
+				</div>
+				<p class="weui-tabbar__label">首页</p>
+			</a> 
+			<a href="searchProduct.html" class="weui-tabbar__item">
+                <div class="weui-tabbar__icon">
+                    <img src="../../Common/image/svg/category.svg" alt="">
+                </div>
+                <p class="weui-tabbar__label">分类</p>
+            </a>			
+			<a href="submitOrder.html" class="weui-tabbar__item">
+				<div class="weui-tabbar__icon">
+					<img src="../../Common/image/svg/cart.svg" alt="">
+				</div>
+				<p class="weui-tabbar__label">购物车</p>
+			</a>
+		    <a href="showOrder.html" class="weui-tabbar__item">
+				<div class="weui-tabbar__icon">
+					<img src="../../Common/image/order.png" alt="">
+				</div>
+				<p class="weui-tabbar__label">订单</p>
+			</a>
+	   </div>      
+    </div> 
+</footer>
+<section class="zyw-container">
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide"><img src="../../Common/image/rj.jpg" alt=""></div>
+            <div class="swiper-slide"><img src="../../Common/image/rq.jpg" alt=""></div>          
+        </div>
+        <!-- 如果需要分页器 -->
+        <div class="swiper-pagination"></div>
+    </div>
+
+    <div class="index-wares">
+        <div class="wares-title">热销新品</div>
+        <div class="find-group1">
+        	 <div class="group1-bd clearfix">
+                <div class="pull-left bd-l">
+                    <div class="bd-img"><img src="../../Common/image/black.png" alt=""></div>
+                </div>
+                <div class="pull-right bd-r">
+                    <h4 class="bd-title">超级鹰一代</h4>
+                    <span class="bd-intro">双碟贴花版</span>
+                    <p class="bd-price" style="margin-top: 10px;">￥3200.00</p>
+                </div>
+            </div>
+        </div>        
+    </div>
+</section>
+<script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery-weui/1.2.0/js/jquery-weui.min.js"></script>
+<script src="../../Common/js/swiper.min.js"></script>
+<script src="../../Common/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    // 轮播
+    $(document).ready(function () {
+        // 顶部轮播图
+        var mySwiper = new Swiper ('.swiper-container', {
+            // 如果需要分页器
+            autoplay:true,
+            pagination: {
+                el: '.swiper-pagination'
+            }
+        });
+        // 秒杀商品滑动
+        var swiper = new Swiper('.seckill-wares', {
+            slidesPerView: 3.5,
+            spaceBetween: 5,
+            freeMode: true
+        });
+        // 新闻资讯
+        var swiper2 = new Swiper('.infoBox', {
+            autoplay:true,
+            delay: 5000,
+            direction: 'vertical'
+        });
+    })
+</script>
+</body>
+</html>

@@ -1,4 +1,4 @@
-<web-app>
+<web-app id="WebApp_1532739465702">
   <display-name>销售库存管理系统</display-name>
   <!-- 配置spring -->
   <listener>
@@ -53,11 +53,13 @@
      </servlet-class>
 	 <init-param>
 		<param-name>appid</param-name>
-		<param-value>wxf1172d4291aafa24</param-value>
+		<!-- <param-value>wxf1172d4291aafa24</param-value> -->
+		<param-value>wxa3c839c1ca76bcc0</param-value>
 	 </init-param>
 	 <init-param>
 	 	<param-name>appsecret</param-name>
-	 	<param-value>e945f6f799c771f2133054bf677f97e2</param-value>
+	 	<!-- <param-value>e945f6f799c771f2133054bf677f97e2</param-value> -->
+	 	<param-value>418a0710c843e346eee9201950373051</param-value>
 	 </init-param>
 	 <load-on-startup>0</load-on-startup>
  </servlet>

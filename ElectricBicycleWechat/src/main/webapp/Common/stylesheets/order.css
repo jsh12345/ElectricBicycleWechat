@@ -1,0 +1,75 @@
+.order-group{}
+.order-group .order-group-item{
+    margin-bottom: 0.625rem;
+    background: #fff;
+    padding: 0 0.625rem;
+}
+.order-group .order-item-box{
+    border-bottom: 1px solid #f2f2f2;
+}
+.order-group-item .order-item-id{
+    font-size: 1rem;
+    color: #232326;
+}
+.order-group-item .order-item-state{}
+.order-group-item .order-item-img{
+    max-width: 75px;
+}
+.order-group-item .order-item-info{
+    position: relative;
+}
+.order-group-item .order-item-title{
+    width: 70%;
+    margin: 0;
+    font-size: 1.1rem;
+    line-height: 1.5rem;
+    color: #777;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    min-height: 53px;
+}
+.order-group-item .order-item-fare{
+    margin: 0;
+    line-height: 2.5rem;
+    color: #777;
+    font-size: 1rem;
+}
+.order-group-item .order-item-r{
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    color: #777;
+}
+.order-group-item .order-item-prince{
+    margin: 0;
+    line-height: 2.5rem;
+    color: #777;
+    font-size: 1rem;
+}
+.order-group-item .order-item-length{
+    margin: 0;
+    line-height: 2.5rem;
+    color: #777;
+    font-size: 1rem;
+}
+.order-group .order-item-sum{
+    margin: 0;
+    line-height: 2rem;
+    font-size: 0.8rem;
+    color: #777;
+}
+.order-group .order-item-btn{
+    margin: 0;
+}
+.order-group .order-item-btn button{
+    border-radius: 50px;
+    margin: 5px 0 8px 10px;
+    font-size: 1rem;
+    padding: 2px 10px;
+    min-width: 70px;
+}
