@@ -19,10 +19,23 @@ public class OrderServiceImpl implements OrderService{
 	
 	@Autowired
 	private ProductDao productDao;
+	
+	/**
+	 * 获得名字列表
+	 * @param material_name
+	 * @return
+	 */
+	@Override
+	public List<String> getListName(String material_name){
+		
+		return productDao.searchByAbb(material_name);
+	}
+	
 	/**
 	 * 获得大类信息
 	 * @return
 	 */
+	@Override
 	public List<String> getSort(){
 		
 		return productDao.searchSort();
@@ -38,7 +51,7 @@ public class OrderServiceImpl implements OrderService{
 		return productDao.searchMaterialSpec(name);
 	}
 	@Override
-	public List<String> getMaterialColor(String name, String spec)
+	public List<Map<String, Object>> getMaterialColor(String name, String spec)
 			throws Exception {
 		// TODO Auto-generated method stub
 		return productDao.searchColor(name, spec);
@@ -55,9 +68,9 @@ public class OrderServiceImpl implements OrderService{
 		return productDao.insertToCart(cart);
 	}
 	@Override
-	public String getColorCode(String desc) throws Exception {
+	public String getColorCode(String desc,String name,String spec) throws Exception {
 		// TODO Auto-generated method stub
-		return productDao.getColorCode(desc);
+		return productDao.getColorCode(desc,name,spec);
 	}
 	@Override
 	public String getMaterialCode(String name, String spec) throws Exception {
@@ -140,6 +153,12 @@ public class OrderServiceImpl implements OrderService{
 			throws Exception {
 		// TODO Auto-generated method stub
 		return productDao.searchByName(material_name);
+	}
+
+	@Override
+	public List<Map<String, Object>> getProductBySort() throws Exception {
+		// TODO Auto-generated method stub
+		return productDao.searchBySort();
 	}
 
 }

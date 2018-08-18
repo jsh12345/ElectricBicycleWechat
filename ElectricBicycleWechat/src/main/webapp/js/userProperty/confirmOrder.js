@@ -27,13 +27,13 @@ function getGetCurrentUserResult(result){
 		window.location.href = baseurl + "/views/login/login.html";
 	}else{
 //		$("input[name='currentUser']").val(data.name);
-		var accountType = data.currentAccount.type;//账号类型
-		 if(accountType == '1'){//经销商
-			$("#sellerAccount").hide();	
-			alert("请登录销售内勤的账号");
-			window.location.href =  baseurl + "/views/login/personalInfoHome.html";
-		} 
-		
+		var accountType = data.type;//账号类型		
+		if(accountType == 'everybody' || accountType == 'order' || accountType == 'checkaudit' || accountType == 'check'){
+//			$("#sellerAccount").hide();			
+		} else{
+			alert("您没有确认订单的权限，请使用内勤账号登录");
+			window.location.href = baseurl + "/views/login/personalInfoHome.html";
+		}		
 	}
 	return false;
 }
@@ -46,11 +46,15 @@ function findOrderByCust(){
 }
 
 function findResult(result){
-	var orderList = $("#orderList");
-	orderList.html(""); //先清空div里的内容
 	if(result.toString() == "\[\]"){
-		alert("系统未查询到本条记录，请重新查询！！");
+//		alert("系统未查询到本条记录，请重新查询！！");
+		$('#toast').fadeIn(100);
+	       setTimeout(function () {
+	    	   $('#toast').fadeOut(100);
+	       }, 2000);		
 	}else{
+		var orderList = $("#orderList");
+		orderList.html(""); //先清空div里的内容
 		var data = eval("(" + result + ")");			
 		
 		for(var i=0 ; i < data.length ; i++){	
@@ -96,107 +100,10 @@ function findResult(result){
 	}
 	
 }
+
 //查看订单详细
 function getOrderDetail(comp_id,bill_no){
-	var data = "comp_id=" + comp_id + "&bill_no=" + bill_no;
-	var url = baseurl +"/order/getOrderDetail";
-	sendRequest("post",url, data ,getDetailResult);	
+	$("#loadingToast").fadeIn(100);
+	window.location.href = "confirmOrderDetail.html?comp_id="+comp_id+"&bill_no="+bill_no;
 }
 
-function getDetailResult(result){
-	document.getElementById("overallOrder").setAttribute("style", "display:none");
-	document.getElementById("orderDetail").removeAttribute("style");
-	document.getElementById("orderHeader").setAttribute("style", "display:none");
-	document.getElementById("detailHeader").removeAttribute("style");
-
-	var data = eval("(" + result + ")");
-	if(data != ''){
-		var html = "";
-	    var shoppingList = $("#listterm");
-	    shoppingList.html("");
-		for(var i=0 ; i < data.length ; i++){
-			var s = data[i].so_qty;
-			html="<li class='select'> " +
-					/*"<em aem='0' cart_id='84'></em>" +*/
-					"<img src='"+data[i].photo_name+"'/>" +
-							" <div class='div_center'>" +
-							"<h4 class='name' id='name'>"+data[i].material_name+"</h4>" +
-							    "<div class='material_code' style='display:none'>"+data[i].material_code+"</div>"+
-							    "<div class='color_code' style='display:none'>"+data[i].color_code+"</div>"+
-							    "<div class='material_type' style='display:none'>"+data[i].material_type+"</div>"+
-							    "<div class='unit_code' style='display:none'>"+data[i].unit_code+"</div>"+
-							    "<div class='comp_id' style='display:none'>"+data[i].comp_id+"</div>"+
-							    "<div class='bill_no' style='display:none'>"+data[i].bill_no+"</div>"+
-							    "<div class='s_n' style='display:none'>"+data[i].s_n+"</div>"+
-							    "<div class='spec' id='spec'>"+data[i].material_spec+"</div>" +
-							        "<span class='color' id='color'>"+data[i].color_desc+"</span>" +
-											"<p class='now_value'>" +
-											 "<i>￥</i>" +
-											 "<b class='qu_su' id='price'>"+data[i].stand_price+"</b>" +
-											"</p></div>" +
-											"<div class='div_right'>" +
-											"<i onclick='reducew(this)'>-</i>" +
-											"<span class='zi' id='qty'>"+data[i].so_qty+"</span>" +
-													"<input type='hidden' value='84'>" +
-													"<i onclick='plusw(this)'>+</i> </div>" +		
-													"<div class='order-item-btn pull-right' id='confirmButton'" +
-													"<button class='btn btn-sm btn-default' onclick=deleteProduct('"+data[i].comp_id+"','"+data[i].bill_no+"','"+data[i].s_n+"','"+data[i].so_qty+"','"+data[i].stand_price+"')>删除</button></div></li>";
-		    shoppingList.append(html);
-		}
-		
-   }
-}
-
-function cancel(){
-	$('#iosDialog2').fadeOut(200);
-}
-
-//删除电动车
-function deleteProduct(comp_id , bill_no , s_n ,so_qty,price){
-	
-	$('#iosDialog2').fadeIn(200);
-	
-	$('#confirmDelete').click(function(){
-	   var data="comp_id=" + comp_id + "&bill_no=" + bill_no + "&s_n=" + s_n + "&so_qty=" + so_qty + "&price=" + price;
-	   var url = baseurl + "/userProperty/deleteProduct";
-	   sendRequest("post" , url ,data ,deleteProductResult);
-	});
-}
-
-function deleteProductResult(result){
-	if(result == "true"){
-		$('#iosDialog2').fadeOut(200);
-		alert("成功删除此类车！");
-		window.location.reload();
-	}else{
-		$('#iosDialog2').fadeOut(200);
-		alert("删除该电动车失败！");
-		window.location.reload();
-	}
-}
-
-function jumpToNewUrl(){
-	var comp_id = $(".commodity_box .select .comp_id").eq(0).text();	
-	var bill_no = $(".commodity_box .select .bill_no").eq(0).text();
-	window.location.href="addNewProduct.html?comp_id="+comp_id+"&bill_no="+bill_no;//唯一确定订单中的某一产品
-}
-
-//确认订单（订单数量的获取?）
-function confirmOrder(){
-	var comp_id = $(".commodity_box .select .comp_id").eq(0).text();	
-	var bill_no = $(".commodity_box .select .bill_no").eq(0).text();
-	
-	var data = "comp_id=" + comp_id + "&bill_no=" + bill_no;
-	var url = baseurl +"/userProperty/confirmOrder";
-	sendRequest("post",url, data ,getConfirmResult);	
-}
-
-function getConfirmResult(result){
-	if(result){		
-		alert("成功确认订单！");
-		window.location.reload();
-	}else{
-		alert("确认订单失败！");
-		window.location.reload();
-	}
-}

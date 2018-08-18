@@ -30,7 +30,7 @@
 			<div class="head-l">
 				<a href="javascript:window.history.back(-1)" target="_self"><img src="../../Common/image/svg/head-return.svg" alt=""></a>
 			</div>
-			 <h1>分类</h1>
+			 <h1>选择产品</h1>
 		</div>
 	</header>
 <footer class="zyw-footer">
@@ -46,7 +46,7 @@
                 <div class="weui-tabbar__icon">
                     <img src="../../Common/image/svg/category-onclick.svg" alt="">
                 </div>
-                <p class="weui-tabbar__label">分类</p>
+                <p class="weui-tabbar__label">产品</p>
             </a>			
 			<a href="submitOrder.html" class="weui-tabbar__item">
 				<div class="weui-tabbar__icon">
@@ -71,7 +71,9 @@
 						<label class="weui-label">大类</label>
 					</div>
 					<div class="weui-cell__bd">
-						<select class="weui-select" id="sort" onchange="return getName();"></select>
+						<select class="weui-select" id="sort" onchange="return getName();">
+							<!-- <option value = "" disabled selectd hidden>请选择</option> -->
+						</select>
 					</div>				    
 				</div>
 				<div class="weui-cell weui-cell_select weui-cell_select-after" >
@@ -109,8 +111,28 @@
          </div>         -->
        </div>
  </section>
+   
 	<script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
 	<script src="https://cdn.bootcss.com/jquery-weui/1.2.0/js/jquery-weui.min.js"></script>
 	<script src="../../Common/js/bootstrap.min.js"></script>
+	 <!-- loading toast -->
+    <div id="loadingToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content">数据加载中</p>
+        </div>
+    </div>
+    
+    <!--BEGIN toast-->
+    <div id="toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-success-no-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">暂无</p>
+        </div>
+    </div>
+    <!--end toast-->
+    
 </body>
 </html>

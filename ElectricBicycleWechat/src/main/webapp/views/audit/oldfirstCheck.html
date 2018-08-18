@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>审核订单</title>
+	
+    <link rel="stylesheet" href="../../Common/stylesheets/weui.css"/>
+    <link rel="stylesheet" href="../../Common/stylesheets/we.css"/>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/weui/1.1.2/style/weui.min.css">
+   <!--  <link rel="stylesheet" href="https://cdn.bootcss.com/jquery-weui/1.2.0/css/jquery-weui.min.css"> -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../Common/stylesheets/font-awesome.min.css">
+    <link rel="stylesheet" href="../../Common/stylesheets/swiper.min.css">
+    <link rel="stylesheet" href="../../Common/stylesheets/item.css" />
+    <link rel="stylesheet" href="../../Common/stylesheets/main.css">
+    <link rel="stylesheet" href="../../Common/stylesheets/index.css">
+    <link rel="stylesheet" href="../../Common/stylesheets/order.css">
+    <link rel="stylesheet" href="../../Common/stylesheets/find.css">
+    <link rel="stylesheet" href="../../Common/stylesheets/cart.css">
+    <link rel="stylesheet" href="../../Common/stylesheets/theme-color.css">
+    <script src='../../Common/content/jquery-1.7.2.min.js' type="text/javascript"></script>
+    <script src='../../Common/content/jquery.cookie.js' type="text/javascript"></script>
+    <script src='../../Common/js/Setting.js' type="text/javascript"></script>
+    <script src='../../Common/js/AjaxJson.js' type="text/javascript"></script>
+    <script src='../../Common/js/jweixin.js' type="text/javascript"></script>
+    <script src='../../js/audit/oldfirstCheck.js' type="text/javascript"></script>
+
+  </head>
+  
+  <body>
+    <header class="zyw-header" id="orderHeader">
+    <div class="zyw-container white-color">
+        <div class="head-l"><a href="../userProperty/managerHome.html" target="_self"><img src="../../Common/image/svg/head-return.svg" alt=""></a></div>
+        <h1>
+           <a href="firstCheck.html">未审核订单</a><a href='oldfirstCheck.html' class="active">已审核订单</a>
+        </h1>      
+    </div>  
+  </header>
+  <header class="zyw-header" id="detailHeader" style="display:none">
+    <div class="zyw-container white-color">
+        <div class="head-l"><a href="javascript:window.location.reload()" target="_self"><img src="../../Common/image/svg/head-return.svg" alt=""></a></div>
+        <h1>订单详情</h1>      
+    </div>
+  </header>
+
+  <section class="zyw-container" id="overallOrder">
+      <div class="weui-search-bar" id="searchBar">
+            <form class="weui-search-bar__form">
+                <div class="weui-search-bar__box">
+                    <i class="weui-icon-search"></i>
+                    <input type="search" class="weui-search-bar__input" id="searchInput" placeholder="输入经销商代码" required/>                                 
+                </div>              
+            </form>
+            <a href="javascript:findOrderByCust();" class="search_button" id="searchCancel">查询</a>
+      </div>
+    
+    <div class="weui-tab">
+        <div class="weui-tab__bd">
+            <div id="order_all" class="weui-tab__bd-item weui-tab__bd-item--active">
+                <div class="order-group" id="orderList">
+                    <!--  <div class="order-group-item clearfix">
+                        <div class="order-item-box">
+                            <label class="order-item-id">订单号：</label><span class="order-item-id" id="bill_no"></span>
+                            <span class="order-item-state theme-color pull-right" id="state"></span>                           
+                            <div class="media">
+                                <div class="media-body">
+                                    <div class="order-item-info" >
+                                        <label class="order-item-fare">总数量：</label><span class="order-item-fare" id="total_qty"></span>                                      
+                                    </div>
+                                    <div class="order-item-info">                       
+                                        <label class="order-item-prince">总金额：￥</label><span class="order-item-prince" id="total_amt"></span>                                                        
+                                    </div>
+                                    <div class="order-item-info">                              
+                                        <label class="order-item-length">下单时间：</label><span class="order-item-length" id="bill_date"></span>                                  
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                
+                    </div> -->
+                 </div>
+            </div>          
+        </div>
+    </div>
+</section>
+
+<section class="zyw-container" id="orderDetail" style="display:none">
+      <div class="commodity_list_box"> 
+            <!--商品列表-->
+            <div class="commodity_box">
+                <div class="commodity_list">                
+                    <!--商品-->
+                    <ul class="commodity_list_term" id="listterm">
+                   <!--    <li class="select">
+                            <em aem="0" cart_id="84"></em>
+                            <img src="https://img13.360buyimg.com/mobilecms/s140x140_jfs/t3229/10/2021133198/376218/cfcc06cb/57d8e84eNfe92eae8.jpg"/>
+                            <div class="div_center">
+                                <h4 id="name">新疆苹果</h4>
+                                <div id='spec'>甜</div>
+                                <span id="color">50斤</span>
+                                <p class="now_value">
+                                    <i>￥</i>
+                                    <b class="qu_su" id="price">200</b>
+                                </p>
+                            </div>
+                            <div class="div_right">
+                                <i onclick="reducew(this)">-</i>
+                                <span class="zi" id="qty">1</span>
+                                <input type="hidden" value="84">
+                                <i onclick="plusw(this)">+</i>
+                            </div>
+                        </li> --> 
+                    </ul>           
+                </div>
+            </div>          
+        </div>   
+        <div class="weui-form-preview__ft" id="buttonSet">
+		    <a class="weui-form-preview__btn weui-form-preview__btn_primary" id="cancelConfirm" onClick="cancelAuditOrder()">取消确认</a>
+		</div>     
+</section>
+ <div id="loadingToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content">数据加载中</p>
+        </div>
+    </div>
+      <!--BEGIN toast-->
+    <div id="toast" style="display: none;">      
+        <div style="text-align:center">
+            <p>还没有确认过的订单</p>
+        </div>
+    </div>
+    <!--end toast-->
+  </body>
+</html>

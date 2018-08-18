@@ -26,11 +26,16 @@ public interface UserPropertyService {
 	 * @throws Exception
 	 */
 	public List<SoMaster> findUnConfirmOrder(Map<String, Object> map) throws Exception;
-  
-	public boolean deleteProduct(Map<String, Object> map1 , Map<String, Object> map2) throws Exception;
-	public int getSn(String comp_id ,String bill_no) throws Exception;
+   
+	
+    public boolean deleteProduct(Map<String, Object> map1 , Map<String, Object> map2) throws Exception;
+	
+    public boolean changePrice(Map<String, Object> map1 , Map<String, Object> map2) throws Exception;
+    
+    public int getSn(String comp_id ,String bill_no) throws Exception;
 	
 	public Map<String, Object> getTotal(String comp_id,String bill_no) throws Exception;
+	
 	
 	public boolean addNewProduct(Map<String, Object> map , SoDetail sodetail) throws Exception;
 	/**
@@ -40,5 +45,7 @@ public interface UserPropertyService {
     * @return
     * @throws Exception
     */
-	public int confirmOrder(String comp_id ,String bill_no) throws Exception;
+	public int confirmOrder(Map<String, Object> map) throws Exception;
+	
+	public boolean saveOrder(Map<String, Object> masterMap,List<Map<String, Object>> detailMapList) throws Exception;
 }

@@ -217,19 +217,33 @@ public class BaseUtil {
 		userButton.setName("账户管理");
 		userButton.setSub_button(new Button[]{login,changePassword});
 		
+	/*	ViewButton first = new ViewButton();
+		first.setName("财务一审");
+		first.setType("view");
+		first.setUrl(baseUrl+"views/audit/firstCheck.html");
+		
+		ViewButton second = new ViewButton();
+		second.setName("财务二审");
+		second.setType("view");
+		second.setUrl(baseUrl+"views/audit/secondCheck.html");
+		
 		ViewButton confirmOrder = new ViewButton();
-		confirmOrder.setName("确认订单");
+		confirmOrder.setName("内勤确认订单");
 		confirmOrder.setType("view");
-		confirmOrder.setUrl(baseUrl+"views/userProperty/confirmOrder.html");
+		confirmOrder.setUrl(baseUrl+"views/userProperty/confirmOrder.html");*/
+		ViewButton confirmOrder = new ViewButton();
+		confirmOrder.setName("确认与审核");
+		confirmOrder.setType("view");
+		confirmOrder.setUrl(baseUrl+"views/userProperty/managerHome.html");
 		
 		Button orderButton = new Button();		
-		orderButton.setName("内勤操作");
+		orderButton.setName("订单审核");
 		orderButton.setSub_button(new Button[]{confirmOrder});
 		
 		ViewButton order = new ViewButton();
 		order.setName("下单");
 		order.setType("view");
-		order.setUrl(baseUrl+"views/order/index.html");
+		order.setUrl(baseUrl+"views/order/searchProduct.html");
 		
 		ViewButton findOrder = new ViewButton();
 		findOrder.setName("查询订单");

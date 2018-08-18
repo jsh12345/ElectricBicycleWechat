@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.electricbicyclewechat.dao.AuditDao">
+<resultMap type="org.electricbicyclewechat.pojo.ShipmentMaster" id="BaseResultMap">
+	    <result property="comp_id" column="comp_id"/>
+        <result property="bill_no" column="bill_no"/>
+        <result property="cust_code" column="cust_code"/>
+        <result property="bill_date" column="bill_date"/>   
+        <result property="total_qty" column="total_qty"/>
+        <result property="local_totalamt" column="local_totalamt"/>
+        <result property="orig_totalamt" column="orig_totalamt"/>
+        <result property="check_sign" column="check_sign"/>
+        <result property="audit_sign" column="audit_sign"/>
+        <result property="shipment_sign" column="shipment_sign"/>
+        <result property="cust_sign" column="cust_sign"/>
+        <result property="end_sign" column="end_sign"/>
+       
+</resultMap>
+<resultMap type="org.electricbicyclewechat.pojo.SoMaster" id="BaseResultMap1">
+	    <result property="comp_id" column="comp_id"/>
+        <result property="bill_no" column="bill_no"/>
+        <result property="cust_code" column="cust_code"/>
+        <result property="cust_name" column="cust_name"/>
+        <result property="bill_date" column="bill_date"/>
+        <result property="receive_date" column="forecast_shipmentdate"/>
+        <result property="total_qty" column="total_qty"/>
+        <result property="total_amt" column="total_amt"/>
+        <result property="check_sign" column="check_sign"/>
+        <result property="audit_sign" column="audit_sign"/>
+        <result property="indepot_sign" column="indepot_sign"/>
+        <result property="shipment_sign" column="shipment_sign"/>
+        <result property="outdepot_sign" column="outdepot_sign"/>
+        <result property="end_sign" column="end_sign"/>
+</resultMap>
+
+<resultMap type="org.electricbicyclewechat.pojo.ShipmentDetail" id="BaseResultMap2">
+     <result property="comp_id" column="comp_id"/>
+     <result property="bill_no" column="bill_no"/>
+     <result property="cust_code" column="cust_code"/>
+     <result property="cust_name" column="sellerName"/>
+     <result property="color_code" column="color_code"/>
+     <result property="material_code" column="material_code"/>
+     <result property="material_name" column="material_name"/>
+     <result property="material_spec" column="material_spec"/>
+     <result property="color_desc" column="color_desc"/>
+     <result property="stand_price" column="stand_price"/>
+     <result property="so_qty" column="so_qty"/>
+</resultMap>
+
+   <select id="findUnConfirmOrder" parameterType="Map" resultMap="BaseResultMap1">
+       select * from cust_somaster 
+        <where>
+			<if test="audit_sign !='' and audit_sign !=null ">
+			AND audit_sign=#{audit_sign}
+			</if>
+			<if test="check_sign !='' and check_sign !=null ">
+			AND check_sign=#{check_sign}
+			</if>
+			<if test="cust_code !='' and cust_code !=null ">
+			AND cust_code like '%'+#{cust_code}+'%'
+			</if>
+		</where>
+		order by bill_date DESC
+   </select>
+   
+   <!-- 执行存储过程财务第一次审核订单 -->
+   <update id="updateAuditSign" statementType="CALLABLE" parameterType="Map">
+        EXEC cust_soaudit #{comp_id},#{bill_no},#{bill_date},#{login_id},#{audit_sign}
+   </update>
+   
+   <!-- 从销售发货通知单中查询出(未)二审的订单 -->
+   <select id="findUnAuditOrder" parameterType="Map" resultMap="BaseResultMap">
+       select * from so_shipment_master
+        <where>
+			<if test="audit_sign !='' and audit_sign !=null ">
+			AND audit_sign=#{audit_sign}
+			</if>
+			<if test="check_sign !='' and check_sign !=null ">
+			AND check_sign=#{check_sign}
+			</if>
+			<if test="cust_code !='' and cust_code !=null ">
+			AND cust_code like '%'+#{cust_code}+'%'
+			</if>
+		</where>
+		order by bill_date DESC
+   </select>
+   
+    <!-- 从销售发货通知单中查询出未进行二审的订单详细信息 -->
+   <select id="getOrderDetail" parameterType="String" resultMap="BaseResultMap2">
+      select ssd.*, m.material_name,m.material_spec,cc.color_desc
+      from so_shipment_detail ssd ,material_view m ,color_code cc
+      where cc.color_code= ssd.color_code and m.material_code = ssd.material_code and ssd.comp_id=#{0} and ssd.bill_no=#{1}
+   </select>
+   
+   <!-- 执行存储过程财务第二次审核订单 -->
+   <update id="updateShipmentAuditSign" statementType="CALLABLE" parameterType="Map">
+        EXEC so_shipment_audit #{comp_id},#{bill_no},#{bill_date},#{login_id},#{audit_sign}
+   </update> 
+   
+</mapper>

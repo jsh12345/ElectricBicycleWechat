@@ -28,12 +28,6 @@
         <h1>订货单</h1>      
     </div>
 </header>
-<header class="zyw-header" id="detailHeader" style="display:none">
-    <div class="zyw-container white-color">
-        <div class="head-l"><a href="javascript:window.location.reload()" target="_self"><img src="../../Common/image/svg/head-return.svg" alt=""></a></div>
-        <h1>订单详情</h1>      
-    </div>
-</header>
 <footer class="zyw-footer">
     <div class="zyw-container white-bgcolor" >
         <div class="weui-tabbar">
@@ -47,7 +41,7 @@
                 <div class="weui-tabbar__icon">
                     <img src="../../Common/image/svg/category.svg" alt="">
                 </div>
-                <p class="weui-tabbar__label">分类</p>
+                <p class="weui-tabbar__label">产品</p>
             </a>			
 			<a href="submitOrder.html" class="weui-tabbar__item">
 				<div class="weui-tabbar__icon">
@@ -94,23 +88,21 @@
         </div>
     </div>
 </section>
-<section class="zyw-container" id="orderDetail" style="display:none">
-    <div class="index-wares" id="detailList">
-         <!-- <div class="find-group1">
-        	 <div class="group1-bd clearfix">
-                <div class="pull-left bd-l">
-                    <div class="bd-img"><img src="" alt=""></div>
-                </div>
-                <div class="pull-right bd-r">
-                    <h4 class="bd-title">时尚女神节 抢5折优惠券转身变女神 你想要的这里都有</h4>
-                    <span class="bd-intro">1.1万人浏览 2390件宝贝</span>
-                    <p class="bd-price" style="margin-top: 10px;">￥4800.00</p>
-                </div>
-            </div>
-        </div>      -->
+<!--BEGIN toast-->
+    <div id="toast" style="display: none;">
+        <div style="text-align:center">          
+            <p >无订单</p>
+        </div>
     </div>
-</section>
-
+    <!--end toast-->
+   <!-- loading toast -->
+    <div id="loadingToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content">数据加载中</p>
+        </div>
+    </div>
 <script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
 <script src="https://cdn.bootcss.com/jquery-weui/1.2.0/js/jquery-weui.min.js"></script>
 <script src="../../Common/js/bootstrap.min.js"></script>

@@ -24,6 +24,7 @@ public class SoDetail {
 	private double tax_amt;
 	private double total_amt;
 	private String sales_type;
+	private String bill_date;
 	private String photo_name;
 	public String getComp_id() {
 		return comp_id;
@@ -170,6 +171,12 @@ public class SoDetail {
 	}
 	public void setTax_amt(double tax_amt) {
 		this.tax_amt = tax_amt;
+	}
+	public String getBill_date() {
+		return bill_date;
+	}
+	public void setBill_date(String bill_date) {
+		this.bill_date = bill_date;
 	}
 
 }

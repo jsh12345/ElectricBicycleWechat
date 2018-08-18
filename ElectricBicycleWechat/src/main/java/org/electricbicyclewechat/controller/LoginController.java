@@ -61,8 +61,7 @@ public class LoginController {
 			if (!"0".equals(map1.get("code"))) {
 				UserProperty userProperty = new UserProperty();
 				BeanUtils.copyProperties(accountLoginParam, userProperty);
-				Map<String, Object> map = userPropertyService
-						.checkifAccount(userProperty);
+				Map<String, Object> map = userPropertyService.checkifAccount(userProperty);
 				return map;
 			}
 			return map1;
@@ -90,23 +89,26 @@ public class LoginController {
 			LoginAccount loginAccount = new LoginAccount();
 			BeanUtils.copyProperties(accountLoginParam, loginAccount);
 			loginAccount = loginAccountService.accountLogin(loginAccount);
-			if (loginAccount == null) {// 登录失败
+			if (loginAccount == null) {// 经销商登录失败
 				UserProperty userProperty = new UserProperty();
 				accountLoginParam.setNewpwd(accountLoginParam.getPassword());
 				BeanUtils.copyProperties(accountLoginParam, userProperty);
 				userProperty = userPropertyService.accountLogin(userProperty);
 				if (userProperty == null) {// 内勤登陆失败
-					logger.error("登录失败！");
+					logger.error("内勤登录失败！");
 					return "false";
 				}
-				// 内勤登陆成功，保存session中
+				// 内勤和财务登陆成功，保存session中
 				session.setAttribute("CurrentAccount", userProperty);
 				session.setAttribute("name", userProperty.getEmpName());
 				// 保存用户的loginId
 				session.setAttribute("loginId", userProperty.getLoginId());
+				
 				// 保存用户登录的密码password
 				session.setAttribute("password", userProperty.getNewpwd());
-				session.setAttribute("type", "销售内勤");
+						
+				String role = loginAccountService.ifAuditOrCheck(userProperty.getLoginId());		
+			    session.setAttribute("type", role);						
 				logger.info("登录成功！");
 				return "true1";
 			} else {
@@ -146,23 +148,28 @@ public class LoginController {
 		String type = (String) session.getAttribute("type");
 		System.out.println("类型为 "+type);
 		Map<String, Object> map = new HashMap<String, Object>();
-		if(type == "销售内勤"){
-			UserProperty userProperty = (UserProperty) session.getAttribute("CurrentAccount");
-			
-			map.put("name", name);
-			map.put("loginId", loginId);
-			map.put("password", password);
-			map.put("currentAccount", userProperty);	
-			map.put("type","销售内勤");
-		}else{
+		if(type == null){
 			LoginAccount loginAccount = (LoginAccount) session.getAttribute("CurrentAccount");
 			map.put("name", name);
 			map.put("loginId", loginId);
 			map.put("password", password);
-			map.put("currentAccount", loginAccount);
-			map.put("type", "经销商");
+			map.put("currentAccount", loginAccount);	
+			map.put("type",type);
+		}else if(type.equals("1")){		   
+			LoginAccount loginAccount = (LoginAccount) session.getAttribute("CurrentAccount");
+			map.put("name", name);
+			map.put("loginId", loginId);
+			map.put("password", password);
+			map.put("currentAccount", loginAccount);	
+			map.put("type",type);
+		}else{		
+			UserProperty userProperty = (UserProperty) session.getAttribute("CurrentAccount");	
+			map.put("name", name);
+			map.put("loginId", loginId);
+			map.put("password", password);
+			map.put("currentAccount", userProperty);	
+			map.put("type",type);
 		}
-	
 		logger.info("获取当前登录用户信息成功！");
 		return map;
 	}
@@ -217,7 +224,13 @@ public class LoginController {
 	 * "http://supplierwechat01.free.ngrok.cc/ElectricBicycleWechat/views/purchaseManagement/purchaseInformation.html"
 	 * ); } } }
 	 */
-	
+	/**
+	 * 解绑
+	 * @param request
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
 	@ResponseBody
 	@RequestMapping("/unBundle")
     public Object unBundle(HttpServletRequest request , Model model) throws Exception{

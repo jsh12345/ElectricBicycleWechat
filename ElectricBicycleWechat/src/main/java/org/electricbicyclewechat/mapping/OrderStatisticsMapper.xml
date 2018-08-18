@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.electricbicyclewechat.dao.OrderStatisticsDao">
+	<resultMap type="org.electricbicyclewechat.pojo.So_master"
+		id="BaseResultMap">
+		<result property="comp_id" column="comp_id" />
+		<result property="bill_no" column="bill_no" />
+		<result property="bill_date" column="bill_date" />
+		<result property="bill_type;" column="bill_type;" />
+		<result property="cust_code" column="cust_code" />
+		<result property="cust_name" column="cust_name" />
+		<result property="freight_mode" column="freight_mode" />
+		<result property="currency_code" column="currency_code" />
+		<result property="exchange_rate" column="exchange_rate" />
+		<result property="depot_code" column="depot_code" />
+		<result property="forecast_shipmentdate" column="forecast_shipmentdate" />
+		<result property="cust_delivery_address" column="cust_delivery_address" />
+		<result property="other_amt" column="other_amt" />
+		<result property="total_qty" column="total_qty" />
+		<result property="total_amt" column="total_amt" />
+		<result property="login_empid" column="login_empid" />
+		<result property="login_date" column="login_date" />
+		<result property="check_sign" column="check_sign" />
+		<result property="check_empid" column="check_empid" />
+		<result property="check_date" column="check_date" />
+		<result property="audit_sign" column="audit_sign" />
+		<result property="audit_empid" column="audit_empid" />
+		<result property="audit_date" column="audit_date" />
+		<result property="indepot_sign" column="indepot_sign" />
+		<result property="shipment_sign" column="shipment_sign" />
+		<result property="outdepot_sign" column="outdepot_sign" />
+		<result property="end_sign" column="end_sign" />
+		<result property="end_date" column="end_date" />
+		<result property="end_empid" column="end_empid" />
+		<result property="Transport_billno" column="Transport_billno" />
+	</resultMap>
+	
+	
+	<resultMap type="org.electricbicyclewechat.pojo.So_detail"
+		id="BaseResultMap2">
+		<result property="comp_id" column="comp_id" />
+		<result property="bill_no" column="bill_no" />
+		<result property="s_n" column="s_n" />
+		<result property="material_code;" column="material_code;" />
+		<result property="material_name" column="material_name" />
+		<result property="material_type" column="material_type" />
+		<result property="material_spec" column="material_spec" />
+		<result property="color_code" column="color_code" />
+		<result property="color_desc" column="color_desc" />
+		<result property="so_qty" column="so_qty" />
+		<result property="unit_code" column="unit_code" />
+		<result property="shipment_qty" column="shipment_qty" />
+		<result property="retu_qty" column="retu_qty" />
+		<result property="stand_price" column="stand_price" />
+		<result property="discount_rate" column="discount_rate" />
+		<result property="discount_amt" column="discount_amt" />
+		<result property="unit_price" column="unit_price" />
+		<result property="tax_rate" column="tax_rate" />
+		<result property="notax_price" column="notax_price" />
+		<result property="notax_amt" column="notax_amt" />
+		<result property="tax_amt" column="tax_amt" />
+		<result property="total_amt" column="total_amt" />
+		<result property="sales_type" column="sales_type" />
+		<result property="remark" column="remark" />
+	</resultMap>
+	
+
+	<!-- 检测订单中是否已经存在该经销商所下的订单 -->
+	<select id="checkOrder" resultType="int"
+		parameterType="org.electricbicyclewechat.pojo.So_master">
+		SELECT COUNT(cust_code)
+		FROM cust_somaster
+		WHERE
+		cust_code=#{sellerCode}
+	</select>
+
+	<!-- 增加订单 -->
+	<insert id="insertOrder" parameterType="org.electricbicyclewechat.pojo.So_master">
+		INSERT INTO
+		cust_somaster(comp_id,bill_no,bill_date,
+		bill_type,cust_code,cust_name,
+		freight_mode,currency_code,exchange_rate,depot_code,
+		forecast_shipmentdate,cust_delivery_address,other_amt,
+		total_qty,total_amt,login_empid,login_date,check_sign,
+		check_empid,check_date,audit_sign,audit_empid,audit_date,
+		indepot_sign,shipment_sign,outdepot_sign,end_sign,
+		end_date,end_empid,Transport_billno)
+		VALUES
+		(#{comp_id},#{bill_no},#{bill_date},
+		#{bill_type},#{cust_code},#{cust_name},
+		#{freight_mode},#{currency_code},#{exchange_rate},#{depot_code},
+		#{forecast_shipmentdate},#{cust_delivery_address},#{other_amt},
+		#{total_qty},#{total_amt},#{login_empid},#{login_date},#{check_sign},
+		#{check_empid},#{check_date},#{audit_sign},#{audit_empid},#{audit_date},
+		#{indepot_sign},#{shipment_sign},#{outdepot_sign},#{end_sign},
+		#{end_date},#{end_empid},#{Transport_billno})
+	</insert>
+
+	<!-- 根据订单编号查找订单信息 -->
+	<select id="findOrderBybill_no" parameterType="Map" resultMap="BaseResultMap">
+		SELECT *
+		FROM cust_somaster
+		where
+		bill_no=#{bill_no}
+	</select>
+
+	<!-- 删除订单 -->
+	<delete id="deleteBybill_no" parameterType="Map">
+		DELETE FROM
+		cust_somaster
+		WHERE bill_no=#{bill_no}
+	</delete>
+
+	<!-- 页面加载查询近期订单 -->
+	<select id="searchOrderInfoOnload" resultMap="BaseResultMap" >
+		SELECT top 3 
+		bill_no,bill_date,cust_code,total_qty,total_amt
+		FROM
+		cust_somaster
+		ORDER BY bill_date desc
+	</select>
+
+	<!-- 查看订单详情 -->
+	<select id="OrderDetail" resultType="org.electricbicyclewechat.pojo.request.so_masterParam.So_masterParam"
+		parameterType="org.electricbicyclewechat.pojo.So_master">
+		SELECT * FROM cust_somaster
+		WHERE
+		bill_no =#{bill_no}
+	</select>
+
+	<!-- 查看订单信息 -->
+	<select id="searchOrderInfo" resultMap="BaseResultMap"
+		parameterType="org.electricbicyclewechat.pojo.request.so_masterParam.So_masterParam">
+		SELECT * FROM 
+		cust_somaster 
+		ORDER BY bill_date desc
+	</select>
+
+	<!-- 查看订单统计数量汇总信息 -->
+	<select id="searchOrderInfoForNum" resultMap="BaseResultMap"
+		parameterType="org.electricbicyclewechat.pojo.request.so_masterParam.So_masterParam">
+		SELECT * FROM cust_somaster
+		where
+		cust_code like '%'+#{cust_name}+'%' 
+		ORDER BY
+		cust_code desc
+	</select>
+
+	<!-- 查看订单汇总每个经销商小计信息 -->
+	<select id="orderNumSum" resultType="org.electricbicyclewechat.pojo.request.so_masterParam.So_masterParam"
+		parameterType="org.electricbicyclewechat.pojo.request.so_masterParam.So_masterParam">
+		SELECT DISTINCT
+		cust_code,COUNT(cust_code) as number
+		FROM cust_somaster
+		GROUP BY cust_code
+		order by number desc
+	</select>
+
+	<!-- 查看订单汇总每个经销商合计信息 -->
+	<select id="orderSumTotal" resultType="int"
+		parameterType="org.electricbicyclewechat.pojo.request.so_masterParam.So_masterParam">
+		SELECT DISTINCT
+		COUNT(bill_no) as num
+		FROM cust_somaster
+		where
+		cust_code like '%'+#{cust_name}+'%' 
+	</select>
+	
+	<!-- 查看订单统计车型汇总信息 -->
+	<select id="searchOrderInfoForType" resultMap="BaseResultMap2"
+		parameterType="org.electricbicyclewechat.pojo.request.so_masterParam.So_masterParam">
+		SELECT a.* FROM 
+		cust_sodetail a 
+		join cust_somaster b 
+		on a.bill_no=b.bill_no
+		where
+		b.cust_code like '%'+#{cust_code}+'%' 
+		ORDER BY a.material_code,a.color_code
+	</select>
+	<!-- 查看经销商车型小计信息 -->
+	<select id="orderTypeSum" resultType="org.electricbicyclewechat.pojo.So_detail"
+		parameterType="org.electricbicyclewechat.pojo.So_detail">
+		SELECT DISTINCT
+		a.material_code,a.color_code,sum(a.so_qty) as num,count(a.material_code) as moreLength
+		FROM cust_sodetail a
+		join cust_somaster b 
+		on a.bill_no=b.bill_no
+		where
+		b.cust_code like '%'+#{cust_code}+'%' 
+		GROUP BY a.material_code,a.color_code
+		ORDER BY a.material_code,a.color_code
+	</select>
+
+	<!-- 查看车型合计信息 -->
+	<select id="carTypeTotal" resultType="int"
+		parameterType="org.electricbicyclewechat.pojo.So_detail">
+		SELECT DISTINCT
+		sum(a.so_qty) as num
+		FROM cust_sodetail a
+		join cust_somaster b 
+		on a.bill_no=b.bill_no
+		where
+		b.cust_code like '%'+#{cust_code}+'%' 
+		
+	</select>
+</mapper>

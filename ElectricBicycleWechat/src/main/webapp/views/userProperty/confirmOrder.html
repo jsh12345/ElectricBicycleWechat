@@ -25,23 +25,17 @@
     <script src='../../Common/js/AjaxJson.js' type="text/javascript"></script>
     <script src='../../Common/js/jweixin.js' type="text/javascript"></script>
     <script src='../../js/userProperty/confirmOrder.js' type="text/javascript"></script>
-    <!-- <script src='../../Common/content/iscroll.js' type="text/javascript"></script>
-	 <script type="text/javascript" src="../../Common/content/demoUtils.js"></script>    -->
- 
+  
  </head>
   
 <body>
    <header class="zyw-header" id="orderHeader">
     <div class="zyw-container white-color">
-        <!-- <div class="head-l"><a href="javascript:window.history.back(-1)" target="_self"><img src="../../Common/image/svg/head-return.svg" alt=""></a></div> -->
-        <h1>订单</h1>      
+        <div class="head-l"><a href="managerHome.html" target="_self"><img src="../../Common/image/svg/head-return.svg" alt=""></a></div> 
+        <h1>
+           <a href="confirmOrder.html" class="active">未确认订单</a><a href='oldConfirmOrder.html'>已确认订单</a>
+        </h1>      
     </div>  
-  </header>
-  <header class="zyw-header" id="detailHeader" style="display:none">
-    <div class="zyw-container white-color">
-        <div class="head-l"><a href="javascript:window.location.reload()" target="_self"><img src="../../Common/image/svg/head-return.svg" alt=""></a></div>
-        <h1>订单详情</h1>      
-    </div>
   </header>
 
   <section class="zyw-container" id="overallOrder">
@@ -84,58 +78,96 @@
     </div>
 </section>
 
-<section class="zyw-container" id="orderDetail" style="display:none">
-      <div class="commodity_list_box"> 
-            <!--商品列表-->
-            <div class="commodity_box">
-                <div class="commodity_list">                
-                    <!--商品-->
-                    <ul class="commodity_list_term" id="listterm">
-                   <!--    <li class="select">
-                            <em aem="0" cart_id="84"></em>
-                            <img src="https://img13.360buyimg.com/mobilecms/s140x140_jfs/t3229/10/2021133198/376218/cfcc06cb/57d8e84eNfe92eae8.jpg"/>
-                            <div class="div_center">
-                                <h4 id="name">新疆苹果</h4>
-                                <div id='spec'>甜</div>
-                                <span id="color">50斤</span>
-                                <p class="now_value">
-                                    <i>￥</i>
-                                    <b class="qu_su" id="price">200</b>
-                                </p>
-                            </div>
-                            <div class="div_right">
-                                <i onclick="reducew(this)">-</i>
-                                <span class="zi" id="qty">1</span>
-                                <input type="hidden" value="84">
-                                <i onclick="plusw(this)">+</i>
-                            </div>
-                        </li> --> 
-                    </ul>           
-                </div>
-            </div>          
-        </div> 
-         <div class="weui-form-preview__ft">
-		    <a class="weui-form-preview__btn weui-form-preview__btn_primary" id="add" onClick="jumpToNewUrl()">增加电动车</a>
-		    <a class="weui-form-preview__btn weui-form-preview__btn_primary" id="confirm" onClick="confirmOrder()">确认订单</a>
-		</div>
-		<div class="js_dialog" id="iosDialog2" style="display:none">
-	<div class="weui-mask"></div>
-	<div class="weui-dialog" >
-		<div class="weui-dialog__bd">您确定要删除吗？</div>
-		<div class="weui-dialog__ft">
-			<a href="javascript:cancel();"
-				class="weui-dialog__btn weui-dialog__btn_default">取消</a> <a
-				href="javascript:;"
-				class="weui-dialog__btn weui-dialog__btn_primary" id="confirmDelete">确认</a>
-		</div>
-	</div>
-</div>
-</section>
-
+ 
+     <!--BEGIN toast-->
+    <div id="toast" style="display: none;">      
+        <div style="text-align:center">
+            <p>没有需要确认的订单~</p>
+        </div>
+    </div>
+    <!--end toast-->
 </body>
   
 <script type="text/javascript">
+   //定义全局变量
+	var i=0;
+	
+	//金额总和
+	var money=0;
+	
+	//计算合计价格
+	var cart_money=new Object();
+	
+	//全部商品ID
+	var cart_id=new Object();
+	//备份商品ID，用于全选后去掉全选又再次全选
+	var cart_id_copy=new Object();
+   
+</script>
+<script type="text/javascript">
+    var noX = 0;
+	/* 没选中时点击加减计算数量  */
+	var allThis = $(".commodity_box .select em");
+	/*底部全选*/
+	var totalH;
+	/* 合计价格减  */
+	function reduceMod(e, totalH, mod, noX) {
+	    var tn = e.siblings().find(".qu_su").text();
+	    /* 当前选中商品  */
+	    var tn1 = e.siblings().find(".zi").text();
+	    /* 商品数量  */
+	    if (mod != 2) {
+	        var Total = parseFloat(totalH) - (tn * tn1);
+	        /* 总价格减该商品总数价格  */
+	        $("#total_price b").text(Total.toFixed(2));
+	    } else {
+	        /* 合计加单价-1 */
+	        var Total = parseFloat(totalH) - parseFloat(tn);
+	        /* 总价格减该商品总数价格  */
+	        $("#total_price b").text(Total.toFixed(2));
+	    }
+	
+	}
+	;/*合计价格加  */
+	function plusMod(e, totalH, mod) {
+	    var tn = e.siblings().find(".qu_su").text();
+	    /* 当前选中商品  */
+	    var tn1 = e.siblings().find(".zi").text();
+	    /* 商品数量  */
+	    if (mod != 2) {
+	        var Total = parseFloat(totalH) + (tn * tn1);
+	        /* 总价格加上该商品总数价格  */
+	        $("#total_price b").text(Total.toFixed(2));
+	    } else {
+	        /* 合计加单价+1 */
+	        var Total = parseFloat(totalH) + (parseFloat(tn) + (noX - 1));
+	        /* 总价格加上该商品总数价格  */
+	        $("#total_price b").text(Total.toFixed(2));
+	    }
+	
+	}
+	;
+	/*全部商品价格*/
+	function commodityWhole() {	   
+	    /* 合计金额  */
+	    var je = $(".commodity_box .select .qu_su");
+	    /* 全部商品单价  */
+	    var je1 = $(".commodity_box .select .zi");
+	    /* 全部商品数量  */
+	    var TotalJe = 0;
+	    for (var i = 0; i < je.length; i++) {
+	        var n = je.eq(i).text();
+	        var n1 = je1.eq(i).text();
+	        TotalJe = TotalJe + (parseFloat(n) * parseFloat(n1));
+	
+	    }
+	    $("#total_price b").text(TotalJe.toFixed(2));
+	    /* 合计金额  */
+	}
+	;
+	
 	/* 加减  */
+	
 	function reducew(obj) {
 	    //减
 	    var $this = $(obj);
@@ -155,30 +187,30 @@
 	    } else {
 	        var n = parseInt(ise) - 1;
 	        $this.siblings("span").text(n);
-	        if ($this.parent().parent().children("em").hasClass("pitch_on")) {
-	            var mo = $this.parent().parent().children("em");
+	            var mo = $this.parent().parent().children("img");
 	            reduceMod(mo, totalH, 2, noX);
 	            noX = 0;
-	        }	
 	    }
 	
 	    
-	};
+	}
+	;
 	function plusw(obj) {	   
 	    //加
 	    var $this = $(obj);
 	    var totalH = $("#total_price b").text();
 	    /* 合计金额  */
-	    var ise = $this.siblings("span").text();	    
+	    var ise = $this.siblings("span").text();
+	    
 	    var gc_id = $this.siblings("input").val();
 	    var n = parseInt(ise) + 1;
-	    noX++;	
-	    $this.siblings("span").text(n);	   
-	    if ($this.parent().parent().children("em").hasClass("pitch_on")) {
-	        var mo = $this.parent().parent().children("em");       
+	    noX++;
+	
+	    $this.siblings("span").text(n);
+	        var mo = $this.parent().parent().children("img");
 	        plusMod(mo, totalH, 2, noX);
 	        noX = 0;
-	    }	   
+	    	   
 	}
   
 </script>

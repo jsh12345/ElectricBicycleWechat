@@ -46,54 +46,90 @@
         <result property="color_desc" column="color_desc"/>
         <result property="so_qty" column="so_qty"/>
         <result property="stand_price" column="stand_price"/>
-        <result property="photo_name" column="photo_name"/>
+         <result  property="bill_date" column="bill_date"/>
+        <result property="photo_name" column="photo_name"/>       
     </resultMap>
     
     <resultMap type="org.electricbicyclewechat.pojo.Product" id="BaseResultMap4">
         <result property="code" column="material_code"/>
         <result property="name" column="material_name"/>
         <result property="spec" column="material_spec"/>
+        <result property="color" column="color_desc"/>
         <result property="price" column="sso_price"/>
         <result property="photo" column="photo_name"/>
     </resultMap>
-    
+   
+   <!-- 搜索功能 -->
+   <select id="searchByAbb" resultType="String" parameterType="String">
+      select distinct m.material_name from material_view m,stock_actual s
+      where s.material_code=m.material_code and s.depot_code='CK05' and m.provide_type='成品'
+            and m.material_name like '%'+#{material_name}+'%'
+   </select>
+   
+   <!-- 查询特价促销车 -->
+   <select id="searchBySort" resultMap="BaseResultMap4">
+       select distinct m.material_name,m.material_spec,m.sso_price,pcm.photo_name
+       from stock_actual s,material_view m,product_color_master pcm
+       where pcm.material_code=m.material_code and s.material_code=m.material_code and s.depot_code='CK05' and m.provide_type='成品' and pcm.s_n=1
+             and (product_desc1='特价促销车' or product_desc2='特价促销车' or product_desc3='特价促销车' or product_desc4='特价促销车')
+       order by m.sso_price
+   </select>
+   
    <!-- 产品检索 -->
    <select id="searchSort" resultType="String">
-	  select product_desc from product_sort
+	  select product_desc from product_sort 
+	  where product_desc in 
+	  (select distinct product_desc1 from material_view m,stock_actual s where s.material_code= m.material_code and product_desc1 IS NOT NULL 
+       UNION
+       select distinct product_desc2 from material_view m,stock_actual s where s.material_code= m.material_code and product_desc2 IS NOT NULL 
+       UNION
+       select distinct product_desc3 from material_view m,stock_actual s where s.material_code= m.material_code and product_desc3 IS NOT NULL 
+       UNION
+       select distinct product_desc4 from material_view m,stock_actual s where s.material_code= m.material_code and product_desc4 IS NOT NULL )
    </select>
    
    <select id="searchMaterialName" parameterType="String" resultType="String">
-      select DISTINCT m.material_name from material_view m, stock_actual s where s.material_code=m.material_code and s.stock_qty>0 and m.provide_type='成品' and product_desc1=#{sort} or product_desc2=#{sort} or product_desc3=#{sort} or product_desc4=#{sort}
+      select DISTINCT m.material_name from material_view m,stock_actual s 
+      where s.depot_code='CK05' and m.provide_type='成品' and s.material_code=m.material_code and (product_desc1=#{sort} or product_desc2=#{sort} or product_desc3=#{sort} or product_desc4=#{sort})
    </select>
    
    <select id="searchMaterialSpec" parameterType="String" resultType="String">
-      select DISTINCT m.material_spec from material_view m where m.material_name=#{name}
+      select DISTINCT m.material_spec from material_view m,stock_actual s 
+      where s.material_code=m.material_code and m.material_name=#{name}
    </select>
    
    <!-- 查询出选定的车型名称下不同规格的电动车信息 --> 
    <select id="searchByName" parameterType="String" resultMap="BaseResultMap4">
       select distinct m.material_code,material_name ,m.material_spec ,m.sso_price,pcm.photo_name 
-      from stock_actual s,material_view m,product_color_master pcm 
-      where pcm.material_code=m.material_code and s.material_code=m.material_code 
-            and s.stock_qty>0 and m.provide_type='成品' and m.material_name=#{material_name} and pcm.s_n=1
+      from material_view m,product_color_master pcm ,stock_actual s
+      where pcm.material_code=m.material_code and s.material_code=m.material_code and s.depot_code='CK05'
+            and m.provide_type='成品' and m.material_name=#{material_name} and pcm.s_n=1
    </select>
   
    <!-- 加入购物车 -->
-   <select id="searchColor" parameterType="String" resultType="String">
-      select DISTINCT c.color_desc,m.sso_price from color_code c,material_view m,stock_actual s where s.material_code=m.material_code and s.color_code=c.color_code and m.material_name=#{0} and material_spec=#{1}
+   <select id="searchColor" parameterType="String" resultMap="BaseResultMap4">
+      select DISTINCT c.color_desc,m.sso_price,pcm.photo_name 
+      from color_code c,material_view m,stock_actual s,product_color_master pcm
+      where s.material_code=m.material_code and s.color_code=c.color_code 
+           and pcm.color_code = c.color_code and pcm.material_code=m.material_code and s.depot_code='CK05'
+           and m.material_name=#{0} and material_spec=#{1}     
    </select>
    <select id="getPrice" parameterType="String" resultType="String">
-       select DISTINCT m.sso_price from material_view m where m.material_name=#{0} and material_spec=#{1}
+       select DISTINCT m.sso_price from material_view m 
+       where m.material_name=#{0} and material_spec=#{1}
    </select>
    
    <select id="searchPhoto" parameterType="String" resultMap="BaseResultMap">
-      select distinct pcm.photo_name,s.stock_qty from product_color_master pcm,material_view m,stock_actual s,color_code c where s.material_code=m.material_code and m.material_code=pcm.material_code and s.color_code=c.color_code and pcm.color_code=c.color_code and s.stock_qty>0 and m.provide_type='成品' and m.material_name=#{0} and m.material_spec=#{1} and c.color_desc=#{2}
+      select distinct pcm.photo_name,s.stock_qty from product_color_master pcm,material_view m,stock_actual s,color_code c 
+      where s.material_code=m.material_code and m.material_code=pcm.material_code and s.color_code=c.color_code and pcm.color_code=c.color_code and m.provide_type='成品' and s.depot_code='CK05' and m.material_name=#{0} and m.material_spec=#{1} and c.color_desc=#{2}
    </select>
    <select id="getColorCode" parameterType="String" resultType="String">
-      select color_code from color_code where color_desc=#{color_desc}
+      select c.color_code from color_code c,material_view m,stock_actual s 
+      where s.color_code=c.color_code and s.material_code=m.material_code and c.color_desc=#{0} and m.material_name=#{1} and m.material_spec=#{2} and s.depot_code='CK05'
    </select>
    <select id="getMaterialCode" parameterType="String" resultType="String">
-      select material_code from material_view where material_name=#{0} and material_spec=#{1}
+      select material_code from material_view 
+      where material_name=#{0} and material_spec=#{1}
    </select>
    <select id="getMaterialType" parameterType="String" resultType="String">
       select material_Type from material_view where material_code=#{material_code}
@@ -107,7 +143,7 @@
    </insert>
    <!-- 获得购物车列表 -->
    <select id="getShoppingList" parameterType="String" resultMap="BaseResultMap1">
-       select distinct sc.material_code,sc.material_name,sc.material_type,sc.material_spec,sc.color_code,sc.color_desc,sc.so_qty,sc.unit_code,sc.stand_price,pcm.photo_name from shoppingCart sc,product_color_master pcm where sc.color_code=pcm.color_code and sc.material_code=pcm.material_code and sc.cust_code=#{cust_code}
+       select sc.material_code,sc.material_name,sc.material_type,sc.material_spec,sc.color_code,sc.color_desc,sc.so_qty,sc.unit_code,sc.stand_price,pcm.photo_name from shoppingCart sc,product_color_master pcm where sc.color_code=pcm.color_code and sc.material_code=pcm.material_code and sc.cust_code=#{cust_code}
    </select> 
       <!--删除购物车中的商品  -->
    <delete id="deleteOrder" parameterType="String">
@@ -163,11 +199,12 @@
    
    <!-- 对应订单的详细信息 -->
    <select id="getOrderDetail" parameterType="org.electricbicyclewechat.pojo.SoDetail" resultMap="BaseResultMap3">
-       select cs.*,pcm.photo_name from cust_sodetail cs,product_color_master pcm where pcm.material_code=cs.material_code and pcm.color_code=cs.color_code and cs.comp_id=#{0} and cs.bill_no=#{1}
+       select cs.*,pcm.photo_name,cm.bill_date from cust_sodetail cs,cust_somaster cm,product_color_master pcm where cm.comp_id=cs.comp_id and cm.bill_no=cs.bill_no and pcm.material_code=cs.material_code and pcm.color_code=cs.color_code and cs.comp_id=#{0} and cs.bill_no=#{1}
    </select> 
    
     <!-- 签收订单 -->
     <update id="signOrder" parameterType="String">
         UPDATE cust_somaster set end_sign=1 where comp_id=#{0} and bill_no=#{1}
     </update>
+    
 </mapper>

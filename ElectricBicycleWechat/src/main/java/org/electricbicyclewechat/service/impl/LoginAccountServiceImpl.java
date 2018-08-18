@@ -89,5 +89,31 @@ public class LoginAccountServiceImpl implements LoginAccountService{
 		}
 		return flag;
 	}
-
+/**
+ * 判断是否具有内勤和财务的权限
+ */
+	@Override
+	public String ifAuditOrCheck(String login_id) throws Exception {
+		// TODO Auto-generated method stub
+		int auditflag = loginAccountDao.ifAudit(login_id);//审核发货通知单
+		int auditOrderFlag = loginAccountDao.ifAuditOrder(login_id);//审核订单
+		int checkflag = loginAccountDao.ifCheckOrder(login_id);//确认订单
+	    if(auditflag > 0 && auditOrderFlag > 0 && checkflag > 0){//财务+内勤
+	    	return "everybody";
+	    }else if(auditflag > 0 && auditOrderFlag > 0){//财务(一审+二审)
+	    	return "everyaudit";
+	    }else if(auditOrderFlag > 0 && checkflag > 0){//内勤+一审财务
+	    	return "order"; 
+	    }else if(auditflag > 0 && checkflag > 0){//内勤+二审财务
+	    	return "checkaudit";
+	    }else if(auditflag > 0){
+	    	return "audit";
+	    }else if(auditOrderFlag > 0){
+	    	return "auditOrder";
+	    }else if(checkflag > 0){
+	    	return "check";
+	    }else{
+	    	return "common";
+	    }
+	}
 }

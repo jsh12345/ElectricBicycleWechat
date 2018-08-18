@@ -21,6 +21,15 @@ public interface LoginAccountService {
 	public LoginAccount accountLogin(LoginAccount loginAccount)throws Exception;
 	
 	/**
+	 * 判断是否是财务或是内勤
+	 * @param login_id
+	 * @return
+	 * @throws Exception
+	 */
+    public String ifAuditOrCheck(String login_id) throws Exception;
+
+	
+	/**
 	 * 更改密码
 	 * @return
 	 */

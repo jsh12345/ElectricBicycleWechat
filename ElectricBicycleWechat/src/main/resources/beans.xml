@@ -27,7 +27,8 @@
 		<!-- <property name="user" value="CloudUser"></property>
 		<property name="password" value="CU_123"></property>  -->
 		<property name="user" value="sa"></property>
-		<property name="password" value="123456"></property>
+		<!-- <property name="password" value="Uerp@chenyunshan"></property> -->
+	     <property name="password" value="123456"></property> 
 		<property name="initialPoolSize" value="10"></property>
 		<property name="maxPoolSize" value="50"></property>
 	</bean>

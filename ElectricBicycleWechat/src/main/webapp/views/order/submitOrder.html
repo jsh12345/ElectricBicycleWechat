@@ -31,6 +31,23 @@
     </div>
 </header>
 <footer class="zyw-footer">
+      <div class="settle_box" id="settle">
+            <dl class="all_check select" >
+                <dt>
+                    
+                </dt>
+            </dl>
+            <dl class="total_amount">
+                <dt>
+                                         合计：
+                    <p id="total_price">
+                        ¥<b>0</b>
+                    </p>
+                </dt>              
+            </dl>
+            <input type="hidden" name="gcs" id="gcs"/>
+            <a class="settle_btn" id="confirm_cart" onClick="confirmOrder()">下单</a>
+        </div>
     <div class="zyw-container white-bgcolor" >
         <div class="weui-tabbar">
 			<a href="index.html" class="weui-tabbar__item">
@@ -43,7 +60,7 @@
                 <div class="weui-tabbar__icon">
                     <img src="../../Common/image/svg/category.svg" alt="">
                 </div>
-                <p class="weui-tabbar__label">分类</p>
+                <p class="weui-tabbar__label">产品</p>
             </a>			
 			<a href="submitOrder.html" class="weui-tabbar__item weui-bar__item--on">
 				<div class="weui-tabbar__icon">
@@ -92,25 +109,7 @@
                 </div>
             </div>
         </div> 
-        <div class="settle_box">
-            <dl class="all_check select" >
-                <dt>
-                    <span id="all_pitch_on"></span>
-                    <em>点击计算总金额</em>
-                </dt>
-            </dl>
-            <dl class="total_amount">
-                <dt>
-                    合计：
-                    <p id="total_price">
-                        ¥<b>0</b>
-                    </p>
-                </dt>              
-            </dl>
-            <input type="hidden" name="gcs" id="gcs"/>
-            <a class="settle_btn" id="confirm_cart" onClick="confirmOrder()">下单</a>
-            <a class="settle_btn" href="javascript:void(0);" id="confirm_cart1" onclick="big_cart_remove()">删除</a>
-        </div>
+      
 </section>
 </form>
 <div class="js_dialog" id="iosDialog1" style="display:none">
@@ -121,7 +120,7 @@
 				<label class="weui-label">期望到货日期</label>
 			</div>
 			<div class="weui-cell__bd">
-				<input class="weui-input" type="text" placeholder="点击选择期望到货日期" id="receive_date" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'%y-%M-#{%d+7}'})"/>
+				<input class="weui-input" type="text" placeholder="点击选择期望到货日期" id="receive_date" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'%y-%M-#{%d+1}'})"/>
 			</div>
 		</div>
 		<div class="weui-dialog__ft">
@@ -142,7 +141,31 @@
 		</div>
 	</div>
 </div>
-
+<!--BEGIN toast1-->
+    <div id="toast1" style="display: none;">      
+        <div style="text-align:center">
+            <p>购物车为空</p>
+        </div>
+    </div>
+    <!--end toast1-->
+     <!--BEGIN toast2-->
+    <div id="toast2" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-success-no-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">已成功下单</p>
+        </div>
+    </div>
+    <!--end toast2-->
+    <!--BEGIN toast3-->
+    <div id="toast3" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-success-no-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">删除成功</p>
+        </div>
+    </div>
+    <!--end toast3-->
 </body>
 <script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
 <script src="https://cdn.bootcss.com/jquery-weui/1.2.0/js/jquery-weui.min.js"></script>
@@ -322,12 +345,9 @@
 	    } else {
 	        var n = parseInt(ise) - 1;
 	        $this.siblings("span").text(n);
-	        if ($this.parent().parent().children("em").hasClass("pitch_on")) {
-	            var mo = $this.parent().parent().children("em");
+	            var mo = $this.parent().parent().children("img");
 	            reduceMod(mo, totalH, 2, noX);
 	            noX = 0;
-	        }
-	
 	    }
 	
 	    
@@ -345,14 +365,10 @@
 	    noX++;
 	
 	    $this.siblings("span").text(n);
-	   
-	    if ($this.parent().parent().children("em").hasClass("pitch_on")) {
-	        var mo = $this.parent().parent().children("em");
-	       
-	        
+	        var mo = $this.parent().parent().children("img");
 	        plusMod(mo, totalH, 2, noX);
 	        noX = 0;
-	    }	   
+	    	   
 	}
   
 </script>

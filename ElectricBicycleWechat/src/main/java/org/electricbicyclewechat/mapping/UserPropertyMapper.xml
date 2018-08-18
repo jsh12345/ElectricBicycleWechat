@@ -45,7 +45,8 @@
 				 AND newpwd=#{newpwd}
 	</select>
 	
-	<!-- 查询所有未确认的订单 (无论 经销商)-->
+	
+	<!-- 根据条件查询所有销售内勤未确认或已确认的订单 (无论 经销商)-->
     <select id="findUnConfirmOrder" parameterType="Map" resultMap="BaseResultMap1">
        select * from cust_somaster 
         <where>
@@ -53,7 +54,7 @@
 			AND check_sign=#{check_sign}
 			</if>
 			<if test="cust_code !='' and cust_code !=null ">
-			AND cust_code=#{cust_code}
+			AND cust_code like '%'+#{cust_code}+'%'
 			</if>
 		</where>
 		order by bill_date DESC
@@ -64,6 +65,16 @@
        delete from cust_sodetail where comp_id=#{comp_id} and bill_no=#{bill_no} and s_n=#{s_n}
     </delete>
     
+    <!-- 更新明细表里的价格 -->
+    <update id="changeSinglePrice" parameterType="Map">
+        update cust_sodetail set stand_price=#{newPrice},unit_price=#{newPrice} where comp_id=#{comp_id} and bill_no=#{bill_no} and s_n=#{s_n}
+    </update>
+    
+    <!-- 更新主表里的价格 -->
+    <update id="changeTotalPrice" parameterType="Map">
+        update cust_somaster set total_amt=#{total_amt} where comp_id=#{comp_id} and bill_no=#{bill_no}
+    </update>
+   
     <select id="getTotal" parameterType="String" resultMap="BaseResultMap2">
        select total_qty,total_amt from cust_somaster where comp_id=#{0} and bill_no=#{1}
     </select>
@@ -75,6 +86,18 @@
     <!-- 内勤根据订单号更改订单主表里的总数量和总金额 -->
     <update id="updateTotal" parameterType="Map">
        update cust_somaster set total_amt=#{total_amt},total_qty=#{total_qty} where comp_id=#{comp_id} and bill_no=#{bill_no}
+    </update>
+    
+    <!-- 内勤更新订单明细表里的数量-->
+    <update id="updateSingleQty" parameterType="java.util.List">
+       <foreach collection="list" item="item" index="index" separator=";">
+          update cust_sodetail 
+          <set> 
+            so_qty=#{item.so_qty},
+            total_amt=#{item.total_amt} 
+          </set>
+          where comp_id=#{item.comp_id} and bill_no=#{item.bill_no} and s_n=#{item.s_n}
+       </foreach>
     </update>
     
     <!-- 内勤根据订单号在订单明细表里增加一条记录 -->
@@ -90,8 +113,14 @@
          #{tax_amt},#{total_amt},#{sales_type})
     
     </insert>
-    <!-- 内勤确认订单 -->
-    <update id="confirmOrder" parameterType="String">
-       update cust_somaster set check_sign=1 where comp_id=#{0} and bill_no=#{1}
-    </update>
+    
+    <!-- 内勤(取消)确认订单 -->
+  <!--   <update id="confirmOrder" parameterType="Map">
+       update cust_somaster set check_sign=#{check_sign} where comp_id=#{comp_id} and bill_no=#{bill_no}
+    </update> -->
+  
+   <update id="confirmOrder" statementType="CALLABLE" parameterType="Map">
+       EXEC cust_socheck #{comp_id},#{bill_no},#{bill_date},#{login_id},#{check_sign}
+   </update>
+  
 </mapper>

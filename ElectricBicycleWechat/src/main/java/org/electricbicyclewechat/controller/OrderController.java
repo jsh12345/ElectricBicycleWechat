@@ -33,6 +33,21 @@ public class OrderController {
 	@Autowired
 	private OrderService orderService;
 	
+	
+	@ResponseBody
+	@RequestMapping("/getListName")
+	public Object getListName(HttpServletRequest request , Model model,String simpleName) throws Exception{
+		List<String> resultList = orderService.getListName(simpleName);
+		logger.info("成功获得名字列表！");
+		return resultList;
+	}
+	@ResponseBody
+	@RequestMapping("/getProductBySort")
+	public Object getProductBySort(HttpServletRequest request , Model model) throws Exception{
+		List<Map<String, Object>> resultList = orderService.getProductBySort();
+		logger.info("查询特价促销车成功！");
+		return resultList;
+	}
 	@ResponseBody
 	@RequestMapping("/getSort")
 	public Object getSort(HttpServletRequest request,Model model) throws Exception{
@@ -67,13 +82,13 @@ public class OrderController {
 	@ResponseBody
 	@RequestMapping("/getProductColor")
 	public Object getColor(HttpServletRequest request,Model model,String name,String spec) throws Exception{		
-		Map<String, Object> map = new HashMap<String, Object>();
-		List<String> colorList = orderService.getMaterialColor(name, spec);		
-		String price = orderService.getPrice(name, spec);
-		map.put("colorList", colorList);
-		map.put("price", price);
+//		Map<String, Object> map = new HashMap<String, Object>();
+		List<Map<String, Object>> colorPhoto = orderService.getMaterialColor(name, spec);		
+		/*String price = orderService.getPrice(name, spec);
+		map.put("colorList", colorPhoto.);
+		map.put("price", price);*/
 		logger.info("查询颜色成功！");
-		return map;
+		return colorPhoto;
 	}
 	
 	@ResponseBody
@@ -98,7 +113,7 @@ public class OrderController {
 		cart.setCust_name(name);
 		
 		cart.setColor_desc(color_desc);
-		String color_code = orderService.getColorCode(color_desc);
+		String color_code = orderService.getColorCode(color_desc,material_name ,material_spec);
 	    cart.setColor_code(color_code);
 	    
 		cart.setMaterial_name(material_name);

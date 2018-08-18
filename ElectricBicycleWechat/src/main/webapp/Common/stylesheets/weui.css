@@ -510,7 +510,7 @@ z-index:
   padding-right: 13px;
   position: relative;
 }
-.weui-cell_access .weui-cell__ft:after {
+.weui-cell_achead-searchcess .weui-cell__ft:after {
   content: " ";
   display: inline-block;
   height: 6px;
@@ -521,10 +521,10 @@ z-index:
   -webkit-transform: matrix(0.71, 0.71, -0.71, 0.71, 0, 0);
           transform: matrix(0.71, 0.71, -0.71, 0.71, 0, 0);
   position: relative;
-  top: -2px;
+  top: -1px;
   position: absolute;
   top: 50%;
-  margin-top: -4px;
+  margin-top: -2px;
   right: 2px;
 }
 .weui-cell_link {

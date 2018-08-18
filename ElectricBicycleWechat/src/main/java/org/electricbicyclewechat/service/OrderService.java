@@ -10,6 +10,21 @@ import org.electricbicyclewechat.pojo.SoMaster;
 
 public interface OrderService {
 	/**
+	 * 获得名字列表
+	 * @param material_name
+	 * @return
+	 * @throws Exception
+	 */
+	public List<String> getListName(String material_name) throws Exception;
+	/**
+	 * 获得特价促销车
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Map<String, Object>> getProductBySort() throws Exception;
+	
+	
+	/**
 	 * 获得大类
 	 * @return
 	 * @throws Exception
@@ -44,7 +59,7 @@ public interface OrderService {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<String> getMaterialColor(String name,String spec) throws Exception;
+	public List<Map<String, Object>> getMaterialColor(String name,String spec) throws Exception;
     //价格
 	public String getPrice(String name,String spec) throws Exception;
 	
@@ -58,7 +73,7 @@ public interface OrderService {
      */
 	public Product getMaterialPhoto(String name,String spec,String color) throws Exception;
 	public int insertToCart(ShoppingCart cart) throws Exception;
-	public String getColorCode(String desc) throws Exception;
+	public String getColorCode(String desc,String material_name,String material_spec) throws Exception;
 	public String getMaterialCode(String name,String spec) throws Exception;
 	public String getMaterialType(String code) throws Exception;
 	

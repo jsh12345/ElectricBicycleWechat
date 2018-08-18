@@ -8,6 +8,19 @@ import org.electricbicyclewechat.pojo.SoDetail;
 import org.electricbicyclewechat.pojo.SoMaster;
 
 public interface ProductDao {
+	
+	/**
+	 * 获取搜索到的列表
+	 * @param material_name
+	 * @return
+	 */
+	public List<String> searchByAbb(String material_name);
+	/**
+	 * 查询特价促销车
+	 * @return
+	 */
+	public List<Map<String, Object>> searchBySort();
+	
 	/**
 	 * 获取所有大类
 	 * @return
@@ -34,12 +47,12 @@ public interface ProductDao {
      */
     public List<String> searchMaterialSpec(String name);
     /**
-     * 根据车型名称，规格得到整车的颜色
+     * 根据车型名称，规格得到整车的颜色以及图片
      * @param name
      * @param spec
      * @return
      */
-    public List<String> searchColor(String name,String spec);
+    public List<Map<String, Object>> searchColor(String name,String spec);
     
     public String getPrice(String name,String spec);
     /**
@@ -57,7 +70,7 @@ public interface ProductDao {
      */
     public int insertToCart(ShoppingCart cart);     
     public String getMaterialCode(String name,String spec);
-    public String getColorCode(String desc);
+    public String getColorCode(String desc,String name,String spec);
     public String getMaterialType(String code);
     
     /**

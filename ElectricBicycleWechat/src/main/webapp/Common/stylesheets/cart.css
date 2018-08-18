@@ -9,7 +9,7 @@ div#shopping_cart { position: fixed; bottom: 7px; right: 2%; background: #aacc36
 /*购物车*/
 .cart_top p { float: right; margin: 0; font-size: 0.8rem}
 .cart_top { padding: 6px 4%; background: #fff; font-size: 1.2rem; color: #999; line-height: 24px; border-bottom: solid 1px #e6e6e6; }
-.commodity_list { background: #fff; margin-bottom: 10px; }
+.commodity_list { background: #fff; margin-bottom: 55px; }
 .shop_ul_bottom.account_info_box:nth-last-child(1) { border-bottom: none; }
 .commodity_list .tite_tim { width: 90%; margin: 0 auto; padding: 8px 0; color: #333; font-size: 1.2rem; background-size: 6px; }
 .commodity_list .tite_tim em { float: left; width: 20px; height: 20px; border: solid 1px #e6e6e6; border-radius: 50%; margin-right: 10px; }

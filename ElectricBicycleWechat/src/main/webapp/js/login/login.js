@@ -118,9 +118,10 @@ function submit(){
 function getResult(result){
 	if(result == "true"){
 //		window.location.href = "../balanceManagement/balanceQueryMore.html";
-		window.location.href = "../order/index.html"
-	} else if (result == "true1"){//内勤登陆跳转
-		window.location.href = "../userProperty/confirmOrder.html";
+		window.location.href = "../order/searchProduct.html"
+	} else if (result == "true1"){//内勤和财务登录
+		
+		window.location.href = "../userProperty/managerHome.html";
 	}else{
 		$("#msgContent").text("密码错误！");
 		$('#iosDialog2').fadeIn(200);

@@ -64,9 +64,9 @@ public class UserPropertyServiceImpl implements UserPropertyService{
 	}
 
 	@Override
-	public int confirmOrder(String comp_id, String bill_no) throws Exception {
+	public int confirmOrder(Map<String, Object> map) throws Exception {
 		// TODO Auto-generated method stub
-		return userPropertyDao.confirmOrder(comp_id, bill_no);
+		return userPropertyDao.confirmOrder(map);
 	}
 	@Transactional
 	@Override
@@ -106,4 +106,35 @@ public class UserPropertyServiceImpl implements UserPropertyService{
 		// TODO Auto-generated method stub
 		return userPropertyDao.getSn(comp_id, bill_no);
 	}
+	@Transactional
+	@Override
+	public boolean saveOrder(Map<String, Object> masterMap,
+			List<Map<String, Object>> detailMapList) throws Exception {
+		// TODO Auto-generated method stub
+		int flag1 = userPropertyDao.updateSingleQty(detailMapList);
+		int flag2 = userPropertyDao.updateTotal(masterMap);
+		if(flag1 >0 && flag2 > 0){
+			return true;
+		}else{
+			return false;
+		}		
+	}
+	
+	@Transactional
+	@Override
+	public boolean changePrice(Map<String, Object> map1,
+			Map<String, Object> map2) throws Exception {
+		// TODO Auto-generated method stub
+		int flag1 = userPropertyDao.changeSinglePrice(map1);
+		int flag2 = userPropertyDao.changeTotalPrice(map2);
+		if(flag1 > 0 && flag2 > 0){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	
+
+
 }

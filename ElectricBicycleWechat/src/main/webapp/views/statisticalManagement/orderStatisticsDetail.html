@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,user-scalable=0">
+<title>订单查询详情</title>
+<link rel="stylesheet" href="../../Common/stylesheets/weui.css" />
+<script src='../../Common/content/jquery-1.7.2.min.js'
+	type="text/javascript"></script>
+<script src='../../Common/content/jquery.cookie.js'
+	type="text/javascript"></script>
+<script src='../../Common/js/Setting.js' type="text/javascript"></script>
+<script src='../../Common/js/AjaxJson.js' type="text/javascript"></script>
+<script src='../../Common/js/jweixin.js' type="text/javascript"></script>
+
+</head>
+<body>
+	<div>
+		<div class="weui-cells" style="font-size:15px;margin-top:10px;"
+			id="showDiv">
+			<a class="weui-cell weui-cell_access">
+				<div class="weui-cell__bd">
+					<p>
+					<table id="showTable" width="100%">
+						<tr>
+							<td>公司代码</td>
+							<td name="comp_id" style="text-align:right;"></td>
+						</tr>
+						<tr>
+							<td>订单号码</td>
+							<td name="bill_no" style="text-align:right;"></td>
+						</tr>
+						<tr>
+							<td>下单日期</td>
+							<td name="bill_date" style="text-align:right;"></td>
+						</tr>
+						<tr>
+							<td>单据类型</td>
+							<td name="bill_type" style="text-align:right;"></td>
+						</tr>
+						<tr>
+							<td>经销商代码</td>
+							<td name="cust_code" style="text-align:right;"></td>
+						</tr>
+						<tr>
+							<td>经销商名称</td>
+							<td name="cust_name" style="text-align:right;"></td>
+						</tr>
+						<tr>
+							<td>运输方式</td>
+							<td name="freight_mode" style="text-align:right;"></td>
+						</tr>
+						<tr>
+							<td>币别</td>
+							<td name="currency_code" style="text-align:right;"></td>
+						</tr>
+						<tr>
+							<td>汇率</td>
+							<td name="exchange_rate" style="text-align:right;"></td>
+						</tr>
+						<tr>
+							<td>发货仓库代码</td>
+							<td name="depot_code" style="text-align:right;"></td>
+						</tr>
+						<tr>
+							<td>预计发货日期</td>
+							<td name="forecast_shipmentdate" style="text-align:right;"></td>
+						</tr>
+						<tr>
+							<td>送货地址</td>
+							<td name="cust_delivery_address" style="text-align:right;"></td>
+						</tr>
+						<tr>
+							<td>其他金额</td>
+							<td name="other_amt" style="text-align:right;"></td>
+						</tr>
+						<tr>
+							<td>总数量</td>
+							<td name="total_qty" style="text-align:right;"></td>
+						</tr>
+						<tr>
+							<td>总金额</td>
+							<td name="total_amt" style="text-align:right;"></td>
+						</tr>
+						<tr>
+							<td>制单人代码</td>
+							<td name="login_empid" style="text-align:right;"></td>
+						</tr>
+						<tr>
+							<td>制单日期</td>
+							<td name="login_date" style="text-align:right;"></td>
+						</tr>
+						<tr>
+							<td>业务内勤复核标志</td>
+							<td name="check_sign" style="text-align:right;"></td>
+						</tr>
+						<tr>
+							<td>复核人员工号</td>
+							<td name="check_empid" style="text-align:right;"></td>
+						</tr>
+						<tr>
+							<td>复核日期</td>
+							<td name="check_date" style="text-align:right;"></td>
+						</tr>
+						<tr>
+							<td>财务审核标志</td>
+							<td name="audit_sign" style="text-align:right;"></td>
+						</tr>
+						<tr>
+							<td>审核人员工号</td>
+							<td name="audit_empid" style="text-align:right;"></td>
+						</tr>
+						<tr>
+							<td>审核人日期</td>
+							<td name="audit_date" style="text-align:right;"></td>
+						</tr>
+						<tr>
+							<td>已生产入库标志</td>
+							<td name="indepot_sign" style="text-align:right;"></td>
+						</tr>
+						<tr>
+							<td>已开发货通知单标志</td>
+							<td name="shipment_sign" style="text-align:right;"></td>
+						</tr>
+						<tr>
+							<td>已扫描出库标志</td>
+							<td name="outdepot_sign" style="text-align:right;"></td>
+						</tr>
+						<tr>
+							<td>订单已结案标志</td>
+							<td name="end_sign" style="text-align:right;"></td>
+						</tr>
+						<tr>
+							<td>结案日期</td>
+							<td name="end_date" style="text-align:right;"></td>
+						</tr>
+						<tr>
+							<td>结案人工号</td>
+							<td name="end_empid" style="text-align:right;"></td>
+						</tr>
+						<tr>
+							<td>运输物流单号</td>
+							<td name="Transport_billno" style="text-align:right;"></td>
+						</tr>
+					</table>
+					</p>
+				</div>
+			</a>
+		</div>
+	</div>
+</body>
+<script src="../../js/statisticalManagement/orderStatisticsDetail.js"
+	type="text/javascript">	
+</script>
+</html>

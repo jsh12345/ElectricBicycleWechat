@@ -1,4 +1,6 @@
-$(function(){
+$(function(){	
+	//获取当前登录用户信息
+	getCurrentUser();
 	var data ="" ;
 	var url = baseurl + "/order/getShoppingList";     
 	sendRequest("post",url, data ,getListResult);	
@@ -34,16 +36,53 @@ function getListResult(result){
 													"<button class='btn btn-sm btn-default' onclick=deleteOrder('"+data[i].material_code+"','"+data[i].color_code+"')>删除</button></div></li>";
 		    shoppingList.append(html);
 		}
+   }else{
+	   document.getElementById("settle").setAttribute("style", "display:none");
+	   $('#toast1').fadeIn(100);
+       setTimeout(function () {
+    	   $('#toast1').fadeOut(100);
+       }, 2000);
+     
    }
+	commodityWhole();
 }
 
 function confirmOrder(){
-	var total_amt = $("#total_price b").text();
-	if(total_amt == 0 ){
-		alert("请先点击计算总金额");
+	
+	 $('#iosDialog1').fadeIn(200);
+   
+}
+
+/**
+ * 获取当前登录用户信息
+ */
+function getCurrentUser(){
+	var data = "";
+	var url = baseurl + "/login/getCurrentUser";
+	sendRequest("post", url, data, getGetCurrentUserResult);
+	return false;
+};
+
+/**
+ * 获取当前登录用户信息的返回结果
+ * @param result
+ * @returns {Boolean}
+ */
+function getGetCurrentUserResult(result){
+	var data = eval("(" + result + ")");
+	if(data.name == '' || data.name == null || data.currentAccount==null){
+		window.location.href = baseurl + "/views/login/login.html";
 	}else{
-	    $('#iosDialog1').fadeIn(200);
+//		$("input[name='currentUser']").val(data.name);
+		var accountType = data.type;//账号类型
+		if(accountType == '1'){
+			$("#sellerAccount").hide();
+		}else{
+			alert("请用经销商账号重新登录");
+			window.location.href = baseurl + "/views/login/personalInfoHome.html";
+		}
 	}
+	return false;
 }
 function cancelOrder(){
 	$('#iosDialog1').fadeOut(200);
@@ -64,7 +103,10 @@ function deleteOrder(material_code,color_code){
 function deleteOrderResult(result){
 	if(result == "true"){
 		$('#iosDialog2').fadeOut(200);
-		alert("成功删除此类车！");
+		$('#toast3').fadeIn(100);
+	       setTimeout(function () {
+	    	   $('#toast3').fadeOut(100);
+	       }, 2000);
 		window.location.reload();
 	}else{
 		$('#iosDialog2').fadeOut(200);
@@ -85,7 +127,7 @@ function submitOrder(){
 	var spec = $(".commodity_box .select .spec");
 	var color = $(".commodity_box .select .color");
 	var price = $(".commodity_box .select .qu_su");
-	var qty = $(".commodity_box .select .zi");
+	var qty = $(".commodity_box .select .zi");//数量
 	var detail = new Array();//封装成一个对象数组
 	
 	for(var i=0 ; i < name.length ; i++ ){  		
@@ -117,10 +159,12 @@ function submitOrder(){
 	sendRequest("post",url, data ,submitResult);	
 }
 function submitResult(result){
-	
 	if(result == "true"){		
 		$('#iosDialog1').fadeOut(200);
-		alert("订单提交成功！");
+		 $('#toast2').fadeIn(100);
+	       setTimeout(function () {
+	    	   $('#toast2').fadeOut(100);
+	       }, 2000);
 		window.location.reload();
 	}else{
 		$('#iosDialog1').fadeOut(200);

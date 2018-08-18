@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,user-scalable=0">
+<title>更多订单查询</title>
+<link rel="stylesheet" href="../../Common/stylesheets/weui.css" />
+<script src='../../Common/content/jquery-1.7.2.min.js'
+	type="text/javascript"></script>
+<script src='../../Common/content/jquery.cookie.js'
+	type="text/javascript"></script>
+<script src='../../Common/js/Setting.js' type="text/javascript"></script>
+<script src='../../Common/js/AjaxJson.js' type="text/javascript"></script>
+<script src='../../Common/js/jweixin.js' type="text/javascript"></script>
+<script src='../../Common/content/iscroll.js' type="text/javascript"></script>
+<script type="text/javascript" src="../../Common/content/demoUtils.js"></script>
+<script type="text/javascript">
+	/* var myScroll;
+
+	function loaded () {
+		myScroll = new IScroll('#wrapper', { scrollX: true,bounce:true,freeScroll: false,mouseWheel: true,click: true });
+	}
+	function preventDefault(e){
+	e.preventDefault();
+	}
+	document.addEventListener('touchmove',function (e) {  },isPassive() ? {
+		capture: false,
+		passive: false
+	} : false);  */
+</script>
+
+<!-- <style type="text/css">
+* {  
+    -webkit-box-sizing: border-box;  
+    -moz-box-sizing: border-box;  
+    box-sizing: border-box;  
+}  
+html {  
+    -ms-touch-action: none;  
+}  
+ body {
+	overflow: hidden;  this is important to prevent the whole page to bounce 
+} 
+
+#wrapper {
+	z-index: 1;
+	top: 180px;
+	bottom: 48px;
+	left: 0;
+	width: 100%;
+	height:100px;
+	overflow: hidden;
+	
+}
+
+#scroller {
+	position: absolute;   
+	z-index: 1;
+	width: 870px; 
+	height:100px;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);  
+    -webkit-transform: translateZ(0);  
+    -moz-transform: translateZ(0);  
+    -ms-transform: translateZ(0);  
+    -o-transform: translateZ(0);  
+    transform: translateZ(0);  
+    -webkit-touch-callout: none;  
+    -webkit-user-select: none;  
+    -moz-user-select: none;  
+    -ms-user-select: none;  
+    user-select: none;  
+    -webkit-text-size-adjust: none;  
+    -moz-text-size-adjust: none;  
+    -ms-text-size-adjust: none;  
+    -o-text-size-adjust: none;  
+    text-size-adjust: none;   
+}
+</style> -->
+</head>
+<body>
+	<!-- onload="loaded()" -->
+	<div id="wrapper" style="overflow:scroll;width:870px;">
+		<div id="scroller">
+			<div class="weui-cells weui-cells_form" style="margin-top:0px;">
+
+				<div id="user" style="font-size:15px;">
+					<div class="weui-cell">
+						<div class="weui-cell__hd" style="width:7%;">
+							<label class="weui-label">当前用户：</label>
+						</div>
+						<div id="currentUser" class="weui-cell__bd"
+							style="text-align:left;margin-left:30px;">
+							<input class="weui-input" name="currentUser" type="text"
+								disabled="disabled" />
+						</div>
+					</div>
+				</div>
+				<div class="weui-cell" >
+             <div class="weui-cell__hd" style="width:7%;"><label class="weui-label">经销商代码：</label></div>
+             <div class="weui-cell__bd" style="margin-left:250px;" id="inputMaterialName">
+                 <input class="weui-input" name="materialName" type="text" placeholder="请输入经销商代码"/>
+             </div>
+        </div>
+					<div>
+						<a href="javascript:;" id="searchSumNum"
+							class="weui-btn weui-btn_mini weui-btn_primary"
+							style="margin-left:10px;margin-top:10px;width:150px;font-size:15px;line-height:2;">数量汇总查询</a>
+						<a href="javascript:;" id="searchSumType"
+							class="weui-btn weui-btn_mini weui-btn_primary"
+							style="margin-left:10px;margin-top:10px;width:150px;font-size:15px;line-height:2;">车型汇总查询</a>
+					</div>
+					<!-- <div class="weui-cells" style="font-size:15px;margin-top:10px;" id="showDiv">
+
+        </div> -->
+					<a id="detailForNum"
+						style="font-size:15px;margin-top:10px;width:100%;"
+						class='weui-cell weui-cell_access' href='javascript:;'>
+						<div class='weui-cell__bd'>
+							<p>
+							<table id="sumNum" cellspacing="0" width="100%">
+								<thead>
+									<tr style="text-align:center;">
+										<th width="40px">序号</th>
+										<th width="80px">经销商代码</th>
+										<th width="80px">订单号码</th>
+										<th width="80px">下单日期</th>
+										<th width="80px">总数量</th>
+										<th width="80px">总金额</th>
+										<th width="80px">操作</th>
+									</tr>
+								</thead>
+								<tbody id="showNumTable">
+								</tbody>
+							</table>
+							</p>
+						</div>
+					</a> 
+					<a id="detailForType" class='weui-cell weui-cell_access'
+						style="diaplay:none;
+					font-size:15px;margin-top:10px;"
+						href='javascript:;'>
+						<div class='weui-cell__bd'>
+							<p>
+							<table id="sumType" cellspacing="0" width="100%">
+								<thead>
+									<tr style="text-align:center;">
+										<th width="80px">序号</th>										
+										<th width="300px">物料名称</th>	
+										<th width="300px">颜色</th>
+										<th width="150px">订单数量</th>
+										<th width="300px">物料代码</th>
+										<th width="300px">颜色代码</th>
+										
+									</tr>
+								</thead>
+								<tbody id="showTypeTable">
+								</tbody>
+							</table>
+							</p>
+						</div>
+					</a>
+					<!-- 结束 -->
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<script src="../../js/statisticalManagement/orderStatisticsMore.js"
+	type="text/javascript">
+	
+</script>
+</html>

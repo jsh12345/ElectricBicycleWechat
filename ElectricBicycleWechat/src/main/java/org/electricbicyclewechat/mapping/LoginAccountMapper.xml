@@ -23,6 +23,24 @@
 				 AND password=#{password}
 	</select>
 	
+	<!-- 判断该账户名是否能进行审核发货通知单 -->
+	<select id="ifAudit" parameterType="String" resultType="int">
+	    select count(distinct login_id) from user_privileg
+	    where prg_id='ueff005' and audit_p='Y' and login_id= #{login_id}
+	</select>
+	
+	<!-- 判断该账户名是否是内勤（能否复核销售订单） -->
+	<select id="ifCheckOrder" parameterType="String" resultType="int">
+	    select count(distinct login_id) from user_privileg 
+	    where prg_id='ueff001' and check_p='Y' and login_id= #{login_id}
+	</select> 
+	
+	<!-- 判断该账户名是否能进行审核销售订单 -->
+	<select id="ifAuditOrder" parameterType="String" resultType="int">
+	    select count(distinct login_id) from user_privileg 
+	    where prg_id='ueff001' and audit_p='Y' and login_id= #{login_id}
+	</select>
+	
 	<!-- 更新密码 -->
 	<update id="updatePassword" parameterType="org.electricbicyclewechat.pojo.LoginAccount">
 		UPDATE loginAccount

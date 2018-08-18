@@ -79,7 +79,7 @@
                <div class="weui-cell">
                    <div class="weui-cell__hd"><label class="weui-label" style="width:100px;">采购数量</label></div>
                    <div class="weui-cell__bd">
-                      <input class="weui-input" type="text" id="so_qty"/>
+                      <input class="weui-input" type="number" id="so_qty" onchange="checkNumber()"/>
                    </div>
                </div>
 			</div>
@@ -88,6 +88,24 @@
 		    <a class="weui-form-preview__btn weui-form-preview__btn_primary" id="add" onClick="addProduct()">增加电动车</a>
 		 </div>
  </section>
+ <!-- loading toast -->
+    <div id="loadingToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content">数据加载中</p>
+        </div>
+    </div>
+    <!-- 提示信息 -->
+    <div class="js_dialog" id="iosDialog2" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd" id="msgContent"></div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary" onclick="return closeDialog2();">知道了</a>
+            </div>
+        </div>
+    </div>
 	<script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
 	<script src="https://cdn.bootcss.com/jquery-weui/1.2.0/js/jquery-weui.min.js"></script>
 	<script src="../../Common/js/bootstrap.min.js"></script>

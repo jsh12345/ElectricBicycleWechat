@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>审核发货单</title>
+	
+    <link rel="stylesheet" href="../../Common/stylesheets/weui.css"/>
+    <link rel="stylesheet" href="../../Common/stylesheets/we.css"/>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/weui/1.1.2/style/weui.min.css">
+   <!--  <link rel="stylesheet" href="https://cdn.bootcss.com/jquery-weui/1.2.0/css/jquery-weui.min.css"> -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../Common/stylesheets/font-awesome.min.css">
+    <link rel="stylesheet" href="../../Common/stylesheets/swiper.min.css">
+    <link rel="stylesheet" href="../../Common/stylesheets/item.css" />
+    <link rel="stylesheet" href="../../Common/stylesheets/main.css">
+    <link rel="stylesheet" href="../../Common/stylesheets/index.css">
+    <link rel="stylesheet" href="../../Common/stylesheets/order.css">
+    <link rel="stylesheet" href="../../Common/stylesheets/find.css">
+    <link rel="stylesheet" href="../../Common/stylesheets/cart.css">
+    <link rel="stylesheet" href="../../Common/stylesheets/theme-color.css">
+    <script src='../../Common/content/jquery-1.7.2.min.js' type="text/javascript"></script>
+    <script src='../../Common/content/jquery.cookie.js' type="text/javascript"></script>
+    <script src='../../Common/js/Setting.js' type="text/javascript"></script>
+    <script src='../../Common/js/AjaxJson.js' type="text/javascript"></script>
+    <script src='../../Common/js/jweixin.js' type="text/javascript"></script>
+    <script src='../../js/audit/oldsecondCheck.js' type="text/javascript"></script>
+    <script src='../../Common/content/iscroll.js' type="text/javascript"></script>
+	<script type="text/javascript" src="../../Common/content/demoUtils.js"></script>
+  </head>
+  
+  <body>
+    <header class="zyw-header" id="orderHeader">
+    <div class="zyw-container white-color">
+        <div class="head-l"><a href="../userProperty/managerHome.html" target="_self"><img src="../../Common/image/svg/head-return.svg" alt=""></a></div>
+        <h1>
+           <a href="secondCheck.html">未审核发货单</a><a href='oldsecondCheck.html' class="active">已审核发货单</a>
+        </h1>      
+    </div>  
+  </header>
+  <header class="zyw-header" id="detailHeader" style="display:none">
+    <div class="zyw-container white-color">
+        <div class="head-l"><a href="javascript:window.location.reload()" target="_self"><img src="../../Common/image/svg/head-return.svg" alt=""></a></div>
+        <h1>发货单详情</h1>      
+    </div>
+  </header>
+
+  <section class="zyw-container" id="overallOrder">
+      <div class="weui-search-bar" id="searchBar">
+            <form class="weui-search-bar__form">
+                <div class="weui-search-bar__box">
+                    <i class="weui-icon-search"></i>
+                    <input type="search" class="weui-search-bar__input" id="searchInput" placeholder="输入经销商代码" required/>                                 
+                </div>              
+            </form>
+            <a href="javascript:findOrderByCust();" class="search_button" id="searchCancel">查询</a>
+      </div>
+    
+    <div class="weui-tab">
+        <div class="weui-tab__bd">
+            <div id="order_all" class="weui-tab__bd-item weui-tab__bd-item--active">
+                <div class="order-group" id="orderList">
+                    <!--  <div class="order-group-item clearfix">
+                        <div class="order-item-box">
+                            <label class="order-item-id">订单号：</label><span class="order-item-id" id="bill_no"></span>
+                            <span class="order-item-state theme-color pull-right" id="state"></span>                           
+                            <div class="media">
+                                <div class="media-body">
+                                    <div class="order-item-info" >
+                                        <label class="order-item-fare">总数量：</label><span class="order-item-fare" id="total_qty"></span>                                      
+                                    </div>
+                                    <div class="order-item-info">                       
+                                        <label class="order-item-prince">总金额：￥</label><span class="order-item-prince" id="total_amt"></span>                                                        
+                                    </div>
+                                    <div class="order-item-info">                              
+                                        <label class="order-item-length">下单时间：</label><span class="order-item-length" id="bill_date"></span>                                  
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                
+                    </div> -->
+                 </div>
+            </div>          
+        </div>
+    </div>
+</section>
+
+<section class="zyw-container" id="orderDetail" style="display:none">
+      	 <div style="font-size:15px;margin-top:10px;width:870px; overflow:scroll">
+      		<table id="detail" width="100%">
+      			<thead>
+    	             <tr style="text-align:center;">
+      		            <th >订单号</th>
+         				<th >经销商代码</th>
+         				<th >车型名称</th>
+         				<th >规格</th>
+         				<th >颜色</th>
+         				<th >标准价格</th>
+         				<th >数量</th>
+   		             </tr>
+                   </thead>
+      			   <tbody id="showDetailTable">
+      			   </tbody></table>
+      			</div>
+</section>
+    <!--BEGIN toast-->
+    <div id="toast" style="display: none;">
+        <div class="weui-toast">   
+            <p class="weui-toast__content">还没有审核过的发货单呢~ 快去审核吧~</p>
+        </div>
+    </div>
+    <!--end toast-->
+  </body>
+</html>
+
